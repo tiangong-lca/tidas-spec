@@ -1,0 +1,19 @@
+# Operating system and editor artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Local scratch and logs
+*.log
+tmp/
+
+# Generated Docpact diagnostics; disposable reports, not governed source.
+# Do not ignore .docpact/ itself: config.yaml is governed.
+.docpact/runs/
+
+# Dependencies, if a package build is added with the asset build
+node_modules/
+
+# Build output, archive staging, and published-archive patterns are decided
+# together with the real asset build, so they are intentionally not guessed here.

@@ -1,0 +1,167 @@
+version: 1
+layout: repo
+lastReviewedAt: "2026-09-15"
+lastReviewedCommit: "1f0e30a65cb6040df8b5c072059a179ece7f577d"
+lastReviewedNote: "W0 bootstrap: repo-layout governance for the public TIDAS specification repository. Covers README.md, AGENTS.md, LICENSE, and the Docpact config itself; introduces no specification asset, package, release workflow, code, or new dependency. No baseline and no waiver."
+
+catalog:
+  repos:
+    - id: tidas-spec
+      path: .
+      canonicalRepo: tiangong-lca/tidas-spec
+      entryDoc: AGENTS.md
+      workflowDocs:
+        - README.md
+      workspaceIntegrationRequired: true
+
+ownership:
+  domains:
+    - id: repo-governance-and-docs
+      paths:
+        include:
+          - AGENTS.md
+          - README.md
+          - LICENSE
+          - .gitignore
+          - .docpact/**
+      ownerRepo: tidas-spec
+    - id: specification-assets
+      paths:
+        include:
+          - assets/**
+          - examples/**
+          - conformance/**
+      ownerRepo: tidas-spec
+    - id: spec-docs-and-publication
+      paths:
+        include:
+          - docs/**
+          - scripts/**
+          - spec-manifest.json
+          - package.json
+          - .github/workflows/**
+      ownerRepo: tidas-spec
+
+coverage:
+  include:
+    - AGENTS.md
+    - README.md
+    - LICENSE
+    - .gitignore
+    - .docpact/**
+    - assets/**
+    - examples/**
+    - conformance/**
+    - docs/**
+    - scripts/**
+    - spec-manifest.json
+    - package.json
+    - .github/workflows/**
+
+docInventory:
+  include:
+    - AGENTS.md
+    - README.md
+    - .docpact/config.yaml
+
+routing:
+  intents:
+    repo-governance:
+      paths:
+        - AGENTS.md
+        - README.md
+        - LICENSE
+        - .gitignore
+        - .docpact/**
+    specification-assets:
+      paths:
+        - assets/**
+        - examples/**
+        - conformance/**
+        - spec-manifest.json
+    spec-docs:
+      paths:
+        - docs/**
+    spec-build-and-release:
+      paths:
+        - scripts/**
+        - package.json
+        - spec-manifest.json
+        - .github/workflows/**
+
+repo:
+  id: tidas-spec
+
+rules:
+  - id: tidas-spec-bootstrap-contract
+    scope: repo
+    repo: tidas-spec
+    triggers:
+      - path: AGENTS.md
+        kind: doc-contract
+      - path: .docpact/**
+        kind: doc-ai-layer
+    requiredDocs:
+      - path: AGENTS.md
+        mode: review_or_update
+      - path: README.md
+        mode: review_or_update
+      - path: .docpact/config.yaml
+        mode: review_or_update
+    reason: Repository policy and machine-readable governance must stay aligned with the stated bootstrap state and validation guide.
+  - id: tidas-spec-readme-contract
+    scope: repo
+    repo: tidas-spec
+    triggers:
+      - path: README.md
+        kind: repo-landing
+      - path: LICENSE
+        kind: license
+      - path: .gitignore
+        kind: repo-config
+    requiredDocs:
+      - path: AGENTS.md
+        mode: must_exist
+      - path: .docpact/config.yaml
+        mode: must_exist
+    reason: The contributor-facing entrypoint, license notice, and ignore rules must retain the repository contract and governed entrypoint.
+  - id: tidas-spec-content-contract
+    scope: repo
+    repo: tidas-spec
+    triggers:
+      - path: assets/**
+        kind: specification-asset
+      - path: examples/**
+        kind: specification-example
+      - path: conformance/**
+        kind: conformance-asset
+      - path: docs/**
+        kind: spec-doc
+      - path: spec-manifest.json
+        kind: release-manifest
+    requiredDocs:
+      - path: AGENTS.md
+        mode: review_or_update
+      - path: README.md
+        mode: review_or_update
+      - path: .docpact/config.yaml
+        mode: review_or_update
+    reason: Specification content, examples, conformance material, and the release manifest change the published baseline and its publication state.
+  - id: tidas-spec-build-and-release-contract
+    scope: repo
+    repo: tidas-spec
+    triggers:
+      - path: scripts/**
+        kind: asset-build
+      - path: package.json
+        kind: package-runtime
+      - path: .github/workflows/**
+        kind: automation
+    requiredDocs:
+      - path: AGENTS.md
+        mode: review_or_update
+      - path: README.md
+        mode: review_or_update
+      - path: .docpact/config.yaml
+        mode: review_or_update
+    reason: Build, package identity, and publication automation alter the release contract, integrity guarantees, and validation guide.
