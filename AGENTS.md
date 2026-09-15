@@ -22,9 +22,9 @@ checkPaths:
   - LICENSE
   - .gitignore
   - .docpact/config.yaml
-lastReviewedAt: 2026-09-15
-lastReviewedCommit: 1f0e30a65cb6040df8b5c072059a179ece7f577d
-lastReviewedNote: "Review of this W1 candidate content is PENDING and is not claimed here. The recorded commit is the reviewed W0 baseline this content descends from; the supervisor sets the final reviewed commit with the PR. W1 candidate contract: the M1 specification asset set, the deterministic build and verification entrypoints, the archive/npm parity rule, and the publication block while per-artifact licensing is unresolved. Repository responsibility, non-goals, branch model, and delivery rules are unchanged."
+lastReviewedAt: 2026-09-16
+lastReviewedCommit: 3dfd3d1a85c6d08b57934a5194c20593cb67d455
+lastReviewedNote: "Supervisor reviewed W1 candidate 3dfd3d1: source-byte fidelity, symmetric language handling, offline closure and source findings, exact package parity, immutable qualification, and publication restrictions match the implementation. Independent full gate passed 272 tests; final documentation-dependent archive verification and 54 integration tests also passed. This is candidate review evidence, not release licensing clearance or merged delivery."
 related:
   - README.md
   - .docpact/config.yaml

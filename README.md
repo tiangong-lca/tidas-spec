@@ -26,9 +26,9 @@ checkPaths:
   - scripts/**
   - .github/workflows/**
   - docs/qualification.md
-lastReviewedAt: 2026-09-15
-lastReviewedCommit: 1f0e30a65cb6040df8b5c072059a179ece7f577d
-lastReviewedNote: "Review of this candidate content is PENDING and is not claimed here. The recorded commit is the reviewed W0 baseline this content descends from; the supervisor records the reviewed commit through candidate qualification. W1 R1 correction set implemented: full-manifest coverage of every shipped file, archive-internal manifest and file-set validation, RFC 6901 reference correctness with reachability-based closure, offline Draft 7 meta-validation, draft/qualified candidate boundary, a real --check drift gate, and isolated install, non-Node reader and real-Git qualification tests. Candidate only: not published, not accepted, and blocked from formal publication by unresolved per-artifact licensing."
+lastReviewedAt: 2026-09-16
+lastReviewedCommit: 3dfd3d1a85c6d08b57934a5194c20593cb67d455
+lastReviewedNote: "Supervisor reviewed W1 candidate 3dfd3d1 against implementation, package contents, contributor commands and qualification/provenance documents. Independent verification passed 272 tests plus final-archive verification and 54 integration tests. Source and candidate identities remain distinct; formal publication remains blocked on unresolved per-artifact licensing. Review does not claim merged delivery or consumer adoption."
 related:
   - AGENTS.md
   - .docpact/config.yaml
