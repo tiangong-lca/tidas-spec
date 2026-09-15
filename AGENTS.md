@@ -24,11 +24,14 @@ checkPaths:
   - .docpact/config.yaml
 lastReviewedAt: 2026-09-15
 lastReviewedCommit: 1f0e30a65cb6040df8b5c072059a179ece7f577d
-lastReviewedNote: "W0 bootstrap contract: stable responsibility, non-goals, M1 branch model, controller-first tracked delivery, unchanged specification ownership for tidas, and no bootstrap exception for later product code. No specification asset, package, release workflow, or test exists yet."
+lastReviewedNote: "Review of this W1 candidate content is PENDING and is not claimed here. The recorded commit is the reviewed W0 baseline this content descends from; the supervisor sets the final reviewed commit with the PR. W1 candidate contract: the M1 specification asset set, the deterministic build and verification entrypoints, the archive/npm parity rule, and the publication block while per-artifact licensing is unresolved. Repository responsibility, non-goals, branch model, and delivery rules are unchanged."
 related:
   - README.md
   - .docpact/config.yaml
   - LICENSE
+  - docs/specification.md
+  - docs/qualification.md
+  - docs/provenance.md
 ---
 
 # tidas-spec Repository Contract
@@ -39,7 +42,7 @@ Read this file first, then the routed governed documents. [`README.md`](README.m
 
 ## Repository responsibility
 
-`tidas-spec` becomes the single human-maintained source for the public TIDAS specification, and publishes it as an asset-only package with a content-identical release archive.
+`tidas-spec` is the single human-maintained source for the public TIDAS specification, and publishes it as an asset-only package with a content-identical release archive.
 
 Stable responsibility:
 
@@ -51,7 +54,7 @@ Stable responsibility:
 - the deterministic asset build: file-set, lock, manifest, and archive integrity verification;
 - the versioned publication artifacts and their publication record.
 
-The specification package has no runtime dependency, no install script, and no executable behavior. Consumers read its assets; they do not execute it.
+The specification package has no runtime dependency, no install script, and no executable behavior. Consumers read its assets; they do not execute it. The build and verification scripts in this repository are development and CI tooling: they are not shipped in the package, and their `yaml` and `ajv` dependencies are development-only, pinned exactly in `package.json` and locked in `pnpm-lock.yaml`.
 
 ## Non-goals
 
@@ -66,7 +69,9 @@ The following are outside this repository. Route them to their owner instead of 
 
 A rules- or schema-shaped file in another repository is a candidate for an ownership analysis, not proof of duplication. Public definitions move into `tidas-spec` only through an explicit, reviewed disposition that names the owner, the semantic decision, and the positive and negative cases. Until that disposition exists, the current owner keeps the definition.
 
-`tidas` continues to own the public specification content and its existing schema surface until a reviewed change transfers that ownership. This contract does not transfer content, and no consumer may treat it as a transfer.
+`tidas` continues to own its site and presentation surface. Ownership of public specification content transfers only through a reviewed disposition with a named owner, the semantic decision, and supporting positive and negative cases. Specification-asset ownership in this repository is established for the M1 asset set by the tracked W1 disposition; it is not extended to any definition that disposition does not name.
+
+Development checks (`yaml` for YAML parsing, `ajv` for Draft 7 fixture validation) are development-only. They are not part of the package and do not make the package executable.
 
 ## Execution facts
 
@@ -107,20 +112,44 @@ When ending a work session, report the phase, the owning repository, the exact c
 
 - Every published local reference resolves inside the package. A release with a broken relative reference or an undeclared external network dependency fails.
 - The asset build reads no sibling source checkout. Consumers must be able to unpack and read a release without `tidas-toolkit`, `tidas-sdks`, or `tidas` present.
+- Reference discovery walks the schema vocabulary of the document it is reading. A `$ref`-shaped key inside instance data (`examples`, `default`, `enum`, `const`) is data, not a reference, and requiring it to resolve would invent a constraint the specification does not make. A schema that declares an instance property named like an allowed localized key stops the language comparison instead of silently widening its allowance.
+- Reference closure follows reachability, not keyword classification: a location is a schema position because a reference reached it. This keeps the source's own `$defs` definitions — a keyword its declared dialect does not define — inside the closure while leaving unreferenced extension data and later-draft keywords outside it.
+- Fragments are URI-decoded exactly once and then follow RFC 6901. An invalid escape or a double-encoded fragment is an error, never a lookup that happens to succeed.
+- A source constraint that contradicts the declared dialect, such as a `$ref` object carrying assertion-bearing siblings, is reported as a finding with its count, keyword histogram, and every affected location, and is recorded in the manifest. It is neither silently accepted nor silently fatal, and it is never resolved by rewriting the source.
+- Sibling keywords are classified by whether they *assert*, which is a different question from whether their value may be traversed as schema. `const` and `enum` are both. An unrecognised keyword counts as an assertion. Reporting a `const` sibling as mere annotation, and losing the finding, is a defect this repository has already had once.
+- Draft 7 resource scope is implemented, not refused: document roots and nested non-fragment `$id`s are indexed, and a reference resolves against the base in effect at its own location. A base the package does not contain, or one established twice, is reported rather than guessed at, and nothing is ever fetched.
+
+**Determinism and identity**
+
+- Two clean builds of one version produce an identical manifest and byte-identical archives. No timestamp, host name, absolute path, or run counter reaches a generated file; the archive is written by tooling in this repository rather than by host `tar`.
+- CI compares the committed manifest and archive against the current content before building, so stale committed output is reported rather than silently regenerated.
+- A candidate is either a **draft**, which claims no source revision and is not eligible for downstream consumption, or **qualified**, which claims a revision validated against the Git repository at build time and recorded in a receipt outside every artifact it describes. A caller-supplied commit SHA is never accepted as a source revision. See [`docs/qualification.md`](docs/qualification.md).
+- Every shipped file is bound by an exact byte digest, including the metadata that carries the provenance and the review anchor. The manifest itself is the single exception, because it cannot contain its own digest; it is bound from outside by the receipt.
+- The manifest is a pure function of the shipped content and carries no source-revision claim. A manifest naming the commit that contains it is a fixed point no commit satisfies, and a qualified build must be reproducible from the commit without dirtying the tree it came from. The revision belongs to the receipt.
+- Archive bytes are reproducible within one pinned toolchain. The gzip framing comes from the platform zlib, so the byte-equality claim is scoped rather than universal, and the receipt records all four deciding fields — node, zlib, platform, arch — so the scope is checkable. Content equality — every entry's digest — holds everywhere, and the recorded archive digest is checked against the bytes on disk in every case.
+- The pinned toolchain lives in `toolchain.json`, outside the published package. It is enforced by `scripts/ci/require-toolchain.mjs` rather than merely documented, and CI provisions pnpm from the same file. Do not move the pin into `package.json`: the npm client strips that field while packing. Do not claim a pin that nothing enforces.
+- A previously qualified revision is carried onto a rebuild only after revalidation: same package and version, same content digest, `HEAD` still at that revision, packaged bytes still matching it. Otherwise the candidate becomes an explicit draft that names the reason. Reusing a stale claim for changed content is laundering, not preservation.
+- Checking is non-mutating. A drift check computes expected bytes in memory and leaves the candidate root byte-for-byte unchanged on success and on failure alike, so a stale committed artifact cannot be silently regenerated by the check that is supposed to detect it.
+- Tests never build, pack, or install in the reviewed checkout. Builds run in disposable copies, and a guard proves the repository is unchanged after the suite; otherwise a test would rewrite the artifacts under review.
+- Four identities stay distinct and are never presented as one another: the source repository and commit the bytes came from, the commit of this repository the candidate was built from, the per-file and aggregate content digests, and the archive digest.
+- The manifest cannot contain its own hash. Its identity is its file list and aggregates; the archive digest is recorded beside it in a disposable build record that repeats the manifest's asset digest. An unresolvable source commit, or a fabricated one, is a failure rather than a claim that reaches a release record.
+- The npm package and the release archive are assembled from the same `files` whitelist, so they cannot carry different files. A file that is neither an approved specification asset nor expected package metadata is a failure, not extra published surface.
 
 **Publication**
 
-- Publication is a distinct, reviewed version-preparation step. An ordinary `main` commit never publishes automatically.
+- Publication is a distinct, reviewed version-preparation step. An ordinary `main` commit never publishes automatically; CI verifies the candidate and never publishes.
 - This repository holds no runtime dependency and no install script. Adding one requires an explicit reviewed contract change, not an implementation convenience.
+- A candidate may be built and verified while per-artifact licensing is unresolved, and it may be used for continued validation. It may not be published as a formal release, and no artifact may be described as fully licensed, until the provenance record resolves each imported artifact's rights.
 
 **Licensing**
 
 - `LICENSE` reproduces the MIT notice of the tools source that supplies the first extracted assets.
-- That notice does not establish the license of every future imported artifact. Each imported artifact needs its own verified source and license record before publication. Never describe the whole package as MIT-licensed on the strength of the source notice alone.
+- That notice does not establish the license of every imported artifact. Each imported artifact needs its own verified source and license record before publication. Never describe the whole package as MIT-licensed on the strength of the source notice alone.
+- [`docs/provenance.md`](docs/provenance.md) is the standing record: verified source facts, the explicitly unresolved third-party classification rights, and the resulting publication block. Resolving an entry there is a reviewed content decision with a named authoritative source, not an edit that makes a blocker disappear.
 
 **Governance self-consistency**
 
-- Update `.docpact/config.yaml` when machine-readable paths, ownership, coverage, routing, rules, or the document inventory change; update this file when the stable responsibility, non-goals, or invariants change; update `README.md` when the current state, contributor entry, or validation guide changes.
+- Update `.docpact/config.yaml` when machine-readable paths, ownership, coverage, routing, rules, or the document inventory change; update this file when the stable responsibility, non-goals, or invariants change; update `README.md` when the current state, contributor entry, or validation guide changes; update `docs/specification.md` when the artifact contract or verification stages change, `docs/qualification.md` when the draft/qualified boundary or the source-binding mechanism changes, and `docs/provenance.md` when a source or licensing fact changes.
 - Do not copy the same detailed procedure into several documents.
 - This repository has no local Docpact wrapper or git hook. Resolve the workspace wrapper and pass this repository as explicit `--root`; do not assume bare `docpact` is installed or that `--root .` means the workspace root.
 

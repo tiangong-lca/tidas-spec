@@ -9,67 +9,128 @@ language: en
 whenToUse:
   - when onboarding to the public TIDAS specification repository
   - when checking what this repository currently contains and publishes
-  - when running or reviewing the governance validation for this repository
+  - when running, reviewing, or reproducing the specification build and verification
 whenToUpdate:
   - when migrated specification content, the package, or the release path changes
-  - when the contributor entrypoint or validation guide changes
+  - when the contributor entrypoint, command set, or validation guide changes
 checkPaths:
   - README.md
   - AGENTS.md
   - LICENSE
   - .gitignore
   - .docpact/config.yaml
+  - package.json
+  - source-import.yaml
+  - reviewed-baseline.json
+  - spec-manifest.json
+  - scripts/**
+  - .github/workflows/**
+  - docs/qualification.md
 lastReviewedAt: 2026-09-15
 lastReviewedCommit: 1f0e30a65cb6040df8b5c072059a179ece7f577d
-lastReviewedNote: "Bootstrap governance review baseline. Contributor entrypoint, source-baseline provenance, wrapper resolution, and validation guide only; no specification asset, package, or release workflow exists."
+lastReviewedNote: "Review of this candidate content is PENDING and is not claimed here. The recorded commit is the reviewed W0 baseline this content descends from; the supervisor records the reviewed commit through candidate qualification. W1 R1 correction set implemented: full-manifest coverage of every shipped file, archive-internal manifest and file-set validation, RFC 6901 reference correctness with reachability-based closure, offline Draft 7 meta-validation, draft/qualified candidate boundary, a real --check drift gate, and isolated install, non-Node reader and real-Git qualification tests. Candidate only: not published, not accepted, and blocked from formal publication by unresolved per-artifact licensing."
 related:
   - AGENTS.md
   - .docpact/config.yaml
-  - LICENSE
+  - docs/specification.md
+  - docs/qualification.md
+  - docs/provenance.md
 ---
 
 # TIDAS Specification Repository
 
 `tiangong-lca/tidas-spec` (remote `https://github.com/tiangong-lca/tidas-spec.git`) owns the human-maintained public TIDAS specification: public structure and field semantics, shared public methodology content, and controlled vocabularies. It publishes that content as an asset-only package `@tiangong-lca/tidas-spec` together with a release archive carrying the identical reviewed files.
 
-The stable repository responsibility, non-goals, and invariants are in [`AGENTS.md`](AGENTS.md). This file is the contributor entrypoint: what the repository contains today, where its source baseline comes from, and how its current content is validated.
+The stable repository responsibility, non-goals, and invariants are in [`AGENTS.md`](AGENTS.md). This file is the contributor entrypoint: what the repository contains today, where its source baseline comes from, and how its content is built and verified.
 
 ## Current state
 
-The repository contains repository governance only: `README.md`, `AGENTS.md`, `LICENSE`, `.gitignore`, and `.docpact/config.yaml`. Nothing in it is an approved specification baseline, and no specification asset — schema, language variant, methodology, vocabulary, example, or conformance file — has been migrated.
-
-The root workspace does not yet list this repository in `.gitmodules`, `.workspace-delivery/workspace.toml`, or its Docpact catalog, so tracked delivery here is unsupported until the root registers it. Work chronology, remaining scope, and acceptance state live in the tracked Issue and plan linked under [References](#references), not in this file.
-
-## Intended content and publication
-
-Once the extraction lands, this repository is the single human-maintained source for the migrated specification assets, their language variants, shared methodology content, published examples and conformance material, specification documentation, and the deterministic asset build.
+The repository holds a **candidate** specification, version `0.1.0`. It is not published, not accepted, and not adopted by any consumer.
 
 | Path | Content |
 | --- | --- |
-| `assets/` | Migrated schemas, language variants, shared methodology content, schema lock. |
-| `examples/`, `conformance/` | Published examples and conformance material. |
-| `docs/` | Specification documentation shipped with the assets. |
-| `scripts/` | Asset build, lock, manifest, and integrity verification. |
-| `spec-manifest.json` | Generated release manifest binding a version to its exact source commit, file list, and hashes. |
+| `assets/tidas/schemas/`, `assets/tidas/schemas_zh/` | 18 reviewed JSON Schemas (Draft 7) in each language. |
+| `assets/tidas/methodologies/` | `tidas_flows.yaml` and `tidas_processes.yaml`. |
+| `assets/tidas/schema.lock.json` | The pinned source schema lock, imported byte-for-byte. |
+| `source-import.yaml` | Reviewed import record: source repository, commit, per-file SHA256, exclusions. |
+| `reviewed-baseline.json` | Independent review anchor for the source inventory and the shipped bytes. |
+| `spec-manifest.json` | Generated release manifest binding every shipped file by exact byte digest, plus the derived source findings. A pure function of the shipped content. |
+| `release/` | Generated canonical candidate archive. |
+| `scripts/` | Import, build, and verification implementation. |
+| `test/` | Unit, conformance, and integration suites. |
+| `docs/` | Candidate structure, qualification, and provenance records. |
+| `toolchain.json` | The exact node and pnpm versions a build and verification use. Not published; enforced by `scripts/ci/require-toolchain.mjs`. |
 
-The first package version is planned as `0.1.0`. The package carries no runtime dependency and no install script, and is readable without a Node runtime. Immutability, channel parity, and reference closure are invariants owned by [`AGENTS.md`](AGENTS.md).
+The root workspace registers this repository in `.gitmodules`, `.workspace-delivery/workspace.toml`, and its Docpact catalog. Tracked delivery runs through the workspace delivery controller; work chronology, remaining scope, and acceptance state live in the tracked Issue and plan linked under [References](#references), not in this file.
 
-## Source baseline and provenance
+### Formal publication is currently blocked
 
-The W0 source audit selected the extraction baseline and computed a per-file SHA256 inventory. The durable record is the evidence comment on [workspace #1243](https://github.com/tiangong-lca/workspace/issues/1243#issuecomment-5681963488); do not restate the file list here.
+The tools `LICENSE` notice (MIT, TianGong LCA) is verified and reproduced, but it is the source repository's own notice. The imported schemas embed large classification vocabularies whose individual origins and rights status are **not** established, and this repository holds no attribution or license record for them. Until a per-artifact determination exists, the candidate cannot be published as a formal release and nothing here describes the whole package as MIT-licensed. The full record is in [`docs/provenance.md`](docs/provenance.md).
 
-- Extraction baseline: `tidas-toolkit` at `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`), which supplies the 18 English schemas, the 18 Chinese schemas, and the `tidas_flows` / `tidas_processes` methodology YAML.
-- Consumer comparison baselines are recorded in the same comment. `tidas-sdks` is byte-identical on all 18 schemas; `cli` and `tidas` differ on named files. Those are file-level facts, not semantic dispositions — each actual semantic difference is adjudicated with positive and negative cases before either consumer switches, and this repository does not inherit either variant by default.
-- Retained tools inputs — `runtime_rulesets.json`, `runtime_rulesets.schema.json`, and `elementary_flow_taxonomy_extension.v1.json` — stay in `tidas-toolkit` and are explicitly outside the first migration.
-- Tools `LICENSE` at the pinned commit has SHA256 `557e792f4b9868b7f25f60fca4e47e8857bbf2b88d0c8f733c2ce3fd0cbcc484` (MIT, TianGong LCA).
+## Source baseline
 
-Provenance is **not** fully resolved. Third-party classification and vocabulary assets still need per-source confirmation before publication, and each imported artifact needs its own license determination recorded in the release manifest. See [License](#license).
+All 39 shipped files were extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). The extraction reads blobs by commit, never a working tree, so an uncommitted local edit cannot enter the import. `source-import.yaml` and `reviewed-baseline.json` record the identity; verification fails if they disagree or if the shipped bytes do not match.
 
-## Repository boundaries
+Three files present at that commit are deliberately **not** imported: `runtime_rulesets.json`, `runtime_rulesets.schema.json`, and `elementary_flow_taxonomy_extension.v1.json`. They remain owned by `tidas-toolkit` and their exclusion is recorded and enforced.
 
-This repository owns the public specification content and its publication artifacts. It does not own product profiles or gate behavior, SDK runtime or generated surfaces, conversion or validation tooling, the documentation site, database or Worker schemas, or workspace integration. [`AGENTS.md`](AGENTS.md) holds the authoritative non-goal list and the routing for each.
+`tidas-sdks` is byte-identical on all 18 schemas. The `cli` and `tidas` repositories carry differing variants of named files. Those are file-level facts, not semantic dispositions: this repository inherits neither variant by default, and each actual semantic difference is adjudicated separately with positive and negative cases before either consumer switches.
 
-A rules- or schema-shaped file in another repository is a candidate for an ownership analysis, not proof of duplication and not a migration decision. A public definition moves here only through an explicit, reviewed disposition that names the owner, the semantic decision, and the supporting positive and negative cases. Until then, its current owner keeps it.
+## Build and verification
+
+Requires Node 24 and pnpm 11.24.0 (matching the workspace SDK convention). The published package itself has no runtime dependency and no install script; the toolchain below is development-only.
+
+```bash
+pnpm install --frozen-lockfile     # development dependencies only
+pnpm run check                     # build, verify, and run every test suite
+```
+
+`pnpm run check` is the whole gate: it builds the candidate, runs the four verification stages, then runs the unit, conformance, and integration suites. Individual steps:
+
+```bash
+node scripts/spec/build.mjs                        # draft candidate: manifest + archive + receipt
+node scripts/spec/build.mjs --check                # committed output vs current content (writes nothing)
+node scripts/spec/build.mjs --qualify              # qualified candidate: validate HEAD, then build
+node scripts/spec/verify.mjs                       # all four stages
+node scripts/spec/verify.mjs --stage identity      # file set, bytes, language, lock, references
+node scripts/spec/verify.mjs --expect-source-commit <sha>   # also assert the reviewed revision
+node scripts/spec/verify.mjs --json                # machine-readable report
+node --test 'test/unit/**/*.test.mjs'
+node --test 'test/conformance/**/*.test.mjs'
+node --test 'test/integration/**/*.test.mjs'
+```
+
+A plain build is a **draft**: complete and verifiable, but claiming no source
+revision, so it is not eligible for downstream consumption. `--qualify` produces
+a **qualified** candidate by validating that `HEAD` is the source revision, that
+the tree is clean, and that the packaged bytes match that commit. The two states
+and the post-review sequence are defined in [`docs/qualification.md`](docs/qualification.md).
+
+Re-importing from the pinned source commit — the only command that reads a source checkout, and never part of a normal build:
+
+```bash
+node scripts/import-tidas-spec-source.mjs --source-repo /path/to/tidas-toolkit --check
+```
+
+`docs/specification.md` describes every stage, what the manifest binds, how the
+two language sets are treated, and why the manifest cannot hash itself.
+
+Verifying an unpacked copy — the check a consumer can reproduce — uses the three stages that apply to a package directory:
+
+```bash
+tar -xzf release/tiangong-lca-tidas-spec-0.1.0.tgz -C /tmp/tidas-spec-check
+node scripts/spec/verify.mjs --root /tmp/tidas-spec-check/package \
+  --stage identity --stage manifest --stage package
+```
+
+### Reproducibility contract
+
+Two clean builds under the pinned toolchain produce an identical manifest and a byte-identical archive. The archive is written by a ustar writer in this repository — not by host `tar`, whose flags and defaults differ between GNU tar and bsdtar — with fixed mode, ownership, sorted entry order, and a fixed timestamp.
+
+The manifest is byte-reproducible across machines and runtimes. The archive's gzip framing comes from the platform zlib, so byte equality is guaranteed **within one pinned toolchain**; the uncompressed tar payload is identical everywhere. `--check` compares all four toolchain fields recorded in the receipt — node, zlib, platform, arch — and asserts byte equality when they match and full content equality when they do not, always reporting which mode ran and always checking the recorded archive digest against the bytes on disk.
+
+The exact toolchain lives in `toolchain.json` — outside the package, so declaring versions cannot affect its bytes — and `pnpm run check` refuses to run under any other node or pnpm.
+
+The npm package and the release archive are assembled from the same `files` whitelist and `package.json` is stored in the form the npm client produces, so the two channels are byte-identical file for file. The integration suite packs the package and compares every entry's digest to prove it.
 
 ## Validation guide
 
@@ -109,22 +170,30 @@ Do not assume bare `docpact` is installed, do not assume `--root .` means the wo
 "$workspace_root/scripts/docpact" route --root "$repo_root" --paths AGENTS.md,README.md,.docpact/config.yaml --format json
 ```
 
-Governed diff lint needs one explicit diff source. Name the files directly while they are untracked, because no diff source sees them yet:
+Governed diff lint needs one explicit diff source:
 
 ```bash
 "$workspace_root/scripts/docpact" lint --root "$repo_root" \
-  --files AGENTS.md,README.md,LICENSE,.gitignore,.docpact/config.yaml \
-  --format json --output .docpact/runs/lint.json
-```
+  --base <sha> --head <sha> --format json --output .docpact/runs/lint.json
 
-Once the files are committed, `--worktree`, `--staged`, or `--base <sha> --head <sha>` replace `--files`. Stdout is a paged `docpact.lint-report.v1` report; the saved report holds the full diagnostics:
-
-```bash
 "$workspace_root/scripts/docpact" diagnostics show \
   --report .docpact/runs/lint.json --id <diagnostic_id> --format json
 ```
 
 `.docpact/runs/` holds disposable reports and is ignored by Git; it is not governed source.
+
+### Specification checks
+
+`pnpm run check` is the required entrypoint; the table names what each stage proves so a reviewer can check the claim rather than the command.
+
+| Check | Proves |
+| --- | --- |
+| `node scripts/spec/verify.mjs --stage identity` | The shipped files are exactly the approved set; every file parses; the bytes match the reviewed import; the 18 language pairs are constraint-equivalent under the lock's allowance; the lock is exactly the one the bytes produce; every `$ref` resolves inside the package. |
+| `node scripts/spec/verify.mjs --stage manifest` | `spec-manifest.json` is the manifest the current bytes produce, binds every shipped file by exact byte digest, is in the canonical serialization, and carries a validated source and license identity. |
+| `node scripts/spec/verify.mjs --stage package` | The package declares the reviewed name and version, no dependency of any kind, no install or publish hook, a `files` whitelist that publishes every approved asset and nothing else, and `package.json` in the canonical serialization both channels ship. |
+| `node scripts/spec/verify.mjs --stage archive` | The archive is safe to read, carries exactly the declared file set with no undeclared extra, contains a manifest byte-identical to the candidate's that also describes the archive's own contents, verifies as a package after unpacking with no sibling checkout, and is bound to the manifest and its source revision by an external record. Applies where the archive is present; an unpacked copy is checked with `--stage identity --stage manifest --stage package`, because an archive does not contain itself. |
+| `node --test 'test/conformance/**/*.test.mjs'` | The verifier rejects each specific defect — extra or missing file, mutated bytes, stale or widened lock, malformed JSON/YAML, duplicate keys, invalid Draft 7 constraints, malformed pointer escapes, double-decoded fragments, escaping/network/broken references, unreachable versus reachable definitions, differing language constraints, an incomplete or corrupt manifest, an archive whose internal manifest was replaced with outer digests recomputed, and conflicting identity — and does not treat example data as schema. |
+| `node --test 'test/integration/**/*.test.mjs'` | The packed npm package and the release archive carry identical content, the packed tarball installs into a fresh consumer with no runtime dependency and verifies in place, a Python reader with Node removed from `PATH` re-derives the declared set and every digest, the drift check fails on stale committed output, and the qualification mechanism behaves on isolated local Git repositories. |
 
 ### Git inspection and diff
 
@@ -135,39 +204,29 @@ repo_root="$(git rev-parse --show-toplevel)"
 
 git -C "$repo_root" status --short --untracked-files=all
 git -C "$repo_root" ls-files --others --exclude-standard
-```
-
-Whitespace and conflict-marker check over tracked content:
-
-```bash
 git -C "$repo_root" diff --check
-```
-
-`git diff --check` also skips untracked files, so a clean result proves nothing about them. A staged or committed range is reviewable only after staging or committing, neither of which this repository's bootstrap package performs:
-
-```bash
-git -C "$repo_root" diff --cached --stat
 git -C "$repo_root" diff --stat <base-sha>..HEAD
 git -C "$repo_root" diff --check <base-sha>..HEAD
 ```
 
-The reviewed baseline for the current candidate is the `lastReviewedCommit` in this file's frontmatter. Until the bootstrap files are staged, review means reading the untracked files at their exact paths, and the `git diff` forms above are empty rather than showing those files as added.
-
-Specification package checks — file-set and lock verification, JSON/YAML parsing, relative-reference closure, manifest and archive integrity, offline read without the source repositories, and dual-language constraint comparison — are added here with the build that implements them. Until then they do not exist, and no release claim may cite them.
+The reviewed baseline for the current candidate is the `lastReviewedCommit` in this file's frontmatter.
 
 ## Governance
 
 - `AGENTS.md` is the repository contract: stable responsibility, non-goals, execution facts, delivery rules, and invariants.
 - `.docpact/config.yaml` is the machine-readable catalog, ownership, coverage, routing, rule, and document-inventory source. Its catalog identity is `tidas-spec` and must match the identity the root uses when it registers this repository.
-- Freshness thresholds are not configured. They are added together with the specification documents and their review evidence.
+- `docs/specification.md` describes the candidate's structure and verification stages.
+- `docs/provenance.md` records verified source facts and the unresolved licensing question.
+- Freshness thresholds are not configured. They are added together with specification documents and their review evidence.
 
 ## License
 
-`LICENSE` reproduces, unchanged, the MIT notice from the TIDAS tools source file `tidas-toolkit/LICENSE`, read at the pinned extraction commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` and confirmed identical to the notice in the local checkout.
+`LICENSE` reproduces, unchanged, the MIT notice from `tidas-toolkit/LICENSE`, read at the pinned extraction commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (SHA256 `557e792f4b9868b7f25f60fca4e47e8857bbf2b88d0c8f733c2ce3fd0cbcc484`).
 
-The notice covers this repository's current bootstrap content. It does **not** assert that every future imported artifact — schema, methodology, vocabulary, taxonomy extension, or third-party material — automatically carries the same license. Each imported artifact needs its own verified source and license recorded in the release manifest before publication, and a file's presence in the tools repository is not by itself a license determination.
+That notice covers the tools source. It does **not** assert that every imported artifact — schema, methodology, vocabulary, or third-party classification — carries the same license, and a file's presence in the tools repository is not by itself a license determination. The current per-artifact status, including what remains unresolved and why it blocks publication, is in [`docs/provenance.md`](docs/provenance.md).
 
 ## References
 
-- W0 bootstrap and repository onboarding: [workspace #1243](https://github.com/tiangong-lca/workspace/issues/1243), including the [selected baselines and SHA256 source inventory](https://github.com/tiangong-lca/workspace/issues/1243#issuecomment-5681963488).
+- W0 bootstrap and repository onboarding: [workspace #1243](https://github.com/tiangong-lca/workspace/issues/1243), including the selected baselines and SHA256 source inventory.
+- W1 candidate implementation: [tidas-spec #1](https://github.com/tiangong-lca/tidas-spec/issues/1).
 - Split-refactor execution plan, work packages, and acceptance IDs: `_docs/plans/2026-09-15-tidas-spec-split-refactor-plan.md` in the workspace root.

@@ -1,0 +1,143 @@
+# W1 source import manifest (governance input, not a generated artifact).
+#
+# It names the exact Git origin of every reviewed specification asset that the
+# specification package ships, so the import is reproducible from a single
+# explicit commit instead of a mutable checkout. The build never reads this
+# file's origin repository; only `scripts/import-tidas-spec-source.mjs
+# --source-repo <path>` does, and only when a maintainer deliberately re-imports.
+#
+# `sourceRepositories` records where the bytes actually came from: read-only
+# Git blob extraction at a pinned commit of a tools checkout that is NOT this
+# package's own reviewed source revision. Both identities are kept separate and
+# truthfully recorded; neither is presented as the other.
+version: 1
+sourceRepoId: tidas-toolkit
+sourceRepoCanonicalUrl: https://github.com/tiangong-lca/tidas-toolkit
+sourceCommit: 9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5
+sourceCommitRef: main
+sourceLicensePath: LICENSE
+sourceLicenseSha256: 557e792f4b9868b7f25f60fca4e47e8857bbf2b88d0c8f733c2ce3fd0cbcc484
+sourceLicenseNotice: MIT, Copyright (c) 2026 TianGong LCA
+# Files present at the source commit that this import deliberately excludes.
+excludedSourcePaths:
+  - assets/tidas/methodologies/runtime_rulesets.json
+  - assets/tidas/methodologies/runtime_rulesets.schema.json
+  - assets/tidas/methodologies/elementary_flow_taxonomy_extension.v1.json
+files:
+  - sourcePath: assets/tidas/schema.lock.json
+    packagePath: assets/tidas/schema.lock.json
+    sha256: 47ca2a51efb654312422d8cb6ac415cc1798bd993467b138cf8d220a0b7eb9a1
+  - sourcePath: assets/tidas/schemas/tidas_contacts.json
+    packagePath: assets/tidas/schemas/tidas_contacts.json
+    sha256: f16868bcdb99b4785b03a9b36dfe103d8f3ec61a463be9274d22884e6b7d8bda
+  - sourcePath: assets/tidas/schemas/tidas_contacts_category.json
+    packagePath: assets/tidas/schemas/tidas_contacts_category.json
+    sha256: 2d043a6686320b5fec5d4012dfd03bdb57897375002b25fc6a64df8ea10092b5
+  - sourcePath: assets/tidas/schemas/tidas_data_types.json
+    packagePath: assets/tidas/schemas/tidas_data_types.json
+    sha256: d9e7fa47e2dd2a665332dc50b1d3b3fc03bba1ae2ab80b07bd52ed01471b1b81
+  - sourcePath: assets/tidas/schemas/tidas_flowproperties.json
+    packagePath: assets/tidas/schemas/tidas_flowproperties.json
+    sha256: bfc56348c4be7d8e20faebf197680b6a38c9e9b91812382710c6ab205f218432
+  - sourcePath: assets/tidas/schemas/tidas_flowproperties_category.json
+    packagePath: assets/tidas/schemas/tidas_flowproperties_category.json
+    sha256: 0fd7f4b2e350532ba5809019a079f8fadb90f91702358c1ff7deea19c956a846
+  - sourcePath: assets/tidas/schemas/tidas_flows.json
+    packagePath: assets/tidas/schemas/tidas_flows.json
+    sha256: e773b188271174f834dba5ab410644b9e246385c8005fb6d02e4c7a0a073d283
+  - sourcePath: assets/tidas/schemas/tidas_flows_elementary_category.json
+    packagePath: assets/tidas/schemas/tidas_flows_elementary_category.json
+    sha256: e817d6e40dfa7b21cb947548027f32b393d1b06ee2a7326f7c59686a2cd3552d
+  - sourcePath: assets/tidas/schemas/tidas_flows_product_category.json
+    packagePath: assets/tidas/schemas/tidas_flows_product_category.json
+    sha256: e62e1f676dedaeb6028b05f0c1cc84f53c1c47058ae6e17897f77b2cb17b7cb2
+  - sourcePath: assets/tidas/schemas/tidas_lciamethods.json
+    packagePath: assets/tidas/schemas/tidas_lciamethods.json
+    sha256: 6a96fa34bda4d848eeaa1edb124a544f4511c824436514e62b58626919e57836
+  - sourcePath: assets/tidas/schemas/tidas_lciamethods_category.json
+    packagePath: assets/tidas/schemas/tidas_lciamethods_category.json
+    sha256: 83b4bbfb53a2ad1cb1f9c97c261cc867ea6f509020a8ea9041ffba08601eaac9
+  - sourcePath: assets/tidas/schemas/tidas_lifecyclemodels.json
+    packagePath: assets/tidas/schemas/tidas_lifecyclemodels.json
+    sha256: d3355d3c7910efadbee87fe36dacd6ca515c8fe1c5671f6dee2ba63d43c5d108
+  - sourcePath: assets/tidas/schemas/tidas_locations_category.json
+    packagePath: assets/tidas/schemas/tidas_locations_category.json
+    sha256: 415fe8c7ba4991a88bc66d9cd55541ee27b74f731541c64a9bc354679d109a71
+  - sourcePath: assets/tidas/schemas/tidas_processes.json
+    packagePath: assets/tidas/schemas/tidas_processes.json
+    sha256: 8476530740d2af11fe3c607afbeab68a318c6b08d7558417ebcad8ac33f0efdd
+  - sourcePath: assets/tidas/schemas/tidas_processes_category.json
+    packagePath: assets/tidas/schemas/tidas_processes_category.json
+    sha256: cea1b97b46fd9faa2f7f4d7b911ff19f24a1655ff98b488ebaf5cc9ee6fdec64
+  - sourcePath: assets/tidas/schemas/tidas_sources.json
+    packagePath: assets/tidas/schemas/tidas_sources.json
+    sha256: 2f37df9004a05ed83f8c708b7edc5f482ec1f848c050fd9f54e1aad49687dd5d
+  - sourcePath: assets/tidas/schemas/tidas_sources_category.json
+    packagePath: assets/tidas/schemas/tidas_sources_category.json
+    sha256: dc22fa07e7a2b4742133ea642505b6a18011552459b84764908166d1994c985f
+  - sourcePath: assets/tidas/schemas/tidas_unitgroups.json
+    packagePath: assets/tidas/schemas/tidas_unitgroups.json
+    sha256: d83ada361908ffc047d38ded3aa15be748c7d3421dc294f34c5afbcc6a58f127
+  - sourcePath: assets/tidas/schemas/tidas_unitgroups_category.json
+    packagePath: assets/tidas/schemas/tidas_unitgroups_category.json
+    sha256: c490544c405ee6ef06e52e121f29994d112040a3f4888541fa69569c998d8b72
+  - sourcePath: assets/tidas/schemas_zh/tidas_contacts.json
+    packagePath: assets/tidas/schemas_zh/tidas_contacts.json
+    sha256: c8eecba163ad58ef9a61f17268f398ccd3f056f9d90a2c78f08ea7a02c7d0f4f
+  - sourcePath: assets/tidas/schemas_zh/tidas_contacts_category.json
+    packagePath: assets/tidas/schemas_zh/tidas_contacts_category.json
+    sha256: d95c48c28fc2a88ad058d4ae15b9f83b8664f27b691780c9556e590783c0fdb1
+  - sourcePath: assets/tidas/schemas_zh/tidas_data_types.json
+    packagePath: assets/tidas/schemas_zh/tidas_data_types.json
+    sha256: b2860813916df4cf92dac84f90909222aa6189f9f9abb058c0c0f49534bd306c
+  - sourcePath: assets/tidas/schemas_zh/tidas_flowproperties.json
+    packagePath: assets/tidas/schemas_zh/tidas_flowproperties.json
+    sha256: 3e53f2b983bece302f33f189efc0fbea9341ec7aebd8d36e87cbac245a3fdbb8
+  - sourcePath: assets/tidas/schemas_zh/tidas_flowproperties_category.json
+    packagePath: assets/tidas/schemas_zh/tidas_flowproperties_category.json
+    sha256: d2962260c52de1af02ed8a40766b3b5391518c6c7df02ab263db3feaa32da523
+  - sourcePath: assets/tidas/schemas_zh/tidas_flows.json
+    packagePath: assets/tidas/schemas_zh/tidas_flows.json
+    sha256: eaaa690b7512e3507431c4f102d4697bf6696aaf611f981f569eadfe6bb076bb
+  - sourcePath: assets/tidas/schemas_zh/tidas_flows_elementary_category.json
+    packagePath: assets/tidas/schemas_zh/tidas_flows_elementary_category.json
+    sha256: 289b439014d85971b2f435aff25a6f5b2926469ee75000a8b57f1cdedb152f4c
+  - sourcePath: assets/tidas/schemas_zh/tidas_flows_product_category.json
+    packagePath: assets/tidas/schemas_zh/tidas_flows_product_category.json
+    sha256: 49e6444a61f833ccf97aeb5863f520971a6c7c3c0ed005a57142f040cfae2223
+  - sourcePath: assets/tidas/schemas_zh/tidas_lciamethods.json
+    packagePath: assets/tidas/schemas_zh/tidas_lciamethods.json
+    sha256: 5cb03a77267346d9655b8d3803f4f839f04caf080d866764c73bd4eaed6388dd
+  - sourcePath: assets/tidas/schemas_zh/tidas_lciamethods_category.json
+    packagePath: assets/tidas/schemas_zh/tidas_lciamethods_category.json
+    sha256: b11483c16aa5f0d47251b56598109085785168ef88facd28d770df6bb37ebe4c
+  - sourcePath: assets/tidas/schemas_zh/tidas_lifecyclemodels.json
+    packagePath: assets/tidas/schemas_zh/tidas_lifecyclemodels.json
+    sha256: 0c847ddbd80a594c320642fcc76a8bedd0c4b00926d9263455d4da34f27a10da
+  - sourcePath: assets/tidas/schemas_zh/tidas_locations_category.json
+    packagePath: assets/tidas/schemas_zh/tidas_locations_category.json
+    sha256: e20c3f168481bca8197b58a97a3bd4e12aa8a3f66553ff54f7dea7a40b044141
+  - sourcePath: assets/tidas/schemas_zh/tidas_processes.json
+    packagePath: assets/tidas/schemas_zh/tidas_processes.json
+    sha256: db81ac7dfca82a0a05982a8add4ba91ebe274dfc929c52c538f6f5fddd081b03
+  - sourcePath: assets/tidas/schemas_zh/tidas_processes_category.json
+    packagePath: assets/tidas/schemas_zh/tidas_processes_category.json
+    sha256: 05107a1aab2869a38ffafc05461778a272117a6a1f2805b3c37a9354e7158bdd
+  - sourcePath: assets/tidas/schemas_zh/tidas_sources.json
+    packagePath: assets/tidas/schemas_zh/tidas_sources.json
+    sha256: 33ab4a934a47fe3e74453cda9710437b1124ad900272f3a2caa3812ae711198a
+  - sourcePath: assets/tidas/schemas_zh/tidas_sources_category.json
+    packagePath: assets/tidas/schemas_zh/tidas_sources_category.json
+    sha256: 7d6882f088f9ad7c2ed9aa212e5d0030716a209196d8471bd650c75e3c3e4dad
+  - sourcePath: assets/tidas/schemas_zh/tidas_unitgroups.json
+    packagePath: assets/tidas/schemas_zh/tidas_unitgroups.json
+    sha256: 515e98019b23c69b264c614b34b29e4ec1890aaca04759c22c97638ecfb0cb3e
+  - sourcePath: assets/tidas/schemas_zh/tidas_unitgroups_category.json
+    packagePath: assets/tidas/schemas_zh/tidas_unitgroups_category.json
+    sha256: c39bcc54cf03b010ebf176d18d6572ca7f65d3b656ea854cd729cfd96290faa5
+  - sourcePath: assets/tidas/methodologies/tidas_flows.yaml
+    packagePath: assets/tidas/methodologies/tidas_flows.yaml
+    sha256: 4a389d060f5c901b7c11625675948c0152df95ad33bedc87eca0f93341038d6d
+  - sourcePath: assets/tidas/methodologies/tidas_processes.yaml
+    packagePath: assets/tidas/methodologies/tidas_processes.yaml
+    sha256: 3f67155faf703dd85729cf359315250a2a92562398cc41bcccaa46078b1fe79e

@@ -1,0 +1,56 @@
+{
+  "name": "@tiangong-lca/tidas-spec",
+  "version": "0.1.0",
+  "private": false,
+  "description": "TIDAS public specification: reviewed JSON Schema assets, language variants, shared methodology, and their deterministic integrity records.",
+  "keywords": [
+    "tidas",
+    "ilcd",
+    "lca",
+    "json-schema",
+    "specification"
+  ],
+  "license": "SEE LICENSE IN LICENSE",
+  "homepage": "https://github.com/tiangong-lca/tidas-spec",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiangong-lca/tidas-spec.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tiangong-lca/tidas-spec/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": "24.19.0"
+  },
+  "files": [
+    "assets/",
+    "source-import.yaml",
+    "reviewed-baseline.json",
+    "spec-manifest.json",
+    "LICENSE",
+    "README.md"
+  ],
+  "exports": {
+    "./spec-manifest.json": "./spec-manifest.json",
+    "./schema.lock.json": "./assets/tidas/schema.lock.json",
+    "./assets/tidas/schemas/*": "./assets/tidas/schemas/*",
+    "./assets/tidas/schemas_zh/*": "./assets/tidas/schemas_zh/*",
+    "./assets/tidas/methodologies/*": "./assets/tidas/methodologies/*"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "yaml": "2.9.1"
+  },
+  "scripts": {
+    "spec:build": "node scripts/spec/build.mjs",
+    "spec:verify": "node scripts/spec/verify.mjs",
+    "spec:import": "node scripts/import-tidas-spec-source.mjs",
+    "test": "node --test 'test/unit/**/*.test.mjs' 'test/conformance/**/*.test.mjs' 'test/integration/**/*.test.mjs'",
+    "test:conformance": "node --test 'test/conformance/**/*.test.mjs'",
+    "test:integration": "node --test 'test/integration/**/*.test.mjs'",
+    "check": "node scripts/ci/check.mjs",
+    "ci": "node scripts/ci/check.mjs",
+    "test:unit": "node --test 'test/unit/**/*.test.mjs'"
+  }
+}

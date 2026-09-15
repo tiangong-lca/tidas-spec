@@ -2,7 +2,7 @@ version: 1
 layout: repo
 lastReviewedAt: "2026-09-15"
 lastReviewedCommit: "1f0e30a65cb6040df8b5c072059a179ece7f577d"
-lastReviewedNote: "W0 bootstrap: repo-layout governance for the public TIDAS specification repository. Covers README.md, AGENTS.md, LICENSE, and the Docpact config itself; introduces no specification asset, package, release workflow, code, or new dependency. No baseline and no waiver."
+lastReviewedNote: "Review of this W1 candidate content is PENDING and is not claimed here. The recorded commit is the reviewed W0 baseline this content descends from; the supervisor sets the final reviewed commit with the PR. W1 candidate: repo-layout governance covering the imported specification asset set, the reviewed source and baseline records, the build and verification scripts, the test suites, the candidate release archive, and the CI workflow. Adds the two candidate documents to the inventory. No baseline and no waiver."
 
 catalog:
   repos:
@@ -31,14 +31,21 @@ ownership:
           - assets/**
           - examples/**
           - conformance/**
+          - source-import.yaml
+          - reviewed-baseline.json
       ownerRepo: tidas-spec
     - id: spec-docs-and-publication
       paths:
         include:
           - docs/**
           - scripts/**
+          - test/**
           - spec-manifest.json
+          - release/**
           - package.json
+          - pnpm-lock.yaml
+          - .npmrc
+          - toolchain.json
           - .github/workflows/**
       ownerRepo: tidas-spec
 
@@ -52,10 +59,17 @@ coverage:
     - assets/**
     - examples/**
     - conformance/**
+    - source-import.yaml
+    - reviewed-baseline.json
     - docs/**
     - scripts/**
+    - test/**
     - spec-manifest.json
+    - release/**
     - package.json
+    - pnpm-lock.yaml
+    - .npmrc
+    - toolchain.json
     - .github/workflows/**
 
 docInventory:
@@ -63,6 +77,9 @@ docInventory:
     - AGENTS.md
     - README.md
     - .docpact/config.yaml
+    - docs/specification.md
+    - docs/qualification.md
+    - docs/provenance.md
 
 routing:
   intents:
@@ -78,6 +95,8 @@ routing:
         - assets/**
         - examples/**
         - conformance/**
+        - source-import.yaml
+        - reviewed-baseline.json
         - spec-manifest.json
     spec-docs:
       paths:
@@ -85,8 +104,13 @@ routing:
     spec-build-and-release:
       paths:
         - scripts/**
+        - test/**
         - package.json
+        - .npmrc
+        - toolchain.json
+        - pnpm-lock.yaml
         - spec-manifest.json
+        - release/**
         - .github/workflows/**
 
 repo:
@@ -135,6 +159,10 @@ rules:
         kind: specification-example
       - path: conformance/**
         kind: conformance-asset
+      - path: source-import.yaml
+        kind: source-record
+      - path: reviewed-baseline.json
+        kind: source-record
       - path: docs/**
         kind: spec-doc
       - path: spec-manifest.json
@@ -153,8 +181,18 @@ rules:
     triggers:
       - path: scripts/**
         kind: asset-build
+      - path: test/**
+        kind: asset-build
       - path: package.json
         kind: package-runtime
+      - path: pnpm-lock.yaml
+        kind: package-runtime
+      - path: .npmrc
+        kind: package-runtime
+      - path: toolchain.json
+        kind: package-runtime
+      - path: release/**
+        kind: release-artifact
       - path: .github/workflows/**
         kind: automation
     requiredDocs:
