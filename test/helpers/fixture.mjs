@@ -102,6 +102,35 @@ export function makeBuildableFixture() {
   return root;
 }
 
+/**
+ * A disposable instance of the toolchain check with a declaration the test owns.
+ *
+ * `scripts/ci/require-toolchain.mjs` locates its repository root by walking up
+ * from its own file to a `package.json` carrying the package name, then reads
+ * `toolchain.json` there. Copying that manifest, the check, and the library it
+ * imports into a temporary directory, and substituting the declaration, yields a
+ * complete, self-contained run of the check whose expected toolchain is entirely
+ * under the test's control.
+ *
+ * That is what makes mismatch coverage hermetic. A test does not need a second
+ * Node installation, or any host path, for the declaration to disagree with the
+ * running runtime: it writes a declaration that cannot match and runs the check
+ * with `process.execPath`. Nothing outside the temporary directory is read, and
+ * the reviewed repository's own `toolchain.json` is never touched.
+ *
+ * The caller supplies the whole declared object, so a case can vary one field
+ * and hold the other at the running value to prove which mismatch was detected.
+ */
+export function makeToolchainFixture(declaration) {
+  const root = makeTempRoot('tidas-spec-toolchain-');
+  mkdirSync(path.join(root, 'scripts', 'ci'), { recursive: true });
+  cpSync(path.join(REPO_ROOT, 'package.json'), path.join(root, 'package.json'));
+  cpSync(path.join(REPO_ROOT, 'scripts', 'ci', 'require-toolchain.mjs'), path.join(root, 'scripts', 'ci', 'require-toolchain.mjs'));
+  cpSync(path.join(REPO_ROOT, 'scripts', 'spec'), path.join(root, 'scripts', 'spec'), { recursive: true });
+  writeFixtureJson(root, 'toolchain.json', declaration);
+  return root;
+}
+
 export function readFixtureJson(root, relative) {
   return JSON.parse(readFileSync(path.join(root, relative), 'utf8'));
 }

@@ -25,7 +25,7 @@ import { buildCandidate, checkCandidate } from '../../scripts/spec/lib/build.mjs
 import { loadAssetSet } from '../../scripts/spec/lib/inventory.mjs';
 import { verifyCandidate } from '../../scripts/spec/lib/verify.mjs';
 import * as packageContent from '../../scripts/spec/lib/package-content.mjs';
-import { REPO_ROOT, cleanupTempRoots, makeBuildableFixture, makeTempRoot, snapshotTree } from '../helpers/fixture.mjs';
+import { REPO_ROOT, cleanupTempRoots, makeBuildableFixture, makeTempRoot, makeToolchainFixture, readFixtureJson, snapshotTree } from '../helpers/fixture.mjs';
 
 const ARCHIVE_FILE = 'tiangong-lca-tidas-spec-0.1.0.tgz';
 const PACKAGED_ENTRIES = ['package.json', 'LICENSE', 'README.md', 'source-import.yaml', 'reviewed-baseline.json', 'spec-manifest.json', '.gitignore', 'assets'];
@@ -350,23 +350,81 @@ test('the repository declares its toolchain in one non-published place', () => {
   assert.equal(execFileSync('pnpm', ['--version'], { encoding: 'utf8' }).trim(), declared.pnpm);
 });
 
-test('the toolchain check refuses a mismatched runtime', () => {
+test('the toolchain check accepts the pinned toolchain and refuses a mismatched one', () => {
+  // The real production check, unchanged, run against the real declaration. This
+  // is the positive case: it must pass under the pinned toolchain, and it is the
+  // same script CI runs as its first step.
   const script = path.join(REPO_ROOT, 'scripts/ci/require-toolchain.mjs');
-  const ok = spawnSync(process.execPath, [script], { encoding: 'utf8' });
+  const declared = readFixtureJson(REPO_ROOT, 'toolchain.json');
+  const ok = runToolchainCheck({ script, env: process.env });
+  assert.equal(ok.error, undefined, `the check could not run: ${ok.error?.message}`);
   assert.equal(ok.status, 0, ok.stderr);
+  assert.match(ok.stdout, /^toolchain ok: /);
 
-  // The ambient fallback on this machine is Node 26 with pnpm 10. The check must
-  // refuse it rather than reporting a pass for a toolchain the candidate was not
-  // built with.
-  const wrong = spawnSync('/opt/homebrew/bin/node', [script], { encoding: 'utf8', env: { ...process.env, PATH: '/opt/homebrew/bin:/usr/bin:/bin' } });
-  if (wrong.status === 0) {
-    const declared = JSON.parse(readFileSync(path.join(REPO_ROOT, 'toolchain.json'), 'utf8'));
-    assert.equal(wrong.stdout.includes(`node ${declared.node}`), true, 'a pass must be for the declared toolchain');
-  } else {
-    assert.equal(wrong.status, 1);
-    assert.match(wrong.stderr, /toolchain mismatch/);
-  }
+  // The negative case must not depend on a second Node installation existing, or
+  // on any host path: a fixture supplies a declaration the running runtime cannot
+  // match, so the check has to refuse it on any platform.
+  const fixture = makeToolchainFixture({ node: '0.0.0-not-this-runtime', pnpm: declared.pnpm });
+  const wrong = runToolchainCheck({ script: path.join(fixture, 'scripts/ci/require-toolchain.mjs'), env: process.env });
+  assert.equal(wrong.error, undefined, `the check could not run: ${wrong.error?.message}`);
+  assert.equal(wrong.status, 1, `expected refusal, got stdout=${wrong.stdout} stderr=${wrong.stderr}`);
+  assert.match(wrong.stderr, /toolchain mismatch/);
+  // The refusal names the field that actually disagreed, and does not invent a
+  // second one from the field that was deliberately left matching.
+  assert.match(wrong.stderr, /node \d+\.\d+\.\d+ \(required 0\.0\.0-not-this-runtime\)/);
+  assert.doesNotMatch(wrong.stderr, /pnpm .* \(required /);
 });
+
+test('the toolchain check refuses a mismatched pnpm independently of the runtime', () => {
+  // The pnpm pin is the one nothing else enforces: `engines.pnpm` is advisory and
+  // pnpm does not read `packageManager` from `.npmrc`. So it is proved on its own,
+  // with the runtime held at the value the running Node satisfies.
+  const declared = readFixtureJson(REPO_ROOT, 'toolchain.json');
+  const fixture = makeToolchainFixture({ node: declared.node, pnpm: '0.0.0-not-this-pnpm' });
+  const wrong = runToolchainCheck({ script: path.join(fixture, 'scripts/ci/require-toolchain.mjs'), env: process.env });
+  assert.equal(wrong.error, undefined, `the check could not run: ${wrong.error?.message}`);
+  assert.equal(wrong.status, 1, `expected refusal, got stdout=${wrong.stdout} stderr=${wrong.stderr}`);
+  assert.match(wrong.stderr, /toolchain mismatch: pnpm \S+ \(required 0\.0\.0-not-this-pnpm\)/);
+  assert.doesNotMatch(wrong.stderr, /node .* \(required /);
+});
+
+test('the toolchain check refuses a mismatch when no pnpm is available at all', () => {
+  // An absent pnpm is a mismatch, not a pass and not a crash: the check must not
+  // read the failure of its own probe as "nothing disagreed". PATH is pointed at a
+  // disposable empty directory so nothing ambient can satisfy the probe.
+  const declared = readFixtureJson(REPO_ROOT, 'toolchain.json');
+  const emptyBin = path.join(makeTempRoot('tidas-spec-empty-bin-'), 'bin');
+  mkdirSync(emptyBin, { recursive: true });
+  const fixture = makeToolchainFixture({ node: declared.node, pnpm: declared.pnpm });
+  const unavailable = runToolchainCheck({
+    script: path.join(fixture, 'scripts/ci/require-toolchain.mjs'),
+    env: { ...process.env, PATH: emptyBin },
+  });
+  assert.equal(unavailable.error, undefined, `the check could not run: ${unavailable.error?.message}`);
+  assert.equal(unavailable.status, 1, `expected refusal, got stdout=${unavailable.stdout} stderr=${unavailable.stderr}`);
+  assert.match(unavailable.stderr, /toolchain mismatch/);
+  assert.match(unavailable.stderr, /pnpm <unavailable: /, 'an absent pnpm must be named as unavailable');
+  // The runtime was held matching, so the only reported problem is pnpm.
+  assert.doesNotMatch(unavailable.stderr, /node .* \(required /);
+});
+
+test('the toolchain check accepts a declaration that matches the running toolchain in a fixture', () => {
+  // The positive case against a fixture declaration, which proves the fixture
+  // mechanism itself is sound: a pass there is a pass for the declared toolchain
+  // and not an artifact of the copied check failing to find its declaration.
+  const declared = readFixtureJson(REPO_ROOT, 'toolchain.json');
+  const pnpm = execFileSync('pnpm', ['--version'], { encoding: 'utf8' }).trim();
+  const fixture = makeToolchainFixture({ node: declared.node, pnpm });
+  const ok = runToolchainCheck({ script: path.join(fixture, 'scripts/ci/require-toolchain.mjs'), env: process.env });
+  assert.equal(ok.error, undefined, `the check could not run: ${ok.error?.message}`);
+  assert.equal(ok.status, 0, ok.stderr);
+  assert.match(ok.stdout, /^toolchain ok: /);
+});
+
+/** Run the toolchain check with an explicit script path and environment. */
+function runToolchainCheck({ script, env }) {
+  return spawnSync(process.execPath, [script], { encoding: 'utf8', env });
+}
 
 function require_package_content() {
   return packageContent;

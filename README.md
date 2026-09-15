@@ -27,8 +27,8 @@ checkPaths:
   - .github/workflows/**
   - docs/qualification.md
 lastReviewedAt: 2026-09-16
-lastReviewedCommit: 3dfd3d1a85c6d08b57934a5194c20593cb67d455
-lastReviewedNote: "Supervisor reviewed W1 candidate 3dfd3d1 against implementation, package contents, contributor commands and qualification/provenance documents. Independent verification passed 272 tests plus final-archive verification and 54 integration tests. Source and candidate identities remain distinct; formal publication remains blocked on unresolved per-artifact licensing. Review does not claim merged delivery or consumer adoption."
+lastReviewedCommit: 41e078b63336a31cd8c4bcab748afeb09c19c1e7
+lastReviewedNote: "Supervisor reviewed contributor commands and artifact boundaries for the correction to 41e078b. Independent isolated tests passed 275 cases and matching Linux test bytes passed four toolchain cases. This metadata update requires manifest/archive regeneration and final package checks. Formal publication remains blocked on unresolved per-artifact licensing; hosted CI, merge and adoption are not claimed."
 related:
   - AGENTS.md
   - .docpact/config.yaml

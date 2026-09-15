@@ -23,8 +23,8 @@ checkPaths:
   - .gitignore
   - .docpact/config.yaml
 lastReviewedAt: 2026-09-16
-lastReviewedCommit: 3dfd3d1a85c6d08b57934a5194c20593cb67d455
-lastReviewedNote: "Supervisor reviewed W1 candidate 3dfd3d1: source-byte fidelity, symmetric language handling, offline closure and source findings, exact package parity, immutable qualification, and publication restrictions match the implementation. Independent full gate passed 272 tests; final documentation-dependent archive verification and 54 integration tests also passed. This is candidate review evidence, not release licensing clearance or merged delivery."
+lastReviewedCommit: 41e078b63336a31cd8c4bcab748afeb09c19c1e7
+lastReviewedNote: "Supervisor reviewed the CI portability correction against 41e078b: isolated full suite passed 275 tests and matching Linux test bytes passed four toolchain cases. Unknown siblings remain separately unclassified; this prose correction changes no source semantics. Ownership, immutable qualification and publication restrictions remain. Hosted CI and final delivery are still pending; this is not licensing clearance."
 related:
   - README.md
   - .docpact/config.yaml
@@ -116,7 +116,7 @@ When ending a work session, report the phase, the owning repository, the exact c
 - Reference closure follows reachability, not keyword classification: a location is a schema position because a reference reached it. This keeps the source's own `$defs` definitions — a keyword its declared dialect does not define — inside the closure while leaving unreferenced extension data and later-draft keywords outside it.
 - Fragments are URI-decoded exactly once and then follow RFC 6901. An invalid escape or a double-encoded fragment is an error, never a lookup that happens to succeed.
 - A source constraint that contradicts the declared dialect, such as a `$ref` object carrying assertion-bearing siblings, is reported as a finding with its count, keyword histogram, and every affected location, and is recorded in the manifest. It is neither silently accepted nor silently fatal, and it is never resolved by rewriting the source.
-- Sibling keywords are classified by whether they *assert*, which is a different question from whether their value may be traversed as schema. `const` and `enum` are both. An unrecognised keyword counts as an assertion. Reporting a `const` sibling as mere annotation, and losing the finding, is a defect this repository has already had once.
+- Sibling keywords are classified into three disjoint groups: known assertions, known non-assertions, and siblings the declared dialect does not define, which are unclassified. Assertion-bearing siblings and unclassified siblings are each surfaced separately, with their own count, keyword histogram, and locations; an unclassified sibling is never reported as a known assertion, and its report claims neither that it restricts the instance nor that any evaluator disagrees about it. Classification is by whether a keyword *asserts*, which is a different question from whether its value may be traversed as schema: `const` and `enum` are instance data, never descended into, and are assertions at the same time because they restrict the instance.
 - Draft 7 resource scope is implemented, not refused: document roots and nested non-fragment `$id`s are indexed, and a reference resolves against the base in effect at its own location. A base the package does not contain, or one established twice, is reported rather than guessed at, and nothing is ever fetched.
 
 **Determinism and identity**
