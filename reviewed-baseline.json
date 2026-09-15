@@ -1,0 +1,16 @@
+{
+  "reviewedBaselineVersion": 1,
+  "specVersion": "0.1.0",
+  "note": "Independent review anchor for the imported specification assets. The import manifest and this file must agree; changing either is a separate reviewed change, so a fabricated source identity or a dirty-tree import cannot be made to pass by editing one file.",
+  "source": {
+    "repository": "https://github.com/tiangong-lca/tidas-toolkit",
+    "repositoryId": "tidas-toolkit",
+    "commit": "9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5",
+    "commitRef": "main",
+    "licensePath": "LICENSE",
+    "licenseSha256": "557e792f4b9868b7f25f60fca4e47e8857bbf2b88d0c8f733c2ce3fd0cbcc484"
+  },
+  "fileCount": 39,
+  "sourceFilesSha256": "c562cce28ebe46e843fd6ea6b4d3f550663e4c6ce6616d09f1e0e62b87a641f4",
+  "packageFilesSha256": "c562cce28ebe46e843fd6ea6b4d3f550663e4c6ce6616d09f1e0e62b87a641f4"
+}

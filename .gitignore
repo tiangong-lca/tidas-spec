@@ -12,8 +12,12 @@ tmp/
 # Do not ignore .docpact/ itself: config.yaml is governed.
 .docpact/runs/
 
-# Dependencies, if a package build is added with the asset build
+# Dependencies for the development toolchain. The published package has no
+# runtime dependency and never carries this directory.
 node_modules/
 
-# Build output, archive staging, and published-archive patterns are decided
-# together with the real asset build, so they are intentionally not guessed here.
+# Disposable build output: archive staging, the candidate archive binding
+# record, and any scratch a build or a pack run produces. The reviewed release
+# artifact under release/ is NOT ignored; it is committed so the exact bytes a
+# downstream step consumes are reviewable in the repository.
+build/

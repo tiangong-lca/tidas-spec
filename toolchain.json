@@ -1,0 +1,5 @@
+{
+  "note": "The exact toolchain the specification candidate is built and verified with. Not published: it is excluded by the package.json `files` whitelist, so pinning versions here cannot affect either publication channel's bytes. `scripts/ci/require-toolchain.mjs` enforces it, and CI reads it to provision pnpm.",
+  "node": "24.19.0",
+  "pnpm": "11.24.0"
+}
