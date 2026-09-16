@@ -1,8 +1,8 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-09-16"
-lastReviewedCommit: "41e078b63336a31cd8c4bcab748afeb09c19c1e7"
-lastReviewedNote: "Supervisor reviewed the correction to 41e078b: existing ownership, coverage and four rule contracts cover the portable test fixtures and documentation/artifact follow-through. No rule, scope, baseline or waiver is changed. The three routed documents were reviewed against actual code and independent test evidence; candidate review does not assert hosted CI, licensing clearance or merged delivery."
+lastReviewedCommit: "3e8dfade8ed1c81857d9452aba4dfbdba5280115"
+lastReviewedNote: "W5 adds the reviewed publication workflow, release identity helper, and integration coverage for exact tidas_spec_released notifications. Existing ownership and build/release rule coverage remain sufficient; formal publication and downstream adoption are not claimed."
 
 catalog:
   repos:

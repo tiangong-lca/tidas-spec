@@ -27,8 +27,8 @@ checkPaths:
   - .github/workflows/**
   - docs/qualification.md
 lastReviewedAt: 2026-09-16
-lastReviewedCommit: 41e078b63336a31cd8c4bcab748afeb09c19c1e7
-lastReviewedNote: "Supervisor reviewed contributor commands and artifact boundaries for the correction to 41e078b. Independent isolated tests passed 275 cases and matching Linux test bytes passed four toolchain cases. This metadata update requires manifest/archive regeneration and final package checks. Formal publication remains blocked on unresolved per-artifact licensing; hosted CI, merge and adoption are not claimed."
+lastReviewedCommit: 3e8dfade8ed1c81857d9452aba4dfbdba5280115
+lastReviewedNote: "W5 adds the fail-closed manual publication workflow and exact tidas_spec_released notification contract. Formal publication remains blocked on unresolved per-artifact licensing; hosted release and downstream adoption are not claimed."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -66,6 +66,12 @@ The root workspace registers this repository in `.gitmodules`, `.workspace-deliv
 ### Formal publication is currently blocked
 
 The tools `LICENSE` notice (MIT, TianGong LCA) is verified and reproduced, but it is the source repository's own notice. The imported schemas embed large classification vocabularies whose individual origins and rights status are **not** established, and this repository holds no attribution or license record for them. Until a per-artifact determination exists, the candidate cannot be published as a formal release and nothing here describes the whole package as MIT-licensed. The full record is in [`docs/provenance.md`](docs/provenance.md).
+
+### Reviewed publication workflow
+
+Formal publication is deliberately separate from ordinary `main` verification. The manually invoked `.github/workflows/publish-spec-release.yml` workflow defaults to `blocked` and stops unless a reviewer supplies the explicit `publish` approval after provenance and licensing review. It checks out the exact qualified source commit, verifies the committed candidate archive and manifest against the supplied SHA256 values, and creates the immutable `v<version>` release. Re-running the same identity verifies the existing assets and proceeds; a different source commit or digest for an existing version fails closed.
+
+Only after the release identity is present does the workflow dispatch `tidas_spec_released` to `tidas-sdks`. The payload carries the package, version, source commit, archive URL and filename, archive SHA256, manifest SHA256, selected package families, reviewed version bumps, and an `event_key` derived from the five release identity fields. Consumers must reject stale or conflicting events rather than rewriting a published version.
 
 ## Source baseline
 
@@ -193,7 +199,7 @@ Governed diff lint needs one explicit diff source:
 | `node scripts/spec/verify.mjs --stage package` | The package declares the reviewed name and version, no dependency of any kind, no install or publish hook, a `files` whitelist that publishes every approved asset and nothing else, and `package.json` in the canonical serialization both channels ship. |
 | `node scripts/spec/verify.mjs --stage archive` | The archive is safe to read, carries exactly the declared file set with no undeclared extra, contains a manifest byte-identical to the candidate's that also describes the archive's own contents, verifies as a package after unpacking with no sibling checkout, and is bound to the manifest and its source revision by an external record. Applies where the archive is present; an unpacked copy is checked with `--stage identity --stage manifest --stage package`, because an archive does not contain itself. |
 | `node --test 'test/conformance/**/*.test.mjs'` | The verifier rejects each specific defect — extra or missing file, mutated bytes, stale or widened lock, malformed JSON/YAML, duplicate keys, invalid Draft 7 constraints, malformed pointer escapes, double-decoded fragments, escaping/network/broken references, unreachable versus reachable definitions, differing language constraints, an incomplete or corrupt manifest, an archive whose internal manifest was replaced with outer digests recomputed, and conflicting identity — and does not treat example data as schema. |
-| `node --test 'test/integration/**/*.test.mjs'` | The packed npm package and the release archive carry identical content, the packed tarball installs into a fresh consumer with no runtime dependency and verifies in place, a Python reader with Node removed from `PATH` re-derives the declared set and every digest, the drift check fails on stale committed output, and the qualification mechanism behaves on isolated local Git repositories. |
+| `node --test 'test/integration/**/*.test.mjs'` | The packed npm package and the release archive carry identical content, the packed tarball installs into a fresh consumer with no runtime dependency and verifies in place, a Python reader with Node removed from `PATH` re-derives the declared set and every digest, the drift check fails on stale committed output, the qualification mechanism behaves on isolated local Git repositories, and the release notification identity is deterministic and conflict-safe. |
 
 ### Git inspection and diff
 
