@@ -1,0 +1,145 @@
+name: Publish specification release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Exact semantic version to publish (for example 0.1.0).
+        required: true
+        type: string
+      source_commit:
+        description: Exact qualified tidas-spec commit containing the candidate.
+        required: true
+        type: string
+      archive_sha256:
+        description: Expected SHA-256 of the release archive.
+        required: true
+        type: string
+      manifest_sha256:
+        description: Expected SHA-256 of spec-manifest.json.
+        required: true
+        type: string
+      packages:
+        description: SDK package families to include in the candidate request.
+        required: true
+        default: both
+        type: choice
+        options:
+          - both
+          - typescript
+          - python
+      typescript_bump:
+        description: Reviewed TypeScript release bump.
+        required: true
+        default: patch
+        type: choice
+        options: [patch, minor, major]
+      python_bump:
+        description: Reviewed Python release bump.
+        required: true
+        default: patch
+        type: choice
+        options: [patch, minor, major]
+      publish_approval:
+        description: Explicit approval after provenance and licensing review.
+        required: true
+        default: blocked
+        type: choice
+        options: [blocked, publish]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    if: github.repository == 'tiangong-lca/tidas-spec'
+    runs-on: ubuntu-24.04
+    env:
+      VERSION: ${{ inputs.version }}
+      SOURCE_COMMIT: ${{ inputs.source_commit }}
+      ARCHIVE_SHA256: ${{ inputs.archive_sha256 }}
+      MANIFEST_SHA256: ${{ inputs.manifest_sha256 }}
+      PUBLISH_APPROVAL: ${{ inputs.publish_approval }}
+      GH_TOKEN: ${{ secrets.TIDAS_SDK_AUTOMATION_TOKEN }}
+    steps:
+      - name: Refuse publication without explicit approval
+        run: test "$PUBLISH_APPROVAL" = publish
+
+      - name: Check out the qualified candidate
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_commit }}
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+
+      - name: Enable Corepack and install tooling
+        run: |
+          corepack enable
+          corepack prepare "pnpm@$(node -p "require('./toolchain.json').pnpm")" --activate
+          corepack pnpm install --frozen-lockfile
+
+      - name: Verify the candidate before any release write
+        env:
+          ARCHIVE_FILE: tiangong-lca-tidas-spec-${{ inputs.version }}.tgz
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_COMMIT"
+          node scripts/spec/build.mjs --check
+          node scripts/spec/verify.mjs --stage identity --stage manifest --stage package --stage archive --archive "release/$ARCHIVE_FILE" --quiet
+          test "$(shasum -a 256 "release/$ARCHIVE_FILE" | awk '{print $1}')" = "$ARCHIVE_SHA256"
+          test "$(shasum -a 256 spec-manifest.json | awk '{print $1}')" = "$MANIFEST_SHA256"
+
+      - name: Validate notification payload
+        id: payload
+        env:
+          PACKAGES: ${{ inputs.packages }}
+          TYPESCRIPT_BUMP: ${{ inputs.typescript_bump }}
+          PYTHON_BUMP: ${{ inputs.python_bump }}
+        run: |
+          set -euo pipefail
+          archive_file="tiangong-lca-tidas-spec-${VERSION}.tgz"
+          archive_url="https://github.com/tiangong-lca/tidas-spec/releases/download/v${VERSION}/${archive_file}"
+          packages='["typescript","python"]'
+          [ "$PACKAGES" = typescript ] && packages='["typescript"]'
+          [ "$PACKAGES" = python ] && packages='["python"]'
+          node scripts/ci/release-contract.mjs "$(jq -n \
+            --arg version "$VERSION" --arg sourceCommit "$SOURCE_COMMIT" \
+            --arg archiveFile "$archive_file" --arg archiveSha256 "$ARCHIVE_SHA256" \
+            --arg manifestSha256 "$MANIFEST_SHA256" --arg archiveUrl "$archive_url" \
+            --argjson packages "$packages" --arg typescriptBump "$TYPESCRIPT_BUMP" \
+            --arg pythonBump "$PYTHON_BUMP" \
+            '{version:$version,sourceCommit:$sourceCommit,archiveFile:$archiveFile,archiveSha256:$archiveSha256,manifestSha256:$manifestSha256,archiveUrl:$archiveUrl,packages:$packages,typescriptBump:$typescriptBump,pythonBump:$pythonBump}')" > dispatch.json
+
+      - name: Create or verify immutable GitHub release
+        id: release
+        env:
+          ARCHIVE_FILE: tiangong-lca-tidas-spec-${{ inputs.version }}.tgz
+        run: |
+          set -euo pipefail
+          tag="v${VERSION}"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            target_commit="$(gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json targetCommitish --jq .targetCommitish)"
+            test "$target_commit" = "$SOURCE_COMMIT" || {
+              echo "error: release $tag points to $target_commit, expected $SOURCE_COMMIT" >&2
+              exit 1
+            }
+            download_dir="$(mktemp -d)"
+            gh release download "$tag" --repo "$GITHUB_REPOSITORY" \
+              --pattern "$ARCHIVE_FILE" --pattern spec-manifest.json --dir "$download_dir"
+            test "$(shasum -a 256 "$download_dir/$ARCHIVE_FILE" | awk '{print $1}')" = "$ARCHIVE_SHA256"
+            test "$(shasum -a 256 "$download_dir/spec-manifest.json" | awk '{print $1}')" = "$MANIFEST_SHA256"
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          gh release create "$tag" "release/${ARCHIVE_FILE}" spec-manifest.json \
+            --repo "$GITHUB_REPOSITORY" --target "$SOURCE_COMMIT" \
+            --title "TIDAS specification ${VERSION}" \
+            --notes "Immutable @tiangong-lca/tidas-spec ${VERSION}; archive and manifest digests were verified before publication."
+          echo "exists=false" >> "$GITHUB_OUTPUT"
+
+      - name: Dispatch exact SDK candidate request
+        run: gh api "repos/tiangong-lca/tidas-sdks/dispatches" --method POST --input dispatch.json

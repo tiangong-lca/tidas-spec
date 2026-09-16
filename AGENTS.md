@@ -23,8 +23,8 @@ checkPaths:
   - .gitignore
   - .docpact/config.yaml
 lastReviewedAt: 2026-09-16
-lastReviewedCommit: 41e078b63336a31cd8c4bcab748afeb09c19c1e7
-lastReviewedNote: "Supervisor reviewed the CI portability correction against 41e078b: isolated full suite passed 275 tests and matching Linux test bytes passed four toolchain cases. Unknown siblings remain separately unclassified; this prose correction changes no source semantics. Ownership, immutable qualification and publication restrictions remain. Hosted CI and final delivery are still pending; this is not licensing clearance."
+lastReviewedCommit: 3e8dfade8ed1c81857d9452aba4dfbdba5280115
+lastReviewedNote: "W5 adds a manually approved, fail-closed publication workflow and an exact tidas_spec_released notification contract. Candidate publication remains blocked by unresolved per-artifact licensing; hosted release and downstream adoption are not claimed."
 related:
   - README.md
   - .docpact/config.yaml
@@ -138,6 +138,8 @@ When ending a work session, report the phase, the owning repository, the exact c
 **Publication**
 
 - Publication is a distinct, reviewed version-preparation step. An ordinary `main` commit never publishes automatically; CI verifies the candidate and never publishes.
+- The only publication automation is the manually invoked `.github/workflows/publish-spec-release.yml` workflow. It defaults to `blocked`, requires an explicit `publish` approval, verifies the qualified source commit plus archive and manifest digests, and treats an existing version as immutable: an exact replay is allowed, while any identity conflict fails closed.
+- After an immutable release is present, the workflow emits one `tidas_spec_released` repository-dispatch event. Its `event_key` is derived from package, version, archive digest, and manifest digest; consumers must treat that key and the exact source/archive/manifest fields as the release identity and reject stale or conflicting replays.
 - This repository holds no runtime dependency and no install script. Adding one requires an explicit reviewed contract change, not an implementation convenience.
 - A candidate may be built and verified while per-artifact licensing is unresolved, and it may be used for continued validation. It may not be published as a formal release, and no artifact may be described as fully licensed, until the provenance record resolves each imported artifact's rights.
 

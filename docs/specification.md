@@ -385,6 +385,23 @@ publication metadata, then installs the tarball into a fresh consumer directory
 with `npm install --ignore-scripts` and verifies it in place. There is no
 normalization allowance and no semantic-only exemption.
 
+## Reviewed release notification
+
+Publication is an explicit human-approved step, not a side effect of merging
+`main`. The `publish-spec-release.yml` workflow first verifies the exact
+qualified source commit, committed archive, and committed manifest against the
+reviewed SHA256 values. It creates `v<version>` only when that identity is not
+already present; an exact replay verifies the existing release assets and a
+different source or digest fails closed.
+
+Once the immutable release exists, the workflow sends a
+`tidas_spec_released` repository-dispatch event to the SDK repository. The
+payload includes `package`, `version`, `source_commit`, `archive_file`,
+`archive_url`, `archive_sha256`, and `manifest_sha256`, plus selected package
+families and reviewed version bumps. `event_key` is the stable
+`package@version:archive_sha256:manifest_sha256` replay key. A consumer must
+accept an exact replay, but reject a stale version or a conflicting identity.
+
 ## Test isolation
 
 The integration suite never builds, packs, or installs in the reviewed checkout.
