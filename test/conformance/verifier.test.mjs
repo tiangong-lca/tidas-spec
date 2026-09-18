@@ -663,6 +663,17 @@ test('rejects an import manifest that lists a shipped file as excluded', async (
   expectFailure(result.diagnostics, 'IMPORT_MANIFEST_SHAPE', assert);
 });
 
+test('rejects silently reclassifying an imported asset as repository-authored', async () => {
+  const root = await mutatedFixture((target) => {
+    mutateFixtureText(target, IMPORT_MANIFEST, (text) => text.replace(
+      '  - sourcePath: assets/tidas/schemas/tidas_contacts.json\n    packagePath: assets/tidas/schemas/tidas_contacts.json\n    sha256: f16868bcdb99b4785b03a9b36dfe103d8f3ec61a463be9274d22884e6b7d8bda\n',
+      '',
+    ));
+  });
+  const result = await verifyInProcess(root, ['identity']);
+  expectFailure(result.diagnostics, 'SOURCE_BYTES', assert);
+});
+
 // ---------------------------------------------------------------------------
 // manifest
 // ---------------------------------------------------------------------------
@@ -1216,7 +1227,7 @@ test('rejects an archive whose published metadata was modified', async () => {
   const root = makeFixtureRoot();
   const { buildCandidate } = await import('../../scripts/spec/lib/build.mjs');
   const built = buildCandidate(root);
-  mutateFixtureText(root, 'reviewed-baseline.json', (text) => text.replace('"fileCount": 39', '"fileCount": 38'));
+  mutateFixtureText(root, 'reviewed-baseline.json', (text) => text.replace('"fileCount": 34', '"fileCount": 33'));
   const result = await verifyInProcess(root, ['identity', 'manifest', 'package', 'archive']);
   assert.equal(result.diagnostics.ok, false);
   assertAnyCode(result.diagnostics, ['SOURCE_IDENTITY', 'MANIFEST_STALE', 'ARCHIVE_MANIFEST_MISMATCH', 'ARCHIVE_SELF_VERIFY'], 'expected the modified review anchor to be rejected');
@@ -1254,8 +1265,8 @@ test('the manifest distinguishes imported assets from package metadata', async (
   const manifest = readFixtureJson(root, MANIFEST_PATH);
   const imported = manifest.files.filter((file) => file.origin === 'tidas-toolkit');
   const owned = manifest.files.filter((file) => file.origin === 'tidas-spec');
-  assert.equal(imported.length, 39);
-  assert.equal(owned.length, manifest.files.length - 39);
+  assert.equal(imported.length, 34);
+  assert.equal(owned.length, manifest.files.length - 34);
   for (const file of imported) {
     assert.ok(file.source !== null, `${file.path}: an imported asset must record its source path and digest`);
     assert.equal(file.source.sha256, file.sha256);

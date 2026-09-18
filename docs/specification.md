@@ -6,7 +6,7 @@ reference are in [`../README.md`](../README.md).
 
 ## Version
 
-Candidate `0.1.0` of `@tiangong-lca/tidas-spec`. It is not formally published
+Candidate `0.2.0` of `@tiangong-lca/tidas-spec`. It is not formally published
 or accepted. A workspace consumer may pin this exact candidate for migration
 qualification without claiming that a public release exists.
 
@@ -25,10 +25,11 @@ qualification without claiming that a public release exists.
 | `reviewed-baseline.json` | Independent review anchor: the digests of the reviewed source inventory and of the reviewed shipped bytes. |
 | `package.json` | Publication metadata, stored in the canonical form both channels ship; see [Package.json identity](#packagejson-identity). |
 | `spec-manifest.json` | Generated release manifest binding the version to every shipped file except itself. A pure function of the shipped content; it carries no source-revision claim. |
-| `release/tiangong-lca-tidas-spec-0.1.0.tgz` | Generated canonical candidate archive. Committed: it is the reviewed release artifact, and it is what a downstream step consumes. |
+| `release/tiangong-lca-tidas-spec-0.2.0.tgz` | Generated canonical candidate archive. Committed: it is the reviewed release artifact, and it is what a downstream step consumes. |
 | `build/candidate-archive-binding.json` | Generated **candidate receipt**: the reviewed source revision and the artifact digests, outside every artifact it describes. Disposable; not committed, and not required to verify an archive's content. |
 | `scripts/spec/**` | Build and verification implementation. |
 | `scripts/import-tidas-spec-source.mjs` | The only script that reads a source checkout, and only at import time. |
+| `scripts/spec/update-schema-lock.mjs` | Regenerates the derived lock after a reviewed schema constraint change; verification never regenerates it implicitly. |
 | `test/**` | Unit, conformance, and integration tests. |
 | `docs/qualification.md` | The draft/qualified boundary and how a source revision is bound. |
 
@@ -37,9 +38,11 @@ qualification without claiming that a public release exists.
 A single version bump touches four different things, and conflating any two of
 them is how a release ends up claiming something untrue.
 
-1. **Source identity** — where the bytes came from: `tidas-toolkit` at
+1. **Source identity** — where imported bytes came from: `tidas-toolkit` at
    `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5`, recorded in `source-import.yaml`
-   together with the SHA256 of each imported file and of the tools `LICENSE`.
+   together with the SHA256 of each remaining byte-identical imported file and
+   of the tools `LICENSE`. Superseded paths are named separately and their
+   current package bytes are attributed to `tidas-spec`, never to that commit.
 2. **Package source revision** — the commit of *this* repository the candidate
    was built from. It is a different repository and a different commit from (1),
    and it is recorded in the candidate receipt rather than in the manifest. A
@@ -144,8 +147,10 @@ the older record in place and still pass.
 - **Parsing.** Every JSON file is parsed with a duplicate-key scan (a duplicate
   key is silent data loss under `JSON.parse`); every YAML file must parse as
   exactly one document, with duplicate keys and malformed syntax as errors.
-- **Source bytes.** Every shipped file's SHA256 must equal the digest recorded
-  in `source-import.yaml`.
+- **Source bytes.** Every remaining imported file's SHA256 must equal the digest
+  recorded in `source-import.yaml`. Every other shipped asset must appear in the
+  explicit repository-authored allowlist; removing an import entry cannot
+  silently reclassify an arbitrary file as owned.
 - **Schema dialect and meta-validation.** Every schema must declare the reviewed
   Draft 7 meta-schema, and must actually be a valid Draft 7 schema: each document
   is validated against the meta-schema offline, matching what the pinned source

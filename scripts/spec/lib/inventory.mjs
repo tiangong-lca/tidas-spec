@@ -36,6 +36,23 @@ export function approvedAssetPaths() {
 
 const PUBLIC_RULE_FILE_NAMES = ['public-rules.v1.json', 'public-rules.v1.schema.json'];
 
+// Assets deliberately maintained by tidas-spec rather than attributed byte for
+// byte to the W1 toolkit import. Keeping this list explicit prevents removing a
+// source-import entry from silently reclassifying an arbitrary asset as owned.
+const REPOSITORY_AUTHORED_ASSET_PATHS = [
+  `${ASSET_ROOT}/rules/public-rules.v1.json`,
+  `${ASSET_ROOT}/rules/public-rules.v1.schema.json`,
+  `${ASSET_ROOT}/schema.lock.json`,
+  `${ASSET_ROOT}/schemas/tidas_lciamethods.json`,
+  `${ASSET_ROOT}/schemas/tidas_processes.json`,
+  `${ASSET_ROOT}/schemas_zh/tidas_lciamethods.json`,
+  `${ASSET_ROOT}/schemas_zh/tidas_processes.json`,
+].sort();
+
+export function repositoryAuthoredAssetPaths() {
+  return [...REPOSITORY_AUTHORED_ASSET_PATHS];
+}
+
 const SCHEMA_FILE_NAMES = [
   'tidas_contacts.json',
   'tidas_contacts_category.json',
@@ -165,6 +182,15 @@ export function loadAssetSet(repoRoot) {
 export function verifyAssetBytesMatchImportManifest(assetSet, importManifest) {
   const mismatches = [];
   const declared = new Map(importManifest.files.map((file) => [file.packagePath, file]));
+  const authored = new Set(repositoryAuthoredAssetPaths());
+  for (const relative of assetSet.approved) {
+    if (!declared.has(relative) && !authored.has(relative)) {
+      mismatches.push({ path: relative, reason: 'neither declared as an imported file nor approved as a repository-authored asset' });
+    }
+    if (declared.has(relative) && authored.has(relative)) {
+      mismatches.push({ path: relative, reason: 'declared as both imported and repository-authored' });
+    }
+  }
   for (const relative of declared.keys()) {
     const entry = declared.get(relative);
     if (entry === undefined) {
