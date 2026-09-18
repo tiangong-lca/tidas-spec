@@ -22,9 +22,9 @@ checkPaths:
   - LICENSE
   - .gitignore
   - .docpact/config.yaml
-lastReviewedAt: 2026-09-16
-lastReviewedCommit: 3e8dfade8ed1c81857d9452aba4dfbdba5280115
-lastReviewedNote: "W5 adds a manually approved, fail-closed publication workflow and an exact tidas_spec_released notification contract. Candidate publication remains blocked by unresolved per-artifact licensing; hosted release and downstream adoption are not claimed."
+lastReviewedAt: 2026-09-18
+lastReviewedCommit: 6fb497bad562125ccc0c00a803351207b9ed438f
+lastReviewedNote: "W8 separates reviewed public rule definitions from product execution policy. Nine definitions enter the F3 public index; five mixed-catalog rules and the unqualified taxonomy extension remain explicitly product-local. Formal publication remains blocked by unresolved per-artifact licensing."
 related:
   - README.md
   - .docpact/config.yaml
@@ -32,6 +32,7 @@ related:
   - docs/specification.md
   - docs/qualification.md
   - docs/provenance.md
+  - docs/public-rule-adjudication.md
 ---
 
 # tidas-spec Repository Contract
@@ -50,6 +51,7 @@ Stable responsibility:
 - independent language variants of those assets, kept equivalent in constraint meaning;
 - shared methodology content for the public entities the specification covers;
 - controlled public vocabularies and taxonomies, once a reviewed disposition moves them here;
+- versioned public rule definitions, source bindings, applicability, normative level, and conformance cases after reviewed adjudication;
 - examples, conformance material, and specification documentation that ship with the assets;
 - the deterministic asset build: file-set, lock, manifest, and archive integrity verification;
 - the versioned publication artifacts and their publication record.
@@ -61,6 +63,7 @@ The specification package has no runtime dependency, no install script, and no e
 The following are outside this repository. Route them to their owner instead of adding an approximation here:
 
 - **Product profiles and gate behavior.** Whether a rule blocks, warns, or is informational; task-level applicability; and product-specific required-field or UI behavior belong to the consuming product repository. Only the public definition belongs here.
+- **Rule execution policy.** Phase membership, severity, blocker defaults, waivers, profile composition, and operation authorization never enter the public rule index.
 - **SDK runtime and generated surfaces.** Generated types, validators, factories, error codes, contract APIs, and packaged runtime assets belong to `tidas-sdks`.
 - **Tooling and conversion behavior.** Validation, conversion, import, export, reporting, and the tool-side runtime ruleset belong to `tidas-toolkit`.
 - **Database and service schemas.** Database structures, migrations, RPC and RLS definitions, Worker request schemas, Edge request schemas, and Foundry task schemas are owned by their own repositories.
@@ -68,6 +71,8 @@ The following are outside this repository. Route them to their owner instead of 
 - **Workspace integration.** Submodule pointers, cross-repository coordination, integration branches, and the workspace delivery lifecycle belong to `lca-workspace`.
 
 A rules- or schema-shaped file in another repository is a candidate for an ownership analysis, not proof of duplication. Public definitions move into `tidas-spec` only through an explicit, reviewed disposition that names the owner, the semantic decision, and the positive and negative cases. Until that disposition exists, the current owner keeps the definition.
+
+The W8 dispositions are recorded in [`docs/public-rule-adjudication.md`](docs/public-rule-adjudication.md). The corresponding F3 contract is `assets/tidas/rules/public-rules.v1.json`; it must remain free of product execution policy.
 
 `tidas` continues to own its site and presentation surface. Ownership of public specification content transfers only through a reviewed disposition with a named owner, the semantic decision, and supporting positive and negative cases. Specification-asset ownership in this repository is established for the M1 asset set by the tracked W1 disposition; it is not extended to any definition that disposition does not name.
 

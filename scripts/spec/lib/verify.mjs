@@ -17,6 +17,7 @@ import { mkdirSync, readFileSync, readdirSync, mkdtempSync, rmSync, writeFileSyn
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { gunzipSync } from 'node:zlib';
+import Ajv from 'ajv';
 import {
   ARCHIVE_BINDING_PATH,
   ASSET_ROOT,
@@ -120,6 +121,33 @@ function verifyIdentity(repoRoot, diagnostics, state) {
   run(diagnostics, 'identity/reference-closure', () => verifyReferenceClosure(assetSet, diagnostics));
 
   run(diagnostics, 'identity/methodology', () => checkMethodology(assetSet));
+
+  run(diagnostics, 'identity/public-rules', () => checkPublicRules(assetSet));
+}
+
+function checkPublicRules(assetSet) {
+  const schema = assetSet.json.get(`${ASSET_ROOT}/rules/public-rules.v1.schema.json`);
+  const index = assetSet.json.get(`${ASSET_ROOT}/rules/public-rules.v1.json`);
+  const validate = new Ajv({ strict: true, allErrors: true }).compile(schema);
+  if (!validate(index)) fail('PUBLIC_RULE_SCHEMA', `public rule index is invalid: ${JSON.stringify(validate.errors, null, 2)}`, { errors: validate.errors });
+  const ids = index.rules.map((rule) => rule.id);
+  const duplicates = ids.filter((id, offset) => ids.indexOf(id) !== offset);
+  if (duplicates.length > 0) fail('PUBLIC_RULE_DUPLICATE', `public rule ids are not unique: ${[...new Set(duplicates)].join(', ')}`);
+  if (ids.join('\n') !== [...ids].sort().join('\n')) fail('PUBLIC_RULE_ORDER', 'public rules must be sorted by stable id');
+  const forbidden = ['severity', 'phase', 'phases', 'default_blocker', 'ruleset', 'rulesets', 'profile', 'profiles'];
+  const leaked = index.rules.flatMap((rule) => forbidden.filter((field) => field in rule).map((field) => `${rule.id}.${field}`));
+  if (leaked.length > 0) fail('PUBLIC_RULE_POLICY_LEAK', `product execution policy leaked into the public index: ${leaked.join(', ')}`);
+  for (const rule of index.rules) {
+    if (!rule.id.startsWith(`tidas.${rule.dataset_type}.`)) fail('PUBLIC_RULE_DATASET', `${rule.id} does not match dataset_type ${rule.dataset_type}`);
+    for (const source of rule.source_refs) {
+      const methodology = assetSet.yaml.get(`${ASSET_ROOT}/methodologies/${source.asset}`);
+      const resolved = source.path.split('.').reduce((node, segment) => node?.[segment], methodology);
+      if (!Array.isArray(resolved) || resolved.length === 0) {
+        fail('PUBLIC_RULE_SOURCE', `${rule.id} source does not resolve to a non-empty methodology rule array: ${source.asset}#${source.path}`);
+      }
+    }
+  }
+  return { version: index.rules_version, rules: ids.length };
 }
 
 function checkSchemaDeclarations(assetSet) {
@@ -647,7 +675,8 @@ export function buildManifest({ packageRoot, assetSet, importManifest, version =
       schemasPerLanguage: assetSet.schemaSets.en.fileNames.length,
       languages: Object.keys(assetSet.schemaSets).sort(),
       methodologies: files.filter((file) => file.path.startsWith(`${assetSet.assetRoot}/methodologies/`)).length,
-      importedAssets: files.filter((file) => assetPaths.has(file.path)).length,
+      importedAssets: files.filter((file) => declaredAssets.has(file.path)).length,
+      authoredAssets: files.filter((file) => assetPaths.has(file.path) && !declaredAssets.has(file.path)).length,
       packageMetadata: files.filter((file) => !assetPaths.has(file.path)).length,
       // `files.length` excludes the manifest itself; the package ships one more
       // file than this list contains.
@@ -794,8 +823,8 @@ function checkReviewedBaseline(repoRoot, importManifest, assetSet) {
   if (baseline.specVersion !== SPEC_VERSION) {
     fail('SOURCE_IDENTITY', `${REVIEWED_BASELINE_PATH}: specVersion ${JSON.stringify(baseline.specVersion)} != ${SPEC_VERSION}`);
   }
-  if (baseline.fileCount !== importManifest.files.length || baseline.fileCount !== assetSet.approved.length) {
-    fail('SOURCE_IDENTITY', `${REVIEWED_BASELINE_PATH}: fileCount ${baseline.fileCount} != import manifest ${importManifest.files.length} / shipped ${assetSet.approved.length}`);
+  if (baseline.fileCount !== importManifest.files.length) {
+    fail('SOURCE_IDENTITY', `${REVIEWED_BASELINE_PATH}: fileCount ${baseline.fileCount} != import manifest ${importManifest.files.length}`);
   }
 
   const sourceHashes = Object.fromEntries(importManifest.files.map((file) => [file.sourcePath, file.sha256]));
@@ -803,7 +832,7 @@ function checkReviewedBaseline(repoRoot, importManifest, assetSet) {
   if (sourceDigest !== baseline.sourceFilesSha256) {
     fail('SOURCE_IDENTITY', `${REVIEWED_BASELINE_PATH}: the source file digests it reviewed (${baseline.sourceFilesSha256}) do not match the import manifest's (${sourceDigest}); a fabricated or drifted source inventory cannot pass`);
   }
-  const packageHashes = Object.fromEntries(assetSet.approved.map((relative) => [relative, assetSet.sha256.get(relative)]));
+  const packageHashes = Object.fromEntries(importManifest.files.map((file) => file.packagePath).sort().map((relative) => [relative, assetSet.sha256.get(relative)]));
   const packageDigest = hashCanonicalJson(packageHashes);
   if (packageDigest !== baseline.packageFilesSha256) {
     fail('SOURCE_IDENTITY', `${REVIEWED_BASELINE_PATH}: the shipped bytes (${packageDigest}) are not the bytes it reviewed (${baseline.packageFilesSha256})`);
@@ -1289,9 +1318,9 @@ function verifyArchive(repoRoot, diagnostics, state, { archivePath, tempParent, 
       if (binding.assetFileCount !== declaredCount) {
         fail('ARCHIVE_BINDING_DIGEST', `${ARCHIVE_BINDING_PATH}: asset file count ${binding.assetFileCount} does not match the manifest's ${declaredCount}`);
       }
-      const shippedCount = archiveAssetSet.approved.length;
-      if (binding.importedAssetFileCount !== shippedCount) {
-        fail('ARCHIVE_BINDING_DIGEST', `${ARCHIVE_BINDING_PATH}: imported asset count ${binding.importedAssetFileCount} does not match the archive's ${shippedCount}`);
+      const importedCount = declared.counts.importedAssets;
+      if (binding.importedAssetFileCount !== importedCount) {
+        fail('ARCHIVE_BINDING_DIGEST', `${ARCHIVE_BINDING_PATH}: imported asset count ${binding.importedAssetFileCount} does not match the manifest's ${importedCount}`);
       }
       if (binding.packagedFileCount !== binding.assetFileCount + 1) {
         fail(

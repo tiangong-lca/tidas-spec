@@ -183,7 +183,7 @@ test('qualification refuses content that differs from the commit', async () => {
     revision.commit,
     genuine.approved.map((relative) => ({ path: relative, sha256: genuine.sha256.get(relative) })),
   );
-  assert.equal(summary.verified, 39);
+  assert.equal(summary.verified, 41);
 });
 
 test('the recorded revision is the repository HEAD, not a caller-supplied value', () => {

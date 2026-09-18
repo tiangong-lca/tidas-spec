@@ -1,10 +1,9 @@
 // Exact specification file set and per-file identity.
 //
-// The approved set is not "whatever happens to be in assets/". It is the set of
-// files the import manifest names, checked against the counts the W1 baseline
-// approved. An extra file in the tree, a missing file, or an unexpected schema
-// directory is a failure — otherwise "the specs are unchanged" would depend on
-// nobody ever dropping a file into the directory.
+// The approved set is not "whatever happens to be in assets/". It is the fixed
+// imported W1 baseline plus the explicitly reviewed, repository-authored public
+// rule assets. An extra file in the tree, a missing file, or an unexpected
+// directory is a failure.
 
 import path from 'node:path';
 import {
@@ -31,8 +30,11 @@ export function approvedAssetPaths() {
     for (const name of schemaFileNames()) paths.push(`${ASSET_ROOT}/${dir}/${name}`);
   }
   for (const name of methodologyFileNames()) paths.push(`${ASSET_ROOT}/${METHODOLOGY_DIR}/${name}`);
+  for (const name of publicRuleFileNames()) paths.push(`${ASSET_ROOT}/rules/${name}`);
   return paths.sort();
 }
+
+const PUBLIC_RULE_FILE_NAMES = ['public-rules.v1.json', 'public-rules.v1.schema.json'];
 
 const SCHEMA_FILE_NAMES = [
   'tidas_contacts.json',
@@ -69,6 +71,10 @@ export function methodologyFileNames() {
     fail('INVENTORY_INTERNAL', `methodology name list has ${METHODOLOGY_FILE_NAMES.length} entries but the approved baseline is ${EXPECTED_METHODOLOGY_COUNT}`);
   }
   return [...METHODOLOGY_FILE_NAMES];
+}
+
+export function publicRuleFileNames() {
+  return [...PUBLIC_RULE_FILE_NAMES];
 }
 
 /**
@@ -159,7 +165,7 @@ export function loadAssetSet(repoRoot) {
 export function verifyAssetBytesMatchImportManifest(assetSet, importManifest) {
   const mismatches = [];
   const declared = new Map(importManifest.files.map((file) => [file.packagePath, file]));
-  for (const relative of assetSet.approved) {
+  for (const relative of declared.keys()) {
     const entry = declared.get(relative);
     if (entry === undefined) {
       mismatches.push({ path: relative, reason: 'not declared in source-import.yaml' });

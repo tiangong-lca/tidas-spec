@@ -30,9 +30,10 @@
     ],
     "methodologies": 2,
     "importedAssets": 39,
+    "authoredAssets": 2,
     "packageMetadata": 5,
-    "files": 44,
-    "packagedFiles": 45
+    "files": 46,
+    "packagedFiles": 47
   },
   "assetRoot": "assets/tidas",
   "lock": "assets/tidas/schema.lock.json",
@@ -667,8 +668,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "e521773b1d632b3a7f188c1e1de21dd48ff5837459a0f756cba290209abb5161",
-      "contentSha256": "e521773b1d632b3a7f188c1e1de21dd48ff5837459a0f756cba290209abb5161",
+      "sha256": "af9472530cb0d30732f77fc3f5e40ca793d5e48bcc76667d48859381a7bdde41",
+      "contentSha256": "af9472530cb0d30732f77fc3f5e40ca793d5e48bcc76667d48859381a7bdde41",
       "origin": "tidas-spec",
       "source": null
     },
@@ -691,6 +692,20 @@
         "path": "assets/tidas/methodologies/tidas_processes.yaml",
         "sha256": "3f67155faf703dd85729cf359315250a2a92562398cc41bcccaa46078b1fe79e"
       }
+    },
+    {
+      "path": "assets/tidas/rules/public-rules.v1.json",
+      "sha256": "a2b94cc563358f5e561afd376540aff652f78e949bb18a27c2704ef226268ec7",
+      "contentSha256": "a2b94cc563358f5e561afd376540aff652f78e949bb18a27c2704ef226268ec7",
+      "origin": "tidas-spec",
+      "source": null
+    },
+    {
+      "path": "assets/tidas/rules/public-rules.v1.schema.json",
+      "sha256": "552a8c5fb87300dbe4ff5021d3d09a2b2d369999e887c223bc5c9738a99549f5",
+      "contentSha256": "552a8c5fb87300dbe4ff5021d3d09a2b2d369999e887c223bc5c9738a99549f5",
+      "origin": "tidas-spec",
+      "source": null
     },
     {
       "path": "assets/tidas/schema.lock.json",
@@ -1064,8 +1079,8 @@
     },
     {
       "path": "package.json",
-      "sha256": "dc488786de761fc6588cff360f6a30aab59677f7f564d726aab713c4480c8303",
-      "contentSha256": "dc488786de761fc6588cff360f6a30aab59677f7f564d726aab713c4480c8303",
+      "sha256": "3f1502b93070e109e23edbaefac05e0110339570f00842122a6a6e51e7706a6a",
+      "contentSha256": "3f1502b93070e109e23edbaefac05e0110339570f00842122a6a6e51e7706a6a",
       "origin": "tidas-spec",
       "source": null
     },
@@ -1078,15 +1093,15 @@
     },
     {
       "path": "source-import.yaml",
-      "sha256": "2ba2e3fd7e95c56eda6930b5c725726968f9f90f846aca9dfb0dae19c4805e02",
-      "contentSha256": "2ba2e3fd7e95c56eda6930b5c725726968f9f90f846aca9dfb0dae19c4805e02",
+      "sha256": "2f85355c29a1d9e3e622475fa7f2384c5f79aaf1e1d8bf58fe83b0da4d8f701c",
+      "contentSha256": "2f85355c29a1d9e3e622475fa7f2384c5f79aaf1e1d8bf58fe83b0da4d8f701c",
       "origin": "tidas-spec",
       "source": null
     }
   ],
   "aggregates": {
-    "filesSha256": "1dfc2c2d96c1d680e47c5d80692b5d2f8e49635d721ab0f951eb794a46485260",
-    "filesContentSha256": "1dfc2c2d96c1d680e47c5d80692b5d2f8e49635d721ab0f951eb794a46485260"
+    "filesSha256": "bd0c4a945d5d70dc03ba7ce684f691360796e4efbb20450746d4a016704f2639",
+    "filesContentSha256": "bd0c4a945d5d70dc03ba7ce684f691360796e4efbb20450746d4a016704f2639"
   },
   "selfHash": {
     "note": "The manifest cannot contain its own digest. Its identity is the `files`/`aggregates` block above, bound externally by the archive digest record produced alongside the candidate archive; see docs/specification.md."

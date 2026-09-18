@@ -26,15 +26,16 @@ checkPaths:
   - scripts/**
   - .github/workflows/**
   - docs/qualification.md
-lastReviewedAt: 2026-09-16
-lastReviewedCommit: 3e8dfade8ed1c81857d9452aba4dfbdba5280115
-lastReviewedNote: "W5 adds the fail-closed manual publication workflow and exact tidas_spec_released notification contract. Formal publication remains blocked on unresolved per-artifact licensing; hosted release and downstream adoption are not claimed."
+lastReviewedAt: 2026-09-18
+lastReviewedCommit: 6fb497bad562125ccc0c00a803351207b9ed438f
+lastReviewedNote: "W8 adds the reviewed public-rule schema/index and the 14-rule ownership disposition while preserving product-local gate policy and the existing publication block."
 related:
   - AGENTS.md
   - .docpact/config.yaml
   - docs/specification.md
   - docs/qualification.md
   - docs/provenance.md
+  - docs/public-rule-adjudication.md
 ---
 
 # TIDAS Specification Repository
@@ -45,12 +46,13 @@ The stable repository responsibility, non-goals, and invariants are in [`AGENTS.
 
 ## Current state
 
-The repository holds a **candidate** specification, version `0.1.0`. It is not published, not accepted, and not adopted by any consumer.
+The repository holds a **candidate** specification, version `0.1.0`. It is not formally published or accepted. Workspace consumers may pin and qualify this exact candidate for migration testing; that does not turn it into a public release.
 
 | Path | Content |
 | --- | --- |
 | `assets/tidas/schemas/`, `assets/tidas/schemas_zh/` | 18 reviewed JSON Schemas (Draft 7) in each language. |
 | `assets/tidas/methodologies/` | `tidas_flows.yaml` and `tidas_processes.yaml`. |
+| `assets/tidas/rules/` | Versioned public rule schema and index: nine reviewed definitions with source bindings, applicability, normative level, and positive/negative cases. |
 | `assets/tidas/schema.lock.json` | The pinned source schema lock, imported byte-for-byte. |
 | `source-import.yaml` | Reviewed import record: source repository, commit, per-file SHA256, exclusions. |
 | `reviewed-baseline.json` | Independent review anchor for the source inventory and the shipped bytes. |
@@ -75,9 +77,11 @@ Only after the release identity is present does the workflow dispatch `tidas_spe
 
 ## Source baseline
 
-All 39 shipped files were extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). The extraction reads blobs by commit, never a working tree, so an uncommitted local edit cannot enter the import. `source-import.yaml` and `reviewed-baseline.json` record the identity; verification fails if they disagree or if the shipped bytes do not match.
+The 39 imported files were extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). The two public-rule assets are authored and reviewed in this repository and are identified separately in the manifest. The extraction reads blobs by commit, never a working tree, so an uncommitted local edit cannot enter the import. `source-import.yaml` and `reviewed-baseline.json` record the imported identity; verification fails if they disagree or if the imported bytes do not match.
 
 Three files present at that commit are deliberately **not** imported: `runtime_rulesets.json`, `runtime_rulesets.schema.json`, and `elementary_flow_taxonomy_extension.v1.json`. They remain owned by `tidas-toolkit` and their exclusion is recorded and enforced.
+
+W8 adjudicates the 14 rules in the excluded mixed runtime catalog without importing it wholesale. Nine source-supported definitions are represented in `assets/tidas/rules/public-rules.v1.json`; five rules over product workflow entities or insufficient source bindings remain explicitly product-local. Phase, severity, blocker defaults, profiles, and operation authorization remain outside this repository. See [`docs/public-rule-adjudication.md`](docs/public-rule-adjudication.md).
 
 `tidas-sdks` is byte-identical on all 18 schemas. The `cli` and `tidas` repositories carry differing variants of named files. Those are file-level facts, not semantic dispositions: this repository inherits neither variant by default, and each actual semantic difference is adjudicated separately with positive and negative cases before either consumer switches.
 

@@ -36,7 +36,8 @@
     "./schema.lock.json": "./assets/tidas/schema.lock.json",
     "./assets/tidas/schemas/*": "./assets/tidas/schemas/*",
     "./assets/tidas/schemas_zh/*": "./assets/tidas/schemas_zh/*",
-    "./assets/tidas/methodologies/*": "./assets/tidas/methodologies/*"
+    "./assets/tidas/methodologies/*": "./assets/tidas/methodologies/*",
+    "./assets/tidas/rules/*": "./assets/tidas/rules/*"
   },
   "devDependencies": {
     "ajv": "8.20.0",

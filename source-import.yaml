@@ -1,8 +1,9 @@
 # W1 source import manifest (governance input, not a generated artifact).
 #
-# It names the exact Git origin of every reviewed specification asset that the
-# specification package ships, so the import is reproducible from a single
-# explicit commit instead of a mutable checkout. The build never reads this
+# It names the exact Git origin of every imported W1 specification asset. Later
+# repository-authored assets are identified separately by the package manifest,
+# so they are never falsely attributed to this source commit. The import is
+# reproducible from one explicit commit instead of a mutable checkout. The build never reads this
 # file's origin repository; only `scripts/import-tidas-spec-source.mjs
 # --source-repo <path>` does, and only when a maintainer deliberately re-imports.
 #
