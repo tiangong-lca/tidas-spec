@@ -188,7 +188,7 @@ test('the canonically built archive verifies with no sibling repository present'
 test('the archive carries the approved asset set and no excluded tools input', () => {
   const packageRoot = unpackArchive();
   const assetSet = loadAssetSet(packageRoot);
-  assert.equal(assetSet.approved.length, 39);
+  assert.equal(assetSet.approved.length, 41);
   assert.equal(assetSet.schemaSets.en.fileNames.length, 18);
   assert.equal(assetSet.schemaSets.zh.fileNames.length, 18);
   assert.equal(assetSet.approved.filter((relative) => relative.endsWith('.yaml')).length, 2);
@@ -274,7 +274,7 @@ test('the npm tarball and the canonical archive are byte-identical file for file
   for (const entry of Object.keys(release)) {
     assert.equal(npm[entry], release[entry], `${entry}: npm tarball and canonical archive differ`);
   }
-  assert.equal(Object.keys(release).length, 45);
+  assert.equal(Object.keys(release).length, 47);
   assert.equal(npm['package/package.json'], sha256Hex(readFileSync(path.join(buildWorkspace(), 'package.json'))), 'the package metadata must survive packing unchanged');
 });
 
@@ -301,7 +301,7 @@ test('the canonical tarball installs into a fresh consumer and verifies in place
   assert.equal(result.diagnostics.ok, true, `installed package failed verification: ${JSON.stringify(result.diagnostics.errors, null, 2)}`);
 
   const installedAssets = loadAssetSet(installed);
-  assert.equal(installedAssets.approved.length, 39);
+  assert.equal(installedAssets.approved.length, 41);
   const lock = JSON.parse(readFileSync(path.join(installed, 'assets/tidas/schema.lock.json'), 'utf8'));
   assert.equal(lock.translationPairs.fileCount, 18);
   // The installed metadata is the reviewed metadata, byte for byte.
@@ -501,9 +501,9 @@ print(json.dumps({'declaredFiles': len(declared), 'archiveEntries': len(names), 
   const result = spawnSync('python3', [scriptPath, archivePath()], { encoding: 'utf8', env: { ...process.env, PATH: nodeFreePath } });
   assert.equal(result.status, 0, `non-Node reader failed: ${result.stderr || result.stdout}`);
   const summary = JSON.parse(result.stdout.trim().split('\n').pop());
-  // 45 shipped files: 44 declared with byte digests, plus the manifest itself.
-  assert.equal(summary.declaredFiles, 44);
-  assert.equal(summary.archiveEntries, 45);
+  // 47 shipped files: 46 declared with byte digests, plus the manifest itself.
+  assert.equal(summary.declaredFiles, 46);
+  assert.equal(summary.archiveEntries, 47);
   assert.equal(summary.translationPairs, 18);
 
   const probe = spawnSync('node', ['--version'], { encoding: 'utf8', env: { ...process.env, PATH: nodeFreePath } });

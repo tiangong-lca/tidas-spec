@@ -80,6 +80,7 @@ docInventory:
     - docs/specification.md
     - docs/qualification.md
     - docs/provenance.md
+    - docs/public-rule-adjudication.md
 
 routing:
   intents:

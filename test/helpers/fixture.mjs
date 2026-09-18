@@ -192,9 +192,9 @@ export async function rebuildDerivedArtifacts(root) {
 
   const baselinePath = path.join(root, 'reviewed-baseline.json');
   const baseline = JSON.parse(readFileSync(baselinePath, 'utf8'));
-  baseline.fileCount = assetSet.approved.length;
+  baseline.fileCount = importManifest.files.length;
   baseline.sourceFilesSha256 = hashCanonicalJson(Object.fromEntries(importManifest.files.map((file) => [file.sourcePath, file.sha256])));
-  baseline.packageFilesSha256 = hashCanonicalJson(Object.fromEntries(assetSet.approved.map((relative) => [relative, assetSet.sha256.get(relative)])));
+  baseline.packageFilesSha256 = hashCanonicalJson(Object.fromEntries(importManifest.files.map((file) => file.packagePath).sort().map((relative) => [relative, assetSet.sha256.get(relative)])));
   writeFileSync(baselinePath, formatJson(baseline));
 
   return writeManifest(root);

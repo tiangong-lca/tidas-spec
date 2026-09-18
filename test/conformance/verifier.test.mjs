@@ -44,6 +44,7 @@ const ZH_FLOWS = 'assets/tidas/schemas_zh/tidas_flows.json';
 const EN_CONTACTS = 'assets/tidas/schemas/tidas_contacts.json';
 const ZH_CONTACTS = 'assets/tidas/schemas_zh/tidas_contacts.json';
 const EN_CATEGORY = 'assets/tidas/schemas/tidas_flows_elementary_category.json';
+const PUBLIC_RULES = 'assets/tidas/rules/public-rules.v1.json';
 
 
 
@@ -137,6 +138,36 @@ test('rejects a missing methodology file', async () => {
   });
   const result = await verifyInProcess(root, IDENTITY);
   expectFailure(result.diagnostics, 'ASSET_MISSING', assert);
+});
+
+test('rejects a public rule without a negative case', async () => {
+  const root = await mutatedFixture((target) => {
+    const index = readFixtureJson(target, PUBLIC_RULES);
+    index.rules[0].cases.negative = [];
+    writeFixtureJson(target, PUBLIC_RULES, index);
+  });
+  const result = await verifyInProcess(root, IDENTITY);
+  expectFailure(result.diagnostics, 'PUBLIC_RULE_SCHEMA', assert);
+});
+
+test('rejects product execution policy in the public rule index', async () => {
+  const root = await mutatedFixture((target) => {
+    const index = readFixtureJson(target, PUBLIC_RULES);
+    index.rules[0].severity = 'blocker';
+    writeFixtureJson(target, PUBLIC_RULES, index);
+  });
+  const result = await verifyInProcess(root, IDENTITY);
+  expectFailure(result.diagnostics, 'PUBLIC_RULE_SCHEMA', assert);
+});
+
+test('rejects a public rule whose methodology source does not resolve', async () => {
+  const root = await mutatedFixture((target) => {
+    const index = readFixtureJson(target, PUBLIC_RULES);
+    index.rules[0].source_refs[0].path = 'flowDataSet.missing.<rules>';
+    writeFixtureJson(target, PUBLIC_RULES, index);
+  });
+  const result = await verifyInProcess(root, IDENTITY);
+  expectFailure(result.diagnostics, 'PUBLIC_RULE_SOURCE', assert);
 });
 
 test('rejects a schema file smuggled in through a symlink', async () => {

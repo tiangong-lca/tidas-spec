@@ -6,8 +6,9 @@ reference are in [`../README.md`](../README.md).
 
 ## Version
 
-Candidate `0.1.0` of `@tiangong-lca/tidas-spec`. It is a candidate: it is not
-published, not accepted, and no downstream consumer has adopted it.
+Candidate `0.1.0` of `@tiangong-lca/tidas-spec`. It is not formally published
+or accepted. A workspace consumer may pin this exact candidate for migration
+qualification without claiming that a public release exists.
 
 ## Files
 
@@ -17,6 +18,8 @@ published, not accepted, and no downstream consumer has adopted it.
 | `assets/tidas/schemas_zh/*.json` | The same 18 schemas in Chinese. Neither set is treated as authoritative over the other; see [Language sets](#language-sets). |
 | `assets/tidas/methodologies/tidas_flows.yaml` | Flow methodology rules and guidelines. |
 | `assets/tidas/methodologies/tidas_processes.yaml` | Process methodology rules and guidelines. |
+| `assets/tidas/rules/public-rules.v1.schema.json` | F3 contract for accepted public rule definitions. |
+| `assets/tidas/rules/public-rules.v1.json` | Nine reviewed public definitions with stable ID, applicability, normative level, source references, and positive/negative cases. Product gate policy is excluded. |
 | `assets/tidas/schema.lock.json` | The pinned source schema lock, imported byte-for-byte. |
 | `source-import.yaml` | Reviewed import record: source repository, commit, and the SHA256 of every imported file. |
 | `reviewed-baseline.json` | Independent review anchor: the digests of the reviewed source inventory and of the reviewed shipped bytes. |
@@ -54,8 +57,8 @@ must equal the digest of the bytes actually shipped.
 
 ## What the manifest binds
 
-The manifest binds every file the package ships with an **exact byte digest** — 44
-of the 45 files, in `files`, plus the two aggregate digests over that list. The
+The manifest binds every file the package ships with an **exact byte digest** — 46
+of the 47 files, in `files`, plus the two aggregate digests over that list. The
 one exception is the manifest itself, which cannot contain its own digest and is
 bound from outside by the candidate receipt.
 
@@ -197,6 +200,9 @@ the older record in place and still pass.
 - **Methodology.** Both YAML files must parse to a mapping that still carries
   rule material. The verifier reports the status each rule states in the file; it
   does not promote the methodology into a new universal blocking policy.
+- **Public rules.** The versioned index must satisfy its JSON Schema, use unique
+  sorted IDs, carry positive and negative cases, and contain no product execution
+  policy fields such as severity, phase, blocker defaults, rulesets, or profiles.
 
 ### `manifest`
 
