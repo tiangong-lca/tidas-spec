@@ -27,7 +27,7 @@ import { verifyCandidate } from '../../scripts/spec/lib/verify.mjs';
 import * as packageContent from '../../scripts/spec/lib/package-content.mjs';
 import { REPO_ROOT, cleanupTempRoots, makeBuildableFixture, makeTempRoot, makeToolchainFixture, readFixtureJson, snapshotTree } from '../helpers/fixture.mjs';
 
-const ARCHIVE_FILE = 'tiangong-lca-tidas-spec-0.1.0.tgz';
+const ARCHIVE_FILE = 'tiangong-lca-tidas-spec-0.2.0.tgz';
 const PACKAGED_ENTRIES = ['package.json', 'LICENSE', 'README.md', 'source-import.yaml', 'reviewed-baseline.json', 'spec-manifest.json', '.gitignore', 'assets'];
 
 test.after(cleanupTempRoots);

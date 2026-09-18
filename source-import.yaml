@@ -24,10 +24,15 @@ excludedSourcePaths:
   - assets/tidas/methodologies/runtime_rulesets.json
   - assets/tidas/methodologies/runtime_rulesets.schema.json
   - assets/tidas/methodologies/elementary_flow_taxonomy_extension.v1.json
+  # These W1 source files were superseded by the reviewed tidas-spec#7
+  # optional-review-report decision. Their current package paths are authored
+  # by tidas-spec and must not be attributed byte-for-byte to the toolkit commit.
+  - assets/tidas/schema.lock.json
+  - assets/tidas/schemas/tidas_lciamethods.json
+  - assets/tidas/schemas/tidas_processes.json
+  - assets/tidas/schemas_zh/tidas_lciamethods.json
+  - assets/tidas/schemas_zh/tidas_processes.json
 files:
-  - sourcePath: assets/tidas/schema.lock.json
-    packagePath: assets/tidas/schema.lock.json
-    sha256: 47ca2a51efb654312422d8cb6ac415cc1798bd993467b138cf8d220a0b7eb9a1
   - sourcePath: assets/tidas/schemas/tidas_contacts.json
     packagePath: assets/tidas/schemas/tidas_contacts.json
     sha256: f16868bcdb99b4785b03a9b36dfe103d8f3ec61a463be9274d22884e6b7d8bda
@@ -52,9 +57,6 @@ files:
   - sourcePath: assets/tidas/schemas/tidas_flows_product_category.json
     packagePath: assets/tidas/schemas/tidas_flows_product_category.json
     sha256: e62e1f676dedaeb6028b05f0c1cc84f53c1c47058ae6e17897f77b2cb17b7cb2
-  - sourcePath: assets/tidas/schemas/tidas_lciamethods.json
-    packagePath: assets/tidas/schemas/tidas_lciamethods.json
-    sha256: 6a96fa34bda4d848eeaa1edb124a544f4511c824436514e62b58626919e57836
   - sourcePath: assets/tidas/schemas/tidas_lciamethods_category.json
     packagePath: assets/tidas/schemas/tidas_lciamethods_category.json
     sha256: 83b4bbfb53a2ad1cb1f9c97c261cc867ea6f509020a8ea9041ffba08601eaac9
@@ -64,9 +66,6 @@ files:
   - sourcePath: assets/tidas/schemas/tidas_locations_category.json
     packagePath: assets/tidas/schemas/tidas_locations_category.json
     sha256: 415fe8c7ba4991a88bc66d9cd55541ee27b74f731541c64a9bc354679d109a71
-  - sourcePath: assets/tidas/schemas/tidas_processes.json
-    packagePath: assets/tidas/schemas/tidas_processes.json
-    sha256: 8476530740d2af11fe3c607afbeab68a318c6b08d7558417ebcad8ac33f0efdd
   - sourcePath: assets/tidas/schemas/tidas_processes_category.json
     packagePath: assets/tidas/schemas/tidas_processes_category.json
     sha256: cea1b97b46fd9faa2f7f4d7b911ff19f24a1655ff98b488ebaf5cc9ee6fdec64
@@ -106,9 +105,6 @@ files:
   - sourcePath: assets/tidas/schemas_zh/tidas_flows_product_category.json
     packagePath: assets/tidas/schemas_zh/tidas_flows_product_category.json
     sha256: 49e6444a61f833ccf97aeb5863f520971a6c7c3c0ed005a57142f040cfae2223
-  - sourcePath: assets/tidas/schemas_zh/tidas_lciamethods.json
-    packagePath: assets/tidas/schemas_zh/tidas_lciamethods.json
-    sha256: 5cb03a77267346d9655b8d3803f4f839f04caf080d866764c73bd4eaed6388dd
   - sourcePath: assets/tidas/schemas_zh/tidas_lciamethods_category.json
     packagePath: assets/tidas/schemas_zh/tidas_lciamethods_category.json
     sha256: b11483c16aa5f0d47251b56598109085785168ef88facd28d770df6bb37ebe4c
@@ -118,9 +114,6 @@ files:
   - sourcePath: assets/tidas/schemas_zh/tidas_locations_category.json
     packagePath: assets/tidas/schemas_zh/tidas_locations_category.json
     sha256: e20c3f168481bca8197b58a97a3bd4e12aa8a3f66553ff54f7dea7a40b044141
-  - sourcePath: assets/tidas/schemas_zh/tidas_processes.json
-    packagePath: assets/tidas/schemas_zh/tidas_processes.json
-    sha256: db81ac7dfca82a0a05982a8add4ba91ebe274dfc929c52c538f6f5fddd081b03
   - sourcePath: assets/tidas/schemas_zh/tidas_processes_category.json
     packagePath: assets/tidas/schemas_zh/tidas_processes_category.json
     sha256: 05107a1aab2869a38ffafc05461778a272117a6a1f2805b3c37a9354e7158bdd

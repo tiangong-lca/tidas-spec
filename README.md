@@ -46,7 +46,7 @@ The stable repository responsibility, non-goals, and invariants are in [`AGENTS.
 
 ## Current state
 
-The repository holds a **candidate** specification, version `0.1.0`. It is not formally published or accepted. Workspace consumers may pin and qualify this exact candidate for migration testing; that does not turn it into a public release.
+The repository holds a **candidate** specification, version `0.2.0`. It is not formally published or accepted. Workspace consumers may pin and qualify this exact candidate for migration testing; that does not turn it into a public release.
 
 | Path | Content |
 | --- | --- |
@@ -77,7 +77,7 @@ Only after the release identity is present does the workflow dispatch `tidas_spe
 
 ## Source baseline
 
-The 39 imported files were extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). The two public-rule assets are authored and reviewed in this repository and are identified separately in the manifest. The extraction reads blobs by commit, never a working tree, so an uncommitted local edit cannot enter the import. `source-import.yaml` and `reviewed-baseline.json` record the imported identity; verification fails if they disagree or if the imported bytes do not match.
+The original 39-file import was extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). Candidate 0.2.0 retains 34 of those files byte-for-byte. The Process and LCIA Method schemas in both languages, together with their derived schema lock, supersede the imported copies after the reviewed optional-review-report decision in tidas-spec #7; they are now identified as repository-authored assets rather than falsely attributed to the toolkit commit. The two public-rule assets are also authored and reviewed here. `source-import.yaml` records both the remaining import and superseded source paths, while `reviewed-baseline.json` anchors the remaining imported bytes.
 
 Three files present at that commit are deliberately **not** imported: `runtime_rulesets.json`, `runtime_rulesets.schema.json`, and `elementary_flow_taxonomy_extension.v1.json`. They remain owned by `tidas-toolkit` and their exclusion is recorded and enforced.
 
@@ -98,6 +98,7 @@ pnpm run check                     # build, verify, and run every test suite
 
 ```bash
 node scripts/spec/build.mjs                        # draft candidate: manifest + archive + receipt
+node scripts/spec/update-schema-lock.mjs           # after an approved schema constraint change
 node scripts/spec/build.mjs --check                # committed output vs current content (writes nothing)
 node scripts/spec/build.mjs --qualify              # qualified candidate: validate HEAD, then build
 node scripts/spec/verify.mjs                       # all four stages
@@ -127,7 +128,7 @@ two language sets are treated, and why the manifest cannot hash itself.
 Verifying an unpacked copy — the check a consumer can reproduce — uses the three stages that apply to a package directory:
 
 ```bash
-tar -xzf release/tiangong-lca-tidas-spec-0.1.0.tgz -C /tmp/tidas-spec-check
+tar -xzf release/tiangong-lca-tidas-spec-0.2.0.tgz -C /tmp/tidas-spec-check
 node scripts/spec/verify.mjs --root /tmp/tidas-spec-check/package \
   --stage identity --stage manifest --stage package
 ```

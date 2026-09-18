@@ -1,6 +1,6 @@
 {
   "name": "@tiangong-lca/tidas-spec",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "description": "TIDAS public specification: reviewed JSON Schema assets, language variants, shared methodology, and their deterministic integrity records.",
   "keywords": [
@@ -45,6 +45,7 @@
   },
   "scripts": {
     "spec:build": "node scripts/spec/build.mjs",
+    "spec:lock": "node scripts/spec/update-schema-lock.mjs",
     "spec:verify": "node scripts/spec/verify.mjs",
     "spec:import": "node scripts/import-tidas-spec-source.mjs",
     "test": "node --test 'test/unit/**/*.test.mjs' 'test/conformance/**/*.test.mjs' 'test/integration/**/*.test.mjs'",
