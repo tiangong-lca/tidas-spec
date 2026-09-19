@@ -1,7 +1,7 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-09-18"
-lastReviewedCommit: "ea4a58984c22734f2d54cda6d45b2733d9920ac0"
+lastReviewedAt: "2026-09-19"
+lastReviewedCommit: "e7299a19840d75757368f98b7e80f468982bacde"
 lastReviewedNote: "W5 adds the reviewed publication workflow, release identity helper, and integration coverage for exact tidas_spec_released notifications. Existing ownership and build/release rule coverage remain sufficient; formal publication and downstream adoption are not claimed."
 
 catalog:
