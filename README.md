@@ -65,9 +65,11 @@ The repository holds a **candidate** specification, version `0.2.0`. It is not f
 
 The root workspace registers this repository in `.gitmodules`, `.workspace-delivery/workspace.toml`, and its Docpact catalog. Tracked delivery runs through the workspace delivery controller; work chronology, remaining scope, and acceptance state live in the tracked Issue and plan linked under [References](#references), not in this file.
 
-### Formal publication is currently blocked
+### Publication rights and compatibility caveat
 
-The tools `LICENSE` notice (MIT, TianGong LCA) is verified and reproduced. The rights owner has now declared that each of the nine embedded classification vocabulary groups is TianGong-owned and may be publicly redistributed under MIT without third-party attribution or additional terms; the per-group record is in [`docs/provenance.md`](docs/provenance.md). That declaration does not resolve the separate ILCD-derived structural-convention question for the whole package. The candidate therefore remains unpublished and `package.json` does not make a blanket MIT claim.
+The tools `LICENSE` notice (MIT, TianGong LCA) is verified and reproduced. The rights owner declared that each of the nine embedded classification vocabulary groups is TianGong-owned and may be publicly redistributed under MIT without third-party attribution or additional terms, and separately authorized public redistribution of the whole shipped package, including ILCD-derived structural conventions. The exact scope and limits of those declarations are in [`docs/provenance.md`](docs/provenance.md); they do not assert TianGong authorship of ILCD or independently prove a third-party license. `package.json` retains `SEE LICENSE IN LICENSE` rather than making a blanket MIT claim. Formal publication is still a separate guarded action, not something an ordinary `main` commit triggers.
+
+The unchanged Draft 7 schemas contain 52 `$ref` objects with assertion-bearing siblings (`const` 48, `format` 2, `type` 2). Draft 7 ignores these sibling constraints; other validators may apply them, so results can differ across validators. Existing workflows have used these schemas, and the first release deliberately preserves their bytes rather than silently changing semantics. The manifest retains the derived finding; this package does not claim that all validators agree. See [`docs/specification.md`](docs/specification.md) for the technical record.
 
 ### Reviewed publication workflow
 
