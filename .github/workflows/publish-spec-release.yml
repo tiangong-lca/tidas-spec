@@ -60,7 +60,7 @@ jobs:
       ARCHIVE_SHA256: ${{ inputs.archive_sha256 }}
       MANIFEST_SHA256: ${{ inputs.manifest_sha256 }}
       PUBLISH_APPROVAL: ${{ inputs.publish_approval }}
-      GH_TOKEN: ${{ secrets.TIDAS_SDK_AUTOMATION_TOKEN }}
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Refuse publication without explicit approval
         run: test "$PUBLISH_APPROVAL" = publish
@@ -75,6 +75,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '24.19.0'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Enable Corepack and install tooling
         run: |
@@ -92,6 +93,31 @@ jobs:
           node scripts/spec/verify.mjs --stage identity --stage manifest --stage package --stage archive --archive "release/$ARCHIVE_FILE" --quiet
           test "$(shasum -a 256 "release/$ARCHIVE_FILE" | awk '{print $1}')" = "$ARCHIVE_SHA256"
           test "$(shasum -a 256 spec-manifest.json | awk '{print $1}')" = "$MANIFEST_SHA256"
+
+      - name: Verify publication credentials before any release write
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          SDK_TOKEN: ${{ secrets.TIDAS_SDK_AUTOMATION_TOKEN }}
+        run: |
+          test -n "$NPM_TOKEN" || { echo 'error: NPM_TOKEN is not configured' >&2; exit 1; }
+          test -n "$SDK_TOKEN" || { echo 'error: TIDAS_SDK_AUTOMATION_TOKEN is not configured' >&2; exit 1; }
+
+      - name: Publish or verify exact npm archive
+        env:
+          ARCHIVE_FILE: tiangong-lca-tidas-spec-${{ inputs.version }}.tgz
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+          set +e
+          node scripts/ci/check-npm-release.mjs "$VERSION" "$ARCHIVE_SHA256"
+          npm_state=$?
+          set -e
+          if [ "$npm_state" -eq 3 ]; then
+            npm publish "release/$ARCHIVE_FILE" --access public --ignore-scripts
+            node scripts/ci/check-npm-release.mjs "$VERSION" "$ARCHIVE_SHA256"
+          elif [ "$npm_state" -ne 0 ]; then
+            exit "$npm_state"
+          fi
 
       - name: Validate notification payload
         id: payload
@@ -141,5 +167,7 @@ jobs:
             --notes "Immutable @tiangong-lca/tidas-spec ${VERSION}; archive and manifest digests were verified before publication."
           echo "exists=false" >> "$GITHUB_OUTPUT"
 
-      - name: Dispatch exact SDK candidate request
+      - name: Dispatch exact SDK candidate request after both channels match
+        env:
+          GH_TOKEN: ${{ secrets.TIDAS_SDK_AUTOMATION_TOKEN }}
         run: gh api "repos/tiangong-lca/tidas-sdks/dispatches" --method POST --input dispatch.json
