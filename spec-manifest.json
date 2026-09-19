@@ -23,7 +23,8 @@
       "assets/tidas/schemas/tidas_lciamethods.json",
       "assets/tidas/schemas/tidas_processes.json",
       "assets/tidas/schemas_zh/tidas_lciamethods.json",
-      "assets/tidas/schemas_zh/tidas_processes.json"
+      "assets/tidas/schemas_zh/tidas_processes.json",
+      "assets/tidas/methodologies/tidas_processes.yaml"
     ],
     "ownedMetadataOrigin": "tidas-spec"
   },
@@ -34,8 +35,8 @@
       "zh"
     ],
     "methodologies": 2,
-    "importedAssets": 34,
-    "authoredAssets": 7,
+    "importedAssets": 33,
+    "authoredAssets": 8,
     "packageMetadata": 5,
     "files": 46,
     "packagedFiles": 47
@@ -673,8 +674,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "fd7421bfc1d94831f23af8262b7a419ed779abf9e50ed170292179ec11b41b1e",
-      "contentSha256": "fd7421bfc1d94831f23af8262b7a419ed779abf9e50ed170292179ec11b41b1e",
+      "sha256": "d5df569a5768e6a676bd90113fd13eba90f0e7151ed0ced993e0edd494398ae8",
+      "contentSha256": "d5df569a5768e6a676bd90113fd13eba90f0e7151ed0ced993e0edd494398ae8",
       "origin": "tidas-spec",
       "source": null
     },
@@ -690,18 +691,15 @@
     },
     {
       "path": "assets/tidas/methodologies/tidas_processes.yaml",
-      "sha256": "3f67155faf703dd85729cf359315250a2a92562398cc41bcccaa46078b1fe79e",
-      "contentSha256": "3f67155faf703dd85729cf359315250a2a92562398cc41bcccaa46078b1fe79e",
-      "origin": "tidas-toolkit",
-      "source": {
-        "path": "assets/tidas/methodologies/tidas_processes.yaml",
-        "sha256": "3f67155faf703dd85729cf359315250a2a92562398cc41bcccaa46078b1fe79e"
-      }
+      "sha256": "0ba6f4d5f69fd5d9cf6f4c30d4320bf368eb3192c00af80f7b9280896493ded4",
+      "contentSha256": "0ba6f4d5f69fd5d9cf6f4c30d4320bf368eb3192c00af80f7b9280896493ded4",
+      "origin": "tidas-spec",
+      "source": null
     },
     {
       "path": "assets/tidas/rules/public-rules.v1.json",
-      "sha256": "a2b94cc563358f5e561afd376540aff652f78e949bb18a27c2704ef226268ec7",
-      "contentSha256": "a2b94cc563358f5e561afd376540aff652f78e949bb18a27c2704ef226268ec7",
+      "sha256": "d8f1e90777fe0c675d1e24cbd7f1141ee776d3ebda9d8b24c91f714779540dec",
+      "contentSha256": "d8f1e90777fe0c675d1e24cbd7f1141ee776d3ebda9d8b24c91f714779540dec",
       "origin": "tidas-spec",
       "source": null
     },
@@ -1076,22 +1074,22 @@
     },
     {
       "path": "reviewed-baseline.json",
-      "sha256": "c37422034b3b6a2c4060485950cff62d3eaed54e87a2739cc587b1ea69636d72",
-      "contentSha256": "c37422034b3b6a2c4060485950cff62d3eaed54e87a2739cc587b1ea69636d72",
+      "sha256": "d6dec13f4ce1ab7c5cd78a8a89ec8b4b295ee43ba0c385ae67852d9ba87a54e1",
+      "contentSha256": "d6dec13f4ce1ab7c5cd78a8a89ec8b4b295ee43ba0c385ae67852d9ba87a54e1",
       "origin": "tidas-spec",
       "source": null
     },
     {
       "path": "source-import.yaml",
-      "sha256": "cfefd55656face419847d929f03cecba78bc7fd3118b47b26b614950842e1fb0",
-      "contentSha256": "cfefd55656face419847d929f03cecba78bc7fd3118b47b26b614950842e1fb0",
+      "sha256": "1140a41d63807749cec0dbcb66b608da0a2829442eeae6fffb9abfb48dd234c2",
+      "contentSha256": "1140a41d63807749cec0dbcb66b608da0a2829442eeae6fffb9abfb48dd234c2",
       "origin": "tidas-spec",
       "source": null
     }
   ],
   "aggregates": {
-    "filesSha256": "f988c4289f36ab925ada39fe7ca50c54a554aad2d258cb22f9bae4433c6ac6e4",
-    "filesContentSha256": "f988c4289f36ab925ada39fe7ca50c54a554aad2d258cb22f9bae4433c6ac6e4"
+    "filesSha256": "fe27c491cc4cbd80e9d3ea2eddc47addf0fd3b25ccff3d4945a03923e922df7a",
+    "filesContentSha256": "fe27c491cc4cbd80e9d3ea2eddc47addf0fd3b25ccff3d4945a03923e922df7a"
   },
   "selfHash": {
     "note": "The manifest cannot contain its own digest. Its identity is the `files`/`aggregates` block above, bound externally by the archive digest record produced alongside the candidate archive; see docs/specification.md."

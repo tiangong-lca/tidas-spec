@@ -51,7 +51,7 @@ The public index deliberately excludes `severity`, phase membership,
 | `tidas.process.name.base-name.align-reference-flow` | tidas-spec | public v1 | Direct public naming rule. |
 | `tidas.process.name.qualifiers.structured` | tidas-spec | public v1 recommendation | Direct placement guidance; products choose whether it warns or blocks. |
 | `tidas.process.quantitative-reference.required` | toolkit/CLI profile | product-local pending source correction | Its recorded source points to exchange flow references and does not establish the broader claimed quantitative-reference requirement. |
-| `tidas.process.version.format` | tidas-spec | public v1 | Direct version format and monotonicity rule. |
+| `tidas.process.version.format` | tidas-spec | public v1 | Direct version format and monotonicity rule. The `Version` schema permits both `NN.NN` and `NN.NN.NNN`; the initial three-tier-only example was corrected under tidas-spec #22 without changing schema bytes. |
 
 Every baseline rule therefore has exactly one disposition: 9 public and 5
 product-local. A product-local disposition is explicit ownership, not a claim
