@@ -39,16 +39,26 @@ test('metadata identity, URL, and HTTP errors never mean missing', async () => {
 });
 
 test('workflow verifies both channels before SDK notification', async () => {
-  const workflow = YAML.parse(await readFile(new URL('../../.github/workflows/publish-spec-release.yml', import.meta.url), 'utf8'));
+  const workflowSource = await readFile(new URL('../../.github/workflows/publish-spec-release.yml', import.meta.url), 'utf8');
+  const workflow = YAML.parse(workflowSource);
   const steps = workflow.jobs.publish.steps;
   const names = steps.map((step) => step.name);
-  const credentials = names.indexOf('Verify publication credentials before any release write');
+  const credentials = names.indexOf('Verify publication identity and SDK credential before any release write');
   const npm = names.indexOf('Publish or verify exact npm archive');
   const github = names.indexOf('Create or verify immutable GitHub release');
   const sdk = names.indexOf('Dispatch exact SDK candidate request after both channels match');
+  assert.equal(workflow.permissions['id-token'], 'write');
+  assert.equal(workflow.permissions.contents, 'write');
+  assert.equal(workflow.jobs.publish['runs-on'], 'ubuntu-24.04');
+  assert.doesNotMatch(workflowSource, /NPM_TOKEN|NODE_AUTH_TOKEN|secrets\.NPM_TOKEN/u);
+  assert.doesNotMatch(steps.find((step) => step.name === 'Set up Node.js').with['registry-url'] ?? '', /npmjs/u);
   assert.ok(credentials > names.indexOf('Verify the candidate before any release write'));
   assert.ok(credentials < npm && npm < github && github < sdk);
-  assert.match(steps[npm].run, /npm publish "release\/\$ARCHIVE_FILE" --access public --ignore-scripts/u);
+  assert.match(steps[credentials].run, /ACTIONS_ID_TOKEN_REQUEST_URL/u);
+  assert.match(steps[credentials].run, /ACTIONS_ID_TOKEN_REQUEST_TOKEN/u);
+  assert.match(steps[credentials].run, /TIDAS_SDK_AUTOMATION_TOKEN is not configured/u);
+  assert.match(steps.find((step) => step.name === 'Verify the candidate before any release write').run, /GITHUB_SHA.*SOURCE_COMMIT/u);
+  assert.match(steps[npm].run, /npm publish "release\/\$ARCHIVE_FILE" --access public --provenance --ignore-scripts --registry https:\/\/registry\.npmjs\.org\//u);
   assert.match(steps[npm].run, /check-npm-release\.mjs "\$VERSION" "\$ARCHIVE_SHA256"/u);
   assert.match(steps[sdk].run, /tidas-sdks\/dispatches/u);
 });
