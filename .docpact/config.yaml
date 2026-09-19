@@ -2,7 +2,7 @@ version: 1
 layout: repo
 lastReviewedAt: "2026-09-19"
 lastReviewedCommit: "e7299a19840d75757368f98b7e80f468982bacde"
-lastReviewedNote: "Issue #14 records Biao's rights-owner MIT redistribution declaration for nine embedded vocabularies while retaining the separate ILCD structural-convention publication blocker. Ownership and routing remain unchanged; no publication is claimed."
+lastReviewedNote: "Issue #16 reviews Biao's whole-package public-redistribution authorization and accepted Draft 7 caveat. Source ownership and routing remain unchanged; publication still requires exact identity and guarded channels."
 
 catalog:
   repos:

@@ -72,40 +72,42 @@ replace that source evidence.
 
 The schemas also name ILCD as a structural origin (for example "ILCD Perc",
 "ILCD GlobalReferenceTypeValues", and "per ILCD" in field descriptions), and
-their XML namespace constants point at `http://lca.jrc.it/ILCD/...`. The
-rights-owner declaration above addresses the nine embedded classification
-groups, **not** an independent license determination for ILCD-derived
-structural conventions outside those groups. That distinct attribution and
-redistribution question remains open; do not infer it is TianGong-owned or
-MIT-licensed from the tools `LICENSE` or from the declaration above.
+their XML namespace constants point at `http://lca.jrc.it/ILCD/...`. In the
+release-readiness Issue [#9](https://github.com/tiangong-lca/tidas-spec/issues/9#issuecomment-5741368283),
+Biao subsequently confirmed, as the authorized rights-holder representative,
+that public redistribution of the **whole shipped package**, including those
+ILCD-derived structural conventions, is authorized and does not require another
+rights approval. This is the owner's release-authorization disposition. It does
+not claim TianGong authorship of ILCD, or independently establish any
+third-party license or attribution terms beyond that authorization.
 
 ## How the package states this
 
 `package.json` declares `"license": "SEE LICENSE IN LICENSE"` rather than a bare
-SPDX identifier such as `MIT`. The nine-group owner declaration does not yet
-resolve the separate ILCD-derived structural-convention question for the whole
-package. `LICENSE` carries the verified tools notice; this record distinguishes
-the owner declaration from the remaining unresolved scope. The verifier fails
-the `package/license-declaration` check if the declaration is changed to a
-blanket identifier. Changing that value requires a separately reviewed whole-
-package disposition, not a packaging preference.
+SPDX identifier such as `MIT`. `LICENSE` carries the verified tools notice; the
+two owner statements above establish permission to publicly redistribute the
+shipped material without converting every content-origin fact into a TianGong
+authorship claim. The verifier fails the `package/license-declaration` check if
+the declaration is changed to a blanket identifier. Changing that value would
+require a separately reviewed whole-package licensing decision, not a packaging
+preference.
 
 ## Effect on publication
 
-- The nine classification groups now have an explicit owner MIT redistribution
-  declaration. The candidate archive is **not yet publishable** as a formal
-  release while the separate ILCD-derived structural-convention disposition
-  remains open. No manifest field claims whole-package clearance, and the
-  tools notice alone never establishes it.
-- The candidate remains usable for continued local and CI validation. It is a
-  candidate: not published, not accepted, and not adopted by any consumer.
-- Resolving the remaining scope requires an explicit source and rights
-  disposition for the ILCD-derived structural conventions, recorded on the
-  owning Issue. It is not a decision this repository can make by assumption.
-- If a determination shows that a vocabulary cannot be redistributed here, the
-  options are to keep that vocabulary owned by its current repository and
-  reference it, or to obtain explicit permission. Either way the resolve is a
-  reviewed content change, not an edit to this record.
+- The rights owner's public-redistribution decision removes the previously
+  recorded rights blocker for the current shipped package. It does not itself
+  publish or accept the candidate; npm/GitHub release identity, credentials,
+  and channel checks remain separate release gates in Issue #9.
+- The candidate remains usable for local and CI validation before publication;
+  no consumer adoption is asserted by this record.
+- The current schemas deliberately retain 52 Draft 7 `$ref` objects with
+  assertion-bearing siblings. A strict Draft 7 reader ignores those siblings,
+  while another validator may apply them, so validation results can differ.
+  The owner accepted this documented first-release compatibility caveat in
+  [Issue #9](https://github.com/tiangong-lca/tidas-spec/issues/9#issuecomment-5741368283)
+  based on established use of the unchanged schemas. The derived manifest
+  finding remains visible; no evaluator equivalence is claimed. A future
+  semantic correction needs its own reviewed source and consumer-impact work.
 
 ## Not covered by this record
 
