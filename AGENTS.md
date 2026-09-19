@@ -22,9 +22,9 @@ checkPaths:
   - LICENSE
   - .gitignore
   - .docpact/config.yaml
-lastReviewedAt: 2026-09-19
-lastReviewedCommit: f71ed3002048f0f6a858b93e6e71830ef16a7145
-lastReviewedNote: "W8 separates reviewed public rule definitions from product execution policy. Nine definitions enter the F3 public index; five mixed-catalog rules and the unqualified taxonomy extension remain explicitly product-local. Formal publication remains blocked by unresolved per-artifact licensing."
+lastReviewedAt: 2026-09-20
+lastReviewedCommit: f9be0549c197b251e65073f13ecf0b4dee0faf43
+lastReviewedNote: "Reviewed for tidas-spec #22: schema-authoritative Process version wording supersedes one imported methodology blob, preserves nine public/five product-local dispositions, and requires a newly qualified unpublished 0.2.1 candidate."
 related:
   - README.md
   - .docpact/config.yaml

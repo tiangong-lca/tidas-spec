@@ -1,8 +1,8 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-09-19"
-lastReviewedCommit: "f71ed3002048f0f6a858b93e6e71830ef16a7145"
-lastReviewedNote: "Issue #18 fixes npm tarball path resolution and adds a no-write release preflight for exact identity and credentials. Publication ownership and routing remain unchanged."
+lastReviewedAt: "2026-09-20"
+lastReviewedCommit: "f9be0549c197b251e65073f13ecf0b4dee0faf43"
+lastReviewedNote: "Reviewed for tidas-spec #22: one Process methodology source is explicitly superseded, its public version rule follows the existing Version schema, and package/provenance checks retain the same ownership and routing."
 
 catalog:
   repos:

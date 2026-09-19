@@ -26,9 +26,9 @@ checkPaths:
   - scripts/**
   - .github/workflows/**
   - docs/qualification.md
-lastReviewedAt: 2026-09-18
-lastReviewedCommit: 6fb497bad562125ccc0c00a803351207b9ed438f
-lastReviewedNote: "W8 adds the reviewed public-rule schema/index and the 14-rule ownership disposition while preserving product-local gate policy and the existing publication block."
+lastReviewedAt: 2026-09-20
+lastReviewedCommit: f9be0549c197b251e65073f13ecf0b4dee0faf43
+lastReviewedNote: "Reviewed for tidas-spec #22: the 0.2.1 candidate corrects Process version guidance to match the unchanged Version schema; 33 imported assets remain byte-identical and the changed methodology is explicitly repository-authored."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -81,7 +81,7 @@ Only after the release identity is present does the workflow dispatch `tidas_spe
 
 ## Source baseline
 
-The original 39-file import was extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). Candidate 0.2.0 retains 34 of those files byte-for-byte. The Process and LCIA Method schemas in both languages, together with their derived schema lock, supersede the imported copies after the reviewed optional-review-report decision in tidas-spec #7; they are now identified as repository-authored assets rather than falsely attributed to the toolkit commit. The two public-rule assets are also authored and reviewed here. `source-import.yaml` records both the remaining import and superseded source paths, while `reviewed-baseline.json` anchors the remaining imported bytes.
+The original 39-file import was extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). Candidate 0.2.1 retains 33 of those files byte-for-byte. The Process and LCIA Method schemas in both languages, together with their derived schema lock, supersede the imported copies after the reviewed optional-review-report decision in tidas-spec #7. The Process methodology's version wording is separately superseded by tidas-spec #22 to match the unchanged `Version` schema. These are identified as repository-authored assets rather than falsely attributed to the toolkit commit. The two public-rule assets are also authored and reviewed here. `source-import.yaml` records both the remaining import and superseded source paths, while `reviewed-baseline.json` anchors the remaining imported bytes.
 
 Three files present at that commit are deliberately **not** imported: `runtime_rulesets.json`, `runtime_rulesets.schema.json`, and `elementary_flow_taxonomy_extension.v1.json`. They remain owned by `tidas-toolkit` and their exclusion is recorded and enforced.
 

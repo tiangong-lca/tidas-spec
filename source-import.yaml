@@ -32,6 +32,10 @@ excludedSourcePaths:
   - assets/tidas/schemas/tidas_processes.json
   - assets/tidas/schemas_zh/tidas_lciamethods.json
   - assets/tidas/schemas_zh/tidas_processes.json
+  # tidas-spec#22 supersedes only the Process version-methodology wording so
+  # it agrees with the already-published Version schema; the original source
+  # blob remains pinned for provenance but is no longer claimed byte-identical.
+  - assets/tidas/methodologies/tidas_processes.yaml
 files:
   - sourcePath: assets/tidas/schemas/tidas_contacts.json
     packagePath: assets/tidas/schemas/tidas_contacts.json
@@ -132,6 +136,3 @@ files:
   - sourcePath: assets/tidas/methodologies/tidas_flows.yaml
     packagePath: assets/tidas/methodologies/tidas_flows.yaml
     sha256: 4a389d060f5c901b7c11625675948c0152df95ad33bedc87eca0f93341038d6d
-  - sourcePath: assets/tidas/methodologies/tidas_processes.yaml
-    packagePath: assets/tidas/methodologies/tidas_processes.yaml
-    sha256: 3f67155faf703dd85729cf359315250a2a92562398cc41bcccaa46078b1fe79e

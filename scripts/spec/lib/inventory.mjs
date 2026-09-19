@@ -40,6 +40,7 @@ const PUBLIC_RULE_FILE_NAMES = ['public-rules.v1.json', 'public-rules.v1.schema.
 // byte to the W1 toolkit import. Keeping this list explicit prevents removing a
 // source-import entry from silently reclassifying an arbitrary asset as owned.
 const REPOSITORY_AUTHORED_ASSET_PATHS = [
+  `${ASSET_ROOT}/methodologies/tidas_processes.yaml`,
   `${ASSET_ROOT}/rules/public-rules.v1.json`,
   `${ASSET_ROOT}/rules/public-rules.v1.schema.json`,
   `${ASSET_ROOT}/schema.lock.json`,
