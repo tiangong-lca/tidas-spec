@@ -27,6 +27,27 @@ test('release notification has a stable idempotency key and exact digests', () =
   assert.match(first.client_payload.event_key, /@0\.2\.0:638d4d72.*:fe82b774/u);
   assert.equal(first.client_payload.archive_sha256, base.archiveSha256);
   assert.equal(first.client_payload.manifest_sha256, base.manifestSha256);
+  assert.deepEqual(first.client_payload.release_options, {
+    packages: ['typescript'],
+    typescript_bump: 'minor',
+    python_bump: 'patch',
+  });
+});
+
+test('every supported release choice fits the repository dispatch property cap', () => {
+  for (const packages of [['typescript'], ['python'], ['typescript', 'python']]) {
+    for (const typescriptBump of ['patch', 'minor', 'major']) {
+      for (const pythonBump of ['patch', 'minor', 'major']) {
+        const { client_payload: payload } = dispatchPayload({ ...base, packages, typescriptBump, pythonBump });
+        assert.ok(Object.keys(payload).length <= 10);
+        assert.deepEqual(payload.release_options, {
+          packages,
+          typescript_bump: typescriptBump,
+          python_bump: pythonBump,
+        });
+      }
+    }
+  }
 });
 
 test('conflicting content is never the same release identity', () => {

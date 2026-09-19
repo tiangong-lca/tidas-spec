@@ -65,9 +65,11 @@ export function dispatchPayload(input) {
       archive_url: identity.archiveUrl,
       archive_sha256: identity.archiveSha256,
       manifest_sha256: identity.manifestSha256,
-      packages,
-      typescript_bump: typescriptBump,
-      python_bump: pythonBump,
+      release_options: {
+        packages,
+        typescript_bump: typescriptBump,
+        python_bump: pythonBump,
+      },
       reason: input.reason ?? `published ${identity.package}@${identity.version}`,
     },
   };

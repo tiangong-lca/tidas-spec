@@ -46,7 +46,7 @@ The stable repository responsibility, non-goals, and invariants are in [`AGENTS.
 
 ## Current state
 
-The repository holds a **candidate** specification, version `0.2.0`. It is not formally published or accepted. Workspace consumers may pin and qualify this exact candidate for migration testing; that does not turn it into a public release.
+Version `0.2.0` is formally published on npm and GitHub Releases. The checkout now prepares an unpublished `0.2.1` candidate for release-automation maintenance; ordinary `main` changes do not publish it. Workspace consumers must pin an exact reviewed archive rather than infer publication from the repository version.
 
 | Path | Content |
 | --- | --- |
@@ -77,7 +77,7 @@ Formal publication is deliberately separate from ordinary `main` verification. T
 
 The workflow uses npm Trusted Publishing through GitHub Actions OIDC, matching the CLI and TypeScript SDK release convention; it does not use `NPM_TOKEN`. It requires the dispatch ref's `GITHUB_SHA` to equal the qualified source commit so the npm provenance names the reviewed revision. On npm, configure the `@tiangong-lca/tidas-spec` package's Trusted Publisher for GitHub organization `tiangong-lca`, repository `tidas-spec`, workflow filename `publish-spec-release.yml`, no environment name, and direct `npm publish` permission. npm requires the package to exist before this connection can be configured, so the first package registration is a separate maintainer-controlled bootstrap; it is not performed by this workflow. The workflow still requires `TIDAS_SDK_AUTOMATION_TOKEN` with permission to dispatch events to `tiangong-lca/tidas-sdks`; the built-in GitHub Actions token writes this repository's Release. OIDC availability and the SDK credential are checked before any publication write. If a publication attempt stops after npm succeeds, rerun the same version/source/archive/manifest identity after resolving the failure; never overwrite or silently bump that version. npm registry metadata and tarball bytes are downloaded and checked against the reviewed archive SHA256 before GitHub Release or SDK dispatch.
 
-Only after the release identity is present does the workflow dispatch `tidas_spec_released` to `tidas-sdks`. The payload carries the package, version, source commit, archive URL and filename, archive SHA256, manifest SHA256, selected package families, reviewed version bumps, and an `event_key` derived from the five release identity fields. Consumers must reject stale or conflicting events rather than rewriting a published version.
+Only after the release identity is present does the workflow dispatch `tidas_spec_released` to `tidas-sdks`. The payload carries the package, version, source commit, archive URL and filename, archive SHA256, manifest SHA256, and an `event_key` derived from the release identity. Selected package families and reviewed version bumps are grouped under `release_options` so the event stays within GitHub's ten-property `client_payload` limit. Consumers must reject stale or conflicting events rather than rewriting a published version.
 
 ## Source baseline
 
@@ -132,7 +132,7 @@ two language sets are treated, and why the manifest cannot hash itself.
 Verifying an unpacked copy — the check a consumer can reproduce — uses the three stages that apply to a package directory:
 
 ```bash
-tar -xzf release/tiangong-lca-tidas-spec-0.2.0.tgz -C /tmp/tidas-spec-check
+tar -xzf release/tiangong-lca-tidas-spec-0.2.1.tgz -C /tmp/tidas-spec-check
 node scripts/spec/verify.mjs --root /tmp/tidas-spec-check/package \
   --stage identity --stage manifest --stage package
 ```

@@ -6,9 +6,9 @@ reference are in [`../README.md`](../README.md).
 
 ## Version
 
-Candidate `0.2.0` of `@tiangong-lca/tidas-spec`. It is not formally published
-or accepted. A workspace consumer may pin this exact candidate for migration
-qualification without claiming that a public release exists.
+Version `0.2.0` of `@tiangong-lca/tidas-spec` is formally published. This
+checkout prepares an unpublished `0.2.1` candidate; consumers continue to
+bind exact reviewed archives and must not infer publication from a version bump.
 
 ## Files
 
@@ -25,7 +25,7 @@ qualification without claiming that a public release exists.
 | `reviewed-baseline.json` | Independent review anchor: the digests of the reviewed source inventory and of the reviewed shipped bytes. |
 | `package.json` | Publication metadata, stored in the canonical form both channels ship; see [Package.json identity](#packagejson-identity). |
 | `spec-manifest.json` | Generated release manifest binding the version to every shipped file except itself. A pure function of the shipped content; it carries no source-revision claim. |
-| `release/tiangong-lca-tidas-spec-0.2.0.tgz` | Generated canonical candidate archive. Committed: it is the reviewed release artifact, and it is what a downstream step consumes. |
+| `release/tiangong-lca-tidas-spec-0.2.1.tgz` | Generated canonical candidate archive. Committed: it is a reviewable future release artifact, not a published replacement for 0.2.0. |
 | `build/candidate-archive-binding.json` | Generated **candidate receipt**: the reviewed source revision and the artifact digests, outside every artifact it describes. Disposable; not committed, and not required to verify an archive's content. |
 | `scripts/spec/**` | Build and verification implementation. |
 | `scripts/import-tidas-spec-source.mjs` | The only script that reads a source checkout, and only at import time. |
@@ -408,8 +408,9 @@ different source or digest fails closed.
 Once the immutable release exists, the workflow sends a
 `tidas_spec_released` repository-dispatch event to the SDK repository. The
 payload includes `package`, `version`, `source_commit`, `archive_file`,
-`archive_url`, `archive_sha256`, and `manifest_sha256`, plus selected package
-families and reviewed version bumps. `event_key` is the stable
+`archive_url`, `archive_sha256`, and `manifest_sha256`; selected package
+families and reviewed version bumps live under `release_options` so the
+`client_payload` has at most ten top-level properties. `event_key` is the stable
 `package@version:archive_sha256:manifest_sha256` replay key. A consumer must
 accept an exact replay, but reject a stale version or a conflicting identity.
 
