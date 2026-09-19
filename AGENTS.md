@@ -22,8 +22,8 @@ checkPaths:
   - LICENSE
   - .gitignore
   - .docpact/config.yaml
-lastReviewedAt: 2026-09-18
-lastReviewedCommit: ea4a58984c22734f2d54cda6d45b2733d9920ac0
+lastReviewedAt: 2026-09-19
+lastReviewedCommit: f71ed3002048f0f6a858b93e6e71830ef16a7145
 lastReviewedNote: "W8 separates reviewed public rule definitions from product execution policy. Nine definitions enter the F3 public index; five mixed-catalog rules and the unqualified taxonomy extension remain explicitly product-local. Formal publication remains blocked by unresolved per-artifact licensing."
 related:
   - README.md

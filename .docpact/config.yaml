@@ -1,7 +1,7 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-09-19"
-lastReviewedCommit: "e7299a19840d75757368f98b7e80f468982bacde"
+lastReviewedCommit: "f71ed3002048f0f6a858b93e6e71830ef16a7145"
 lastReviewedNote: "Issue #18 fixes npm tarball path resolution and adds a no-write release preflight for exact identity and credentials. Publication ownership and routing remain unchanged."
 
 catalog:

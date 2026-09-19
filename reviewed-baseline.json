@@ -1,6 +1,6 @@
 {
   "reviewedBaselineVersion": 1,
-  "specVersion": "0.2.0",
+  "specVersion": "0.2.1",
   "note": "Independent review anchor for the remaining byte-identical imported specification assets. Superseded source files are excluded in source-import.yaml and their current package paths are reviewed, repository-authored assets; changing either record is a separate reviewed change.",
   "source": {
     "repository": "https://github.com/tiangong-lca/tidas-toolkit",
