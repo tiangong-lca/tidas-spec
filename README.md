@@ -67,7 +67,7 @@ The root workspace registers this repository in `.gitmodules`, `.workspace-deliv
 
 ### Formal publication is currently blocked
 
-The tools `LICENSE` notice (MIT, TianGong LCA) is verified and reproduced, but it is the source repository's own notice. The imported schemas embed large classification vocabularies whose individual origins and rights status are **not** established, and this repository holds no attribution or license record for them. Until a per-artifact determination exists, the candidate cannot be published as a formal release and nothing here describes the whole package as MIT-licensed. The full record is in [`docs/provenance.md`](docs/provenance.md).
+The tools `LICENSE` notice (MIT, TianGong LCA) is verified and reproduced. The rights owner has now declared that each of the nine embedded classification vocabulary groups is TianGong-owned and may be publicly redistributed under MIT without third-party attribution or additional terms; the per-group record is in [`docs/provenance.md`](docs/provenance.md). That declaration does not resolve the separate ILCD-derived structural-convention question for the whole package. The candidate therefore remains unpublished and `package.json` does not make a blanket MIT claim.
 
 ### Reviewed publication workflow
 

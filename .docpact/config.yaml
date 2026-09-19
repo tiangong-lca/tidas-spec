@@ -2,7 +2,7 @@ version: 1
 layout: repo
 lastReviewedAt: "2026-09-19"
 lastReviewedCommit: "e7299a19840d75757368f98b7e80f468982bacde"
-lastReviewedNote: "Issue #12 reviews the existing release governance for npm OIDC Trusted Publishing. Publication identity, build/release ownership and routing remain unchanged; first-package bootstrap and formal publication remain pending."
+lastReviewedNote: "Issue #14 records Biao's rights-owner MIT redistribution declaration for nine embedded vocabularies while retaining the separate ILCD structural-convention publication blocker. Ownership and routing remain unchanged; no publication is claimed."
 
 catalog:
   repos:
