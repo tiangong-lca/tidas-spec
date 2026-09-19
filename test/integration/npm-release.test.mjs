@@ -58,7 +58,22 @@ test('workflow verifies both channels before SDK notification', async () => {
   assert.match(steps[credentials].run, /ACTIONS_ID_TOKEN_REQUEST_TOKEN/u);
   assert.match(steps[credentials].run, /TIDAS_SDK_AUTOMATION_TOKEN is not configured/u);
   assert.match(steps.find((step) => step.name === 'Verify the candidate before any release write').run, /GITHUB_SHA.*SOURCE_COMMIT/u);
-  assert.match(steps[npm].run, /npm publish "release\/\$ARCHIVE_FILE" --access public --provenance --ignore-scripts --registry https:\/\/registry\.npmjs\.org\//u);
+  assert.match(steps[npm].run, /npm publish "\.\/release\/\$ARCHIVE_FILE" --access public --provenance --ignore-scripts --registry https:\/\/registry\.npmjs\.org\//u);
   assert.match(steps[npm].run, /check-npm-release\.mjs "\$VERSION" "\$ARCHIVE_SHA256"/u);
   assert.match(steps[sdk].run, /tidas-sdks\/dispatches/u);
+});
+
+test('workflow preflight checks identity and credentials without release writes', async () => {
+  const workflowSource = await readFile(new URL('../../.github/workflows/publish-spec-release.yml', import.meta.url), 'utf8');
+  const workflow = YAML.parse(workflowSource);
+  const steps = workflow.jobs.publish.steps;
+  const choices = workflow.on.workflow_dispatch.inputs.publish_approval.options;
+  assert.deepEqual(choices, ['blocked', 'preflight', 'publish']);
+  assert.equal(workflow.on.workflow_dispatch.inputs.publish_approval.default, 'blocked');
+  assert.match(steps[0].run, /preflight/u);
+  const credentialIndex = steps.findIndex((step) => step.name === 'Verify publication identity and SDK credential before any release write');
+  assert.ok(credentialIndex > 0);
+  for (const step of steps.slice(credentialIndex + 1)) {
+    assert.equal(step.if, "inputs.publish_approval == 'publish'", `${step.name} must be skipped in preflight`);
+  }
 });

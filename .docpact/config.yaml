@@ -2,7 +2,7 @@ version: 1
 layout: repo
 lastReviewedAt: "2026-09-19"
 lastReviewedCommit: "e7299a19840d75757368f98b7e80f468982bacde"
-lastReviewedNote: "Issue #16 reviews Biao's whole-package public-redistribution authorization and accepted Draft 7 caveat. Source ownership and routing remain unchanged; publication still requires exact identity and guarded channels."
+lastReviewedNote: "Issue #18 fixes npm tarball path resolution and adds a no-write release preflight for exact identity and credentials. Publication ownership and routing remain unchanged."
 
 catalog:
   repos:

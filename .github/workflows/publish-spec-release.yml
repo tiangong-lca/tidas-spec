@@ -41,11 +41,11 @@ on:
         type: choice
         options: [patch, minor, major]
       publish_approval:
-        description: Explicit approval after provenance and licensing review.
+        description: No-write preflight or explicit publication approval after review.
         required: true
         default: blocked
         type: choice
-        options: [blocked, publish]
+        options: [blocked, preflight, publish]
 
 permissions:
   contents: write
@@ -63,8 +63,8 @@ jobs:
       PUBLISH_APPROVAL: ${{ inputs.publish_approval }}
       GH_TOKEN: ${{ github.token }}
     steps:
-      - name: Refuse publication without explicit approval
-        run: test "$PUBLISH_APPROVAL" = publish
+      - name: Refuse unapproved execution
+        run: test "$PUBLISH_APPROVAL" = preflight || test "$PUBLISH_APPROVAL" = publish
 
       - name: Check out the qualified candidate
         uses: actions/checkout@v4
@@ -107,6 +107,7 @@ jobs:
           test -n "$SDK_TOKEN" || { echo 'error: TIDAS_SDK_AUTOMATION_TOKEN is not configured' >&2; exit 1; }
 
       - name: Publish or verify exact npm archive
+        if: inputs.publish_approval == 'publish'
         env:
           ARCHIVE_FILE: tiangong-lca-tidas-spec-${{ inputs.version }}.tgz
         run: |
@@ -116,13 +117,14 @@ jobs:
           npm_state=$?
           set -e
           if [ "$npm_state" -eq 3 ]; then
-            npm publish "release/$ARCHIVE_FILE" --access public --provenance --ignore-scripts --registry https://registry.npmjs.org/
+            npm publish "./release/$ARCHIVE_FILE" --access public --provenance --ignore-scripts --registry https://registry.npmjs.org/
             node scripts/ci/check-npm-release.mjs "$VERSION" "$ARCHIVE_SHA256"
           elif [ "$npm_state" -ne 0 ]; then
             exit "$npm_state"
           fi
 
       - name: Validate notification payload
+        if: inputs.publish_approval == 'publish'
         id: payload
         env:
           PACKAGES: ${{ inputs.packages }}
@@ -144,6 +146,7 @@ jobs:
             '{version:$version,sourceCommit:$sourceCommit,archiveFile:$archiveFile,archiveSha256:$archiveSha256,manifestSha256:$manifestSha256,archiveUrl:$archiveUrl,packages:$packages,typescriptBump:$typescriptBump,pythonBump:$pythonBump}')" > dispatch.json
 
       - name: Create or verify immutable GitHub release
+        if: inputs.publish_approval == 'publish'
         id: release
         env:
           ARCHIVE_FILE: tiangong-lca-tidas-spec-${{ inputs.version }}.tgz
@@ -171,6 +174,7 @@ jobs:
           echo "exists=false" >> "$GITHUB_OUTPUT"
 
       - name: Dispatch exact SDK candidate request after both channels match
+        if: inputs.publish_approval == 'publish'
         env:
           GH_TOKEN: ${{ secrets.TIDAS_SDK_AUTOMATION_TOKEN }}
         run: gh api "repos/tiangong-lca/tidas-sdks/dispatches" --method POST --input dispatch.json
