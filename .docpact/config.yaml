@@ -1,8 +1,8 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-09-20"
-lastReviewedCommit: "f9be0549c197b251e65073f13ecf0b4dee0faf43"
-lastReviewedNote: "Reviewed for tidas-spec #22: one Process methodology source is explicitly superseded, its public version rule follows the existing Version schema, and package/provenance checks retain the same ownership and routing."
+lastReviewedAt: "2026-09-21"
+lastReviewedCommit: "d4cb089c753ffd20b173db2e56fb553a364f48f4"
+lastReviewedNote: "Reviewed for tidas-spec #24: the existing specification-assets ownership and routing cover the bilingual Process review-cardinality correction, its conformance proof, and the new 0.2.2 candidate artifacts; downstream runtime adoption remains separately owned."
 
 catalog:
   repos:

@@ -9,7 +9,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const PACKAGE_NAME = '@tiangong-lca/tidas-spec';
-export const SPEC_VERSION = '0.2.1';
+export const SPEC_VERSION = '0.2.2';
 export const MANIFEST_VERSION = 1;
 // Points at the license files rather than naming a single SPDX identifier: the
 // tools notice is verified, but per-artifact licensing of the embedded

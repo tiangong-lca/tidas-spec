@@ -20,7 +20,16 @@ function compileReviewSchema(languageDirectory, datasetType) {
       : schema.properties.lifeCycleModelDataSet.properties.modellingAndValidation.properties.validation.properties.review;
   const ajv = new Ajv({ strict: false, allErrors: true });
   ajv.addSchema(dataTypes, 'tidas_data_types.json');
-  return ajv.compile(review);
+  return ajv.compile({ ...review, $defs: schema.$defs });
+}
+
+function compileProcessValidationSchema(languageDirectory) {
+  const schema = readJson(`assets/tidas/${languageDirectory}/tidas_processes.json`);
+  const dataTypes = readJson(`assets/tidas/${languageDirectory}/tidas_data_types.json`);
+  const validation = schema.properties.processDataSet.properties.modellingAndValidation.properties.validation;
+  const ajv = new Ajv({ strict: false, allErrors: true });
+  ajv.addSchema(dataTypes, 'tidas_data_types.json');
+  return ajv.compile({ ...validation, $defs: schema.$defs });
 }
 
 const localizedText = { '@xml:lang': 'en', '#text': 'Reviewed documentation' };
@@ -79,6 +88,54 @@ for (const languageDirectory of ['schemas', 'schemas_zh']) {
       assert.equal(validate(withoutAnotherRequiredField), false, 'the reviewDetails requirement must remain unchanged');
     });
   }
+}
+
+for (const languageDirectory of ['schemas', 'schemas_zh']) {
+  test(`${languageDirectory}/processes: review remains required`, () => {
+    const validate = compileProcessValidationSchema(languageDirectory);
+
+    assert.equal(validate({}), false);
+    assert.ok(
+      validate.errors.some((error) => error.instancePath === '' && error.keyword === 'required' && error.params.missingProperty === 'review'),
+      `a missing review must fail the existing parent requirement: ${JSON.stringify(validate.errors, null, 2)}`,
+    );
+  });
+
+  test(`${languageDirectory}/processes: review accepts one object or a non-empty array without weakening item validation`, () => {
+    const validate = compileReviewSchema(languageDirectory, 'processes');
+    const firstReview = reviewed('processes');
+    const secondReview = {
+      ...reviewed('processes'),
+      '@type': 'Independent internal review',
+    };
+
+    assert.equal(validate(firstReview), true, JSON.stringify(validate.errors, null, 2));
+    assert.equal(validate([firstReview]), true, JSON.stringify(validate.errors, null, 2));
+    assert.equal(validate([firstReview, secondReview]), true, JSON.stringify(validate.errors, null, 2));
+
+    assert.equal(validate([]), false, 'a present review array must contain at least one review');
+
+    const invalidSecondReview = {
+      '@type': 'Independent external review',
+    };
+    assert.equal(validate([firstReview, invalidSecondReview]), false);
+    assert.ok(
+      validate.errors.some((error) => error.instancePath === '/1' && error.keyword === 'required'),
+      `the invalid review member must retain an indexed error path: ${JSON.stringify(validate.errors, null, 2)}`,
+    );
+
+    const incompleteReport = {
+      ...secondReview,
+      'common:referenceToCompleteReviewReport': {
+        '@refObjectId': report['@refObjectId'],
+      },
+    };
+    assert.equal(validate([firstReview, incompleteReport]), false);
+    assert.ok(
+      validate.errors.some((error) => error.instancePath.startsWith('/1/common:referenceToCompleteReviewReport')),
+      `an invalid nested reference must retain its array-member path: ${JSON.stringify(validate.errors, null, 2)}`,
+    );
+  });
 }
 
 for (const languageDirectory of ['schemas', 'schemas_zh']) {

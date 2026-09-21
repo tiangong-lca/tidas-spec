@@ -22,9 +22,9 @@ checkPaths:
   - LICENSE
   - .gitignore
   - .docpact/config.yaml
-lastReviewedAt: 2026-09-20
-lastReviewedCommit: f9be0549c197b251e65073f13ecf0b4dee0faf43
-lastReviewedNote: "Reviewed for tidas-spec #22: schema-authoritative Process version wording supersedes one imported methodology blob, preserves nine public/five product-local dispositions, and requires a newly qualified unpublished 0.2.1 candidate."
+lastReviewedAt: 2026-09-21
+lastReviewedCommit: d4cb089c753ffd20b173db2e56fb553a364f48f4
+lastReviewedNote: "Reviewed for tidas-spec #24: Process review accepts the existing object or a non-empty array of identically validated records; review presence remains required, consumer adoption stays separately owned, and the published 0.2.1 identity requires a new 0.2.2 candidate."
 related:
   - README.md
   - .docpact/config.yaml
