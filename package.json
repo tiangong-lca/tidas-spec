@@ -1,6 +1,6 @@
 {
   "name": "@tiangong-lca/tidas-spec",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": false,
   "description": "TIDAS public specification: reviewed JSON Schema assets, language variants, shared methodology, and their deterministic integrity records.",
   "keywords": [

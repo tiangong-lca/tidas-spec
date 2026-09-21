@@ -26,9 +26,9 @@ checkPaths:
   - scripts/**
   - .github/workflows/**
   - docs/qualification.md
-lastReviewedAt: 2026-09-20
-lastReviewedCommit: f9be0549c197b251e65073f13ecf0b4dee0faf43
-lastReviewedNote: "Reviewed for tidas-spec #22: the 0.2.1 candidate corrects Process version guidance to match the unchanged Version schema; 33 imported assets remain byte-identical and the changed methodology is explicitly repository-authored."
+lastReviewedAt: 2026-09-21
+lastReviewedCommit: d4cb089c753ffd20b173db2e56fb553a364f48f4
+lastReviewedNote: "Reviewed for tidas-spec #24: Process review now accepts one object or a non-empty array without weakening per-item constraints; published 0.2.1 stays immutable and the checkout prepares 0.2.2."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -46,7 +46,7 @@ The stable repository responsibility, non-goals, and invariants are in [`AGENTS.
 
 ## Current state
 
-Version `0.2.0` is formally published on npm and GitHub Releases. The checkout now prepares an unpublished `0.2.1` candidate for release-automation maintenance; ordinary `main` changes do not publish it. Workspace consumers must pin an exact reviewed archive rather than infer publication from the repository version.
+Version `0.2.1` is formally published on npm and GitHub Releases. The checkout now prepares an unpublished `0.2.2` candidate with Process multi-review compatibility; ordinary `main` changes do not publish it. Workspace consumers must pin an exact reviewed archive rather than infer publication from the repository version.
 
 | Path | Content |
 | --- | --- |
@@ -81,7 +81,7 @@ Only after the release identity is present does the workflow dispatch `tidas_spe
 
 ## Source baseline
 
-The original 39-file import was extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). Candidate 0.2.1 retains 33 of those files byte-for-byte. The Process and LCIA Method schemas in both languages, together with their derived schema lock, supersede the imported copies after the reviewed optional-review-report decision in tidas-spec #7. The Process methodology's version wording is separately superseded by tidas-spec #22 to match the unchanged `Version` schema. These are identified as repository-authored assets rather than falsely attributed to the toolkit commit. The two public-rule assets are also authored and reviewed here. `source-import.yaml` records both the remaining import and superseded source paths, while `reviewed-baseline.json` anchors the remaining imported bytes.
+The original 39-file import was extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). Candidate 0.2.2 retains 33 of those files byte-for-byte. The Process and LCIA Method schemas in both languages, together with their derived schema lock, supersede the imported copies after the reviewed optional-review-report decision in tidas-spec #7; tidas-spec #24 further corrects Process review cardinality so one object and a non-empty array share the same item constraints. The Process methodology's version wording is separately superseded by tidas-spec #22 to match the unchanged `Version` schema. These are identified as repository-authored assets rather than falsely attributed to the toolkit commit. The two public-rule assets are also authored and reviewed here. `source-import.yaml` records both the remaining import and superseded source paths, while `reviewed-baseline.json` anchors the remaining imported bytes.
 
 Three files present at that commit are deliberately **not** imported: `runtime_rulesets.json`, `runtime_rulesets.schema.json`, and `elementary_flow_taxonomy_extension.v1.json`. They remain owned by `tidas-toolkit` and their exclusion is recorded and enforced.
 
@@ -132,7 +132,7 @@ two language sets are treated, and why the manifest cannot hash itself.
 Verifying an unpacked copy — the check a consumer can reproduce — uses the three stages that apply to a package directory:
 
 ```bash
-tar -xzf release/tiangong-lca-tidas-spec-0.2.1.tgz -C /tmp/tidas-spec-check
+tar -xzf release/tiangong-lca-tidas-spec-0.2.2.tgz -C /tmp/tidas-spec-check
 node scripts/spec/verify.mjs --root /tmp/tidas-spec-check/package \
   --stage identity --stage manifest --stage package
 ```

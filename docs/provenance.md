@@ -9,9 +9,10 @@ tools `LICENSE` notice alone.
 **Source.** The original 39-file import was extracted from Git blobs at
 `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`),
 canonical repository `https://github.com/tiangong-lca/tidas-toolkit`.
-Candidate 0.2.1 retains 33 imported files byte-for-byte; five original files
-were superseded by the reviewed change in Issue #7 and the Process methodology
-by the schema-alignment decision in Issue #22. The package also ships
+Candidate 0.2.2 retains 33 imported files byte-for-byte; five original files
+were superseded by the reviewed change in Issue #7, the Process schema receives
+the repository-authored review-cardinality correction in Issue #24, and the
+Process methodology was superseded by the schema-alignment decision in Issue #22. The package also ships
 repository-authored assets. Extraction reads blobs by commit, not a working
 tree, so an uncommitted local edit cannot enter the import.
 `source-import.yaml` records imported and superseded source paths and digests;

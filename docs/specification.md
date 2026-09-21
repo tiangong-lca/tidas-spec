@@ -6,8 +6,8 @@ reference are in [`../README.md`](../README.md).
 
 ## Version
 
-Version `0.2.0` of `@tiangong-lca/tidas-spec` is formally published. This
-checkout prepares an unpublished `0.2.1` candidate; consumers continue to
+Version `0.2.1` of `@tiangong-lca/tidas-spec` is formally published. This
+checkout prepares an unpublished `0.2.2` candidate; consumers continue to
 bind exact reviewed archives and must not infer publication from a version bump.
 
 ## Files
@@ -20,12 +20,12 @@ bind exact reviewed archives and must not infer publication from a version bump.
 | `assets/tidas/methodologies/tidas_processes.yaml` | Process methodology rules and guidelines. |
 | `assets/tidas/rules/public-rules.v1.schema.json` | F3 contract for accepted public rule definitions. |
 | `assets/tidas/rules/public-rules.v1.json` | Nine reviewed public definitions with stable ID, applicability, normative level, source references, and positive/negative cases. Product gate policy is excluded. |
-| `assets/tidas/schema.lock.json` | The pinned source schema lock, imported byte-for-byte. |
+| `assets/tidas/schema.lock.json` | The derived schema lock, regenerated explicitly after a reviewed constraint change. |
 | `source-import.yaml` | Reviewed import record: source repository, commit, and the SHA256 of every imported file. |
 | `reviewed-baseline.json` | Independent review anchor: the digests of the reviewed source inventory and of the reviewed shipped bytes. |
 | `package.json` | Publication metadata, stored in the canonical form both channels ship; see [Package.json identity](#packagejson-identity). |
 | `spec-manifest.json` | Generated release manifest binding the version to every shipped file except itself. A pure function of the shipped content; it carries no source-revision claim. |
-| `release/tiangong-lca-tidas-spec-0.2.1.tgz` | Generated canonical candidate archive. Committed: it is a reviewable future release artifact, not a published replacement for 0.2.0. |
+| `release/tiangong-lca-tidas-spec-0.2.2.tgz` | Generated canonical candidate archive. Committed: it is a reviewable future release artifact, not a replacement for published 0.2.1. |
 | `build/candidate-archive-binding.json` | Generated **candidate receipt**: the reviewed source revision and the artifact digests, outside every artifact it describes. Disposable; not committed, and not required to verify an archive's content. |
 | `scripts/spec/**` | Build and verification implementation. |
 | `scripts/import-tidas-spec-source.mjs` | The only script that reads a source checkout, and only at import time. |
@@ -93,6 +93,20 @@ The verifier therefore treats the two sets identically:
 
 The reviewed sets happen to keep every reference inside its own language. That is
 recorded as what the source does, not enforced as what the source must do.
+
+### Process review cardinality
+
+The Process `modellingAndValidation.validation.review` property preserves the
+existing single-object representation and additionally accepts a non-empty array
+of the same `ProcessReview` definition. Every member is therefore subject to the
+same `@type`, conditional completed-review evidence, and optional-report-reference
+validation. The property remains required by TIDAS; aligning the separate ILCD
+`minOccurs=0` optionality question would be a distinct reviewed semantic change.
+
+This shape matches XML-to-JSON behavior without requiring existing singleton
+documents to be rewritten. Generated SDK types, Toolkit adoption, CLI package
+validation, and workspace integration remain consumer-owned deliveries rather
+than consequences implied by this candidate alone.
 
 ### Package.json identity
 
