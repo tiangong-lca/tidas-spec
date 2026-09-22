@@ -26,9 +26,9 @@ checkPaths:
   - scripts/**
   - .github/workflows/**
   - docs/qualification.md
-lastReviewedAt: 2026-09-21
-lastReviewedCommit: d4cb089c753ffd20b173db2e56fb553a364f48f4
-lastReviewedNote: "Reviewed for tidas-spec #24: Process review now accepts one object or a non-empty array without weakening per-item constraints; published 0.2.1 stays immutable and the checkout prepares 0.2.2."
+lastReviewedAt: "2026-09-22"
+lastReviewedCommit: "6729b882eec088494996c250afb9e97c60414f8f"
+lastReviewedNote: "Reviewed for tidas-spec #27: source-bound EF Process methodology retains general TIDAS and schema semantics, product gate ownership and the nine public rules; published 0.2.2 requires a new 0.2.3 candidate."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -46,7 +46,7 @@ The stable repository responsibility, non-goals, and invariants are in [`AGENTS.
 
 ## Current state
 
-Version `0.2.1` is formally published on npm and GitHub Releases. The checkout now prepares an unpublished `0.2.2` candidate with Process multi-review compatibility; ordinary `main` changes do not publish it. Workspace consumers must pin an exact reviewed archive rather than infer publication from the repository version.
+Version `0.2.2` is formally published on npm and GitHub Releases. The checkout now prepares an unpublished `0.2.3` candidate with source-bound EF Process methodology; ordinary `main` changes do not publish it. Workspace consumers must pin an exact reviewed archive rather than infer publication from the repository version.
 
 | Path | Content |
 | --- | --- |
@@ -81,13 +81,27 @@ Only after the release identity is present does the workflow dispatch `tidas_spe
 
 ## Source baseline
 
-The original 39-file import was extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). Candidate 0.2.2 retains 33 of those files byte-for-byte. The Process and LCIA Method schemas in both languages, together with their derived schema lock, supersede the imported copies after the reviewed optional-review-report decision in tidas-spec #7; tidas-spec #24 further corrects Process review cardinality so one object and a non-empty array share the same item constraints. The Process methodology's version wording is separately superseded by tidas-spec #22 to match the unchanged `Version` schema. These are identified as repository-authored assets rather than falsely attributed to the toolkit commit. The two public-rule assets are also authored and reviewed here. `source-import.yaml` records both the remaining import and superseded source paths, while `reviewed-baseline.json` anchors the remaining imported bytes.
+The original 39-file import was extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). Candidate 0.2.3 retains 33 of those files byte-for-byte. The Process and LCIA Method schemas in both languages, together with their derived schema lock, supersede the imported copies after the reviewed optional-review-report decision in tidas-spec #7; tidas-spec #24 further corrects Process review cardinality so one object and a non-empty array share the same item constraints. The Process methodology's version wording is separately superseded by tidas-spec #22 to match the unchanged `Version` schema. These are identified as repository-authored assets rather than falsely attributed to the toolkit commit. The two public-rule assets are also authored and reviewed here. `source-import.yaml` records both the remaining import and superseded source paths, while `reviewed-baseline.json` anchors the remaining imported bytes.
 
 Three files present at that commit are deliberately **not** imported: `runtime_rulesets.json`, `runtime_rulesets.schema.json`, and `elementary_flow_taxonomy_extension.v1.json`. They remain owned by `tidas-toolkit` and their exclusion is recorded and enforced.
 
 W8 adjudicates the 14 rules in the excluded mixed runtime catalog without importing it wholesale. Nine source-supported definitions are represented in `assets/tidas/rules/public-rules.v1.json`; five rules over product workflow entities or insufficient source bindings remain explicitly product-local. Phase, severity, blocker defaults, profiles, and operation authorization remain outside this repository. See [`docs/public-rule-adjudication.md`](docs/public-rule-adjudication.md).
 
 `tidas-sdks` is byte-identical on all 18 schemas. The `cli` and `tidas` repositories carry differing variants of named files. Those are file-level facts, not semantic dispositions: this repository inherits neither variant by default, and each actual semantic difference is adjudicated separately with positive and negative cases before either consumer switches.
+
+### EF process methodology
+
+The Process methodology includes 55 source-bound EF entries covering dataset
+metadata, modelling, review/DQR, LCIA, update lineage and eILCD model exchange.
+Each uses the existing `<rules>` structure with applicability and source-section
+references. The 2020 Data Guide, its 2022 EF 3.1 addendum and the 2020 eILCD
+modelling paper are identified and attributed inside the shipped YAML.
+
+EF-only rules do not become universal TIDAS constraints. The distinction between
+permitted documented elementary duplicates in the Data Guide and stricter eILCD
+per-side uniqueness is explicit, as are supporting-dataset review/DQR exceptions.
+The nine adjudicated public rules, both schema variants and runtime gates are
+unchanged. See [source coverage and representation limits](docs/ef-process-methodology.md).
 
 ## Build and verification
 
@@ -132,7 +146,7 @@ two language sets are treated, and why the manifest cannot hash itself.
 Verifying an unpacked copy — the check a consumer can reproduce — uses the three stages that apply to a package directory:
 
 ```bash
-tar -xzf release/tiangong-lca-tidas-spec-0.2.2.tgz -C /tmp/tidas-spec-check
+tar -xzf release/tiangong-lca-tidas-spec-0.2.3.tgz -C /tmp/tidas-spec-check
 node scripts/spec/verify.mjs --root /tmp/tidas-spec-check/package \
   --stage identity --stage manifest --stage package
 ```
