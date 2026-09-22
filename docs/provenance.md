@@ -9,7 +9,7 @@ tools `LICENSE` notice alone.
 **Source.** The original 39-file import was extracted from Git blobs at
 `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`),
 canonical repository `https://github.com/tiangong-lca/tidas-toolkit`.
-Candidate 0.2.2 retains 33 imported files byte-for-byte; five original files
+Candidate 0.2.3 retains 33 imported files byte-for-byte; five original files
 were superseded by the reviewed change in Issue #7, the Process schema receives
 the repository-authored review-cardinality correction in Issue #24, and the
 Process methodology was superseded by the schema-alignment decision in Issue #22. The package also ships
@@ -122,3 +122,20 @@ preference.
   `tidas_processes.yaml` state their own per-rule requirements, including
   advisory wording. Shipping them does not create a new mandatory product gate,
   and nothing here changes their status.
+
+## EF Process methodology additions (Issue #27)
+
+The Process methodology is already repository-authored. The EF additions are
+adapted field guidance based on the source versions listed and attributed in
+`metadata.ef_sources`, with section bindings on every added rule. The 2020 Guide
+(JRC120340, doi:10.2760/537292, © European Union 2020) expressly permits reuse
+under CC BY 4.0. Attribution, the license link and notice of condensation,
+reorganization and new examples travel in the YAML asset. This addition does
+not relabel that adapted content as solely TianGong-authored MIT material.
+
+The 2022 addendum and June 2020 eILCD paper are cited for factual normative
+requirements; their tables, figures and prose are not reproduced. Exact
+source-mandated supporting-dataset notices are referenced rather than copied.
+This records the sources and adaptation, not JRC endorsement, scientific
+certification, completeness of every PEF/OEF sector rule or authorization to
+publish a package. See [coverage and limits](ef-process-methodology.md).

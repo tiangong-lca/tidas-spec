@@ -6,8 +6,8 @@ reference are in [`../README.md`](../README.md).
 
 ## Version
 
-Version `0.2.1` of `@tiangong-lca/tidas-spec` is formally published. This
-checkout prepares an unpublished `0.2.2` candidate; consumers continue to
+Version `0.2.2` of `@tiangong-lca/tidas-spec` is formally published. This
+checkout prepares an unpublished `0.2.3` candidate; consumers continue to
 bind exact reviewed archives and must not infer publication from a version bump.
 
 ## Files
@@ -25,7 +25,7 @@ bind exact reviewed archives and must not infer publication from a version bump.
 | `reviewed-baseline.json` | Independent review anchor: the digests of the reviewed source inventory and of the reviewed shipped bytes. |
 | `package.json` | Publication metadata, stored in the canonical form both channels ship; see [Package.json identity](#packagejson-identity). |
 | `spec-manifest.json` | Generated release manifest binding the version to every shipped file except itself. A pure function of the shipped content; it carries no source-revision claim. |
-| `release/tiangong-lca-tidas-spec-0.2.2.tgz` | Generated canonical candidate archive. Committed: it is a reviewable future release artifact, not a replacement for published 0.2.1. |
+| `release/tiangong-lca-tidas-spec-0.2.3.tgz` | Generated canonical candidate archive. Committed: it is a reviewable future release artifact, not a replacement for published 0.2.2. |
 | `build/candidate-archive-binding.json` | Generated **candidate receipt**: the reviewed source revision and the artifact digests, outside every artifact it describes. Disposable; not committed, and not required to verify an archive's content. |
 | `scripts/spec/**` | Build and verification implementation. |
 | `scripts/import-tidas-spec-source.mjs` | The only script that reads a source checkout, and only at import time. |
@@ -107,6 +107,15 @@ This shape matches XML-to-JSON behavior without requiring existing singleton
 documents to be rewritten. Generated SDK types, Toolkit adoption, CLI package
 validation, and workspace integration remain consumer-owned deliveries rather
 than consequences implied by this candidate alone.
+
+### EF methodology scope
+
+The Process YAML adds source-bound EF guidance using the existing field rule
+structure. Rule applicability distinguishes ordinary TIDAS, full EF datasets,
+non-primary supporting datasets and eILCD model exchange. The source registry is
+part of the shipped YAML; [the coverage map](ef-process-methodology.md) records
+source sections and representation limits. These additions do not change the
+nine adjudicated public rules, either schema variant or consumer gate policy.
 
 ### Package.json identity
 

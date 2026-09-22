@@ -22,9 +22,9 @@ checkPaths:
   - LICENSE
   - .gitignore
   - .docpact/config.yaml
-lastReviewedAt: 2026-09-21
-lastReviewedCommit: d4cb089c753ffd20b173db2e56fb553a364f48f4
-lastReviewedNote: "Reviewed for tidas-spec #24: Process review accepts the existing object or a non-empty array of identically validated records; review presence remains required, consumer adoption stays separately owned, and the published 0.2.1 identity requires a new 0.2.2 candidate."
+lastReviewedAt: "2026-09-22"
+lastReviewedCommit: "6729b882eec088494996c250afb9e97c60414f8f"
+lastReviewedNote: "Reviewed for tidas-spec #27: source-bound EF Process methodology retains general TIDAS and schema semantics, product gate ownership and the nine public rules; published 0.2.2 requires a new 0.2.3 candidate."
 related:
   - README.md
   - .docpact/config.yaml

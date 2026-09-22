@@ -1,8 +1,8 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-09-21"
-lastReviewedCommit: "d4cb089c753ffd20b173db2e56fb553a364f48f4"
-lastReviewedNote: "Reviewed for tidas-spec #24: the existing specification-assets ownership and routing cover the bilingual Process review-cardinality correction, its conformance proof, and the new 0.2.2 candidate artifacts; downstream runtime adoption remains separately owned."
+lastReviewedAt: "2026-09-22"
+lastReviewedCommit: "6729b882eec088494996c250afb9e97c60414f8f"
+lastReviewedNote: "Reviewed for tidas-spec #27: source-bound EF Process methodology retains general TIDAS and schema semantics, product gate ownership and the nine public rules; published 0.2.2 requires a new 0.2.3 candidate."
 
 catalog:
   repos:
@@ -81,6 +81,7 @@ docInventory:
     - docs/qualification.md
     - docs/provenance.md
     - docs/public-rule-adjudication.md
+    - docs/ef-process-methodology.md
 
 routing:
   intents:
