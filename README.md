@@ -26,9 +26,9 @@ checkPaths:
   - scripts/**
   - .github/workflows/**
   - docs/qualification.md
-lastReviewedAt: "2026-09-22"
-lastReviewedCommit: "6729b882eec088494996c250afb9e97c60414f8f"
-lastReviewedNote: "Reviewed for tidas-spec #27: source-bound EF Process methodology retains general TIDAS and schema semantics, product gate ownership and the nine public rules; published 0.2.2 requires a new 0.2.3 candidate."
+lastReviewedAt: 2026-09-24
+lastReviewedCommit: 48ff221b94b6ab83bbbf4989608e67e59c210adf
+lastReviewedNote: "Reviewed for tidas-spec #29: unpublished 0.2.3 carries Process schema corrections with separate consumer adoption; the build and publication path are unchanged."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -46,7 +46,7 @@ The stable repository responsibility, non-goals, and invariants are in [`AGENTS.
 
 ## Current state
 
-Version `0.2.2` is formally published on npm and GitHub Releases. The checkout now prepares an unpublished `0.2.3` candidate with source-bound EF Process methodology; ordinary `main` changes do not publish it. Workspace consumers must pin an exact reviewed archive rather than infer publication from the repository version.
+Version `0.2.2` is formally published on npm and GitHub Releases. The checkout now prepares an unpublished `0.2.3` candidate with source-bound EF Process methodology and corrected Process schema requirements; ordinary `main` changes do not publish it. Workspace consumers must pin an exact reviewed archive rather than infer publication from the repository version.
 
 | Path | Content |
 | --- | --- |
@@ -69,7 +69,7 @@ The root workspace registers this repository in `.gitmodules`, `.workspace-deliv
 
 The tools `LICENSE` notice (MIT, TianGong LCA) is verified and reproduced. The rights owner declared that each of the nine embedded classification vocabulary groups is TianGong-owned and may be publicly redistributed under MIT without third-party attribution or additional terms, and separately authorized public redistribution of the whole shipped package, including ILCD-derived structural conventions. The exact scope and limits of those declarations are in [`docs/provenance.md`](docs/provenance.md); they do not assert TianGong authorship of ILCD or independently prove a third-party license. `package.json` retains `SEE LICENSE IN LICENSE` rather than making a blanket MIT claim. Formal publication is still a separate guarded action, not something an ordinary `main` commit triggers.
 
-The unchanged Draft 7 schemas contain 52 `$ref` objects with assertion-bearing siblings (`const` 48, `format` 2, `type` 2). Draft 7 ignores these sibling constraints; other validators may apply them, so results can differ across validators. Existing workflows have used these schemas, and the first release deliberately preserves their bytes rather than silently changing semantics. The manifest retains the derived finding; this package does not claim that all validators agree. See [`docs/specification.md`](docs/specification.md) for the technical record.
+The Draft 7 schemas retain 52 `$ref` objects with assertion-bearing siblings (`const` 48, `format` 2, `type` 2). Draft 7 ignores these sibling constraints; other validators may apply them, so results can differ across validators. The manifest retains the derived finding; this package does not claim that all validators agree. See [`docs/specification.md`](docs/specification.md) for the technical record.
 
 ### Reviewed publication workflow
 
@@ -81,13 +81,13 @@ Only after the release identity is present does the workflow dispatch `tidas_spe
 
 ## Source baseline
 
-The original 39-file import was extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). Candidate 0.2.3 retains 33 of those files byte-for-byte. The Process and LCIA Method schemas in both languages, together with their derived schema lock, supersede the imported copies after the reviewed optional-review-report decision in tidas-spec #7; tidas-spec #24 further corrects Process review cardinality so one object and a non-empty array share the same item constraints. The Process methodology's version wording is separately superseded by tidas-spec #22 to match the unchanged `Version` schema. These are identified as repository-authored assets rather than falsely attributed to the toolkit commit. The two public-rule assets are also authored and reviewed here. `source-import.yaml` records both the remaining import and superseded source paths, while `reviewed-baseline.json` anchors the remaining imported bytes.
+The original 39-file import was extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). Candidate 0.2.3 retains 33 of those files byte-for-byte. The Process and LCIA Method schemas in both languages, together with their derived schema lock, supersede the imported copies after the reviewed optional-review-report decision in tidas-spec #7; tidas-spec #24 further corrects Process review cardinality, and tidas-spec #29 corrects Process quantitative-reference requirements and makes `typeOfDataSet` optional. The Process methodology's version wording is separately superseded by tidas-spec #22 to match the unchanged `Version` schema. These are identified as repository-authored assets rather than falsely attributed to the toolkit commit. The two public-rule assets are also authored and reviewed here. `source-import.yaml` records both the remaining import and superseded source paths, while `reviewed-baseline.json` anchors the remaining imported bytes.
 
 Three files present at that commit are deliberately **not** imported: `runtime_rulesets.json`, `runtime_rulesets.schema.json`, and `elementary_flow_taxonomy_extension.v1.json`. They remain owned by `tidas-toolkit` and their exclusion is recorded and enforced.
 
 W8 adjudicates the 14 rules in the excluded mixed runtime catalog without importing it wholesale. Nine source-supported definitions are represented in `assets/tidas/rules/public-rules.v1.json`; five rules over product workflow entities or insufficient source bindings remain explicitly product-local. Phase, severity, blocker defaults, profiles, and operation authorization remain outside this repository. See [`docs/public-rule-adjudication.md`](docs/public-rule-adjudication.md).
 
-`tidas-sdks` is byte-identical on all 18 schemas. The `cli` and `tidas` repositories carry differing variants of named files. Those are file-level facts, not semantic dispositions: this repository inherits neither variant by default, and each actual semantic difference is adjudicated separately with positive and negative cases before either consumer switches.
+At the recorded W1 comparison baseline, `tidas-sdks` was byte-identical on all 18 schemas, while `cli` and `tidas` carried differing variants of named files. Those historical file-level counts are not a current parity claim: the #29 Process pair is a reviewed change here and must be adopted separately by SDK, CLI, and toolkit consumers. A consumer that still bundles the previous Process schema can reject a valid non-flow reference or require a fabricated data-set type. See [the Process schema contract](docs/specification.md#process-reference-and-data-set-type).
 
 ### EF process methodology
 

@@ -94,6 +94,31 @@ The verifier therefore treats the two sets identically:
 The reviewed sets happen to keep every reference inside its own language. That is
 recorded as what the source does, not enforced as what the source must do.
 
+### Process reference and data-set type
+
+The Process `quantitativeReference` requires a field according to its `@type`:
+
+| `@type` | Required field | Allowed additional text/reference |
+| --- | --- | --- |
+| `Reference flow(s)` | `referenceToReferenceFlow` | `functionalUnitOrOther` may also describe the function. |
+| `Functional unit`, `Other parameter`, `Production period` | `functionalUnitOrOther` | A supplied `referenceToReferenceFlow` retains its `Int6` constraint, but is not required. |
+
+The `functionalUnitOrOther` field keeps its existing language-tagged
+`StringMultiLang` shape, including bilingual text. The type discriminator itself
+remains required and its four allowed values are unchanged. This permits a
+denominator such as “1 t unwashed raw coal” to be represented as `Other
+parameter` without inventing a reference exchange. Separately,
+`modellingAndValidation.LCIMethodAndAllocation.typeOfDataSet` is optional; if
+provided, its existing enum still applies. Omitting it avoids asserting a
+unit-process model for a coefficient-only record.
+
+These English and Chinese schema corrections belong to Issue #29 and are
+conformance rules, not a conversion or product gate policy. The prior schema
+unconditionally required a flow reference and a data-set type, so consumers
+with pinned older schema bytes need a separate reviewed adoption of the new
+candidate; changing this source alone does not update SDK, CLI, or toolkit
+assets.
+
 ### Process review cardinality
 
 The Process `modellingAndValidation.validation.review` property preserves the
@@ -300,8 +325,8 @@ categories, and the numbers reconcile:
 | Assertion-bearing siblings | A sibling is a keyword of the declared dialect that restricts the instance, so ignoring it changes what the file appears to state. | 52 |
 | Non-asserting siblings only | Metadata (`description`, `title`, …) or a reserved container (`definitions`, `$defs`). Nothing about validity turns on it. | 552 |
 | Unclassified siblings | A sibling keyword the declared dialect does not define. Its semantics are unknown. | 0 |
-| No siblings | The `$ref` is the whole object. | 482 |
-| **Total reached `$ref` objects** | | **1086** |
+| No siblings | The `$ref` is the whole object. | 486 |
+| **Total reached `$ref` objects** | | **1090** |
 
 The 52 objects are `{const} x48`, `{format} x2`, `{type} x2`. The categories
 partition the reached population exactly, so nothing is unaccounted for.

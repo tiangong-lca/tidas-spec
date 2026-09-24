@@ -11,7 +11,8 @@ tools `LICENSE` notice alone.
 canonical repository `https://github.com/tiangong-lca/tidas-toolkit`.
 Candidate 0.2.3 retains 33 imported files byte-for-byte; five original files
 were superseded by the reviewed change in Issue #7, the Process schema receives
-the repository-authored review-cardinality correction in Issue #24, and the
+repository-authored review-cardinality and conditional-reference corrections
+in Issues #24 and #29, and the
 Process methodology was superseded by the schema-alignment decision in Issue #22. The package also ships
 repository-authored assets. Extraction reads blobs by commit, not a working
 tree, so an uncommitted local edit cannot enter the import.
@@ -35,12 +36,13 @@ path appears both as shipped and as excluded, or if one of them appears in the
 package. Their ownership remains with `tidas-toolkit` until a reviewed
 disposition moves them.
 
-**File-level source boundaries.** The English and Chinese schema sets are
-byte-identical to the same files in `tidas-sdks` at its recorded baseline. The
-`cli` and `tidas` repositories carry differing variants of named files (11 and 9
-respectively). Those counts are file-level facts, not semantic dispositions:
-this candidate does not inherit either variant, and every actual semantic
-difference is adjudicated in a later, separately reviewed step.
+**File-level source boundaries.** At the recorded W1 comparison baseline, the
+English and Chinese schema sets were byte-identical to the same files in
+`tidas-sdks`; `cli` and `tidas` carried differing variants of named files (11
+and 9 respectively). Those counts describe that baseline, not the current
+0.2.3 candidate. The Issue #29 Process schema change is repository-authored;
+SDK, CLI, and toolkit copies need separate reviewed adoption rather than an
+assumed byte-parity claim.
 
 ## Rights-owner declaration for embedded classifications
 
@@ -107,7 +109,7 @@ preference.
   while another validator may apply them, so validation results can differ.
   The owner accepted this documented first-release compatibility caveat in
   [Issue #9](https://github.com/tiangong-lca/tidas-spec/issues/9#issuecomment-5741368283)
-  based on established use of the unchanged schemas. The derived manifest
+  based on established use of the schemas as shipped in the first release. The derived manifest
   finding remains visible; no evaluator equivalence is claimed. A future
   semantic correction needs its own reviewed source and consumer-impact work.
 
