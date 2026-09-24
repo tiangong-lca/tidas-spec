@@ -1,8 +1,8 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-09-22"
-lastReviewedCommit: "6729b882eec088494996c250afb9e97c60414f8f"
-lastReviewedNote: "Reviewed for tidas-spec #27: source-bound EF Process methodology retains general TIDAS and schema semantics, product gate ownership and the nine public rules; published 0.2.2 requires a new 0.2.3 candidate."
+lastReviewedAt: "2026-09-24"
+lastReviewedCommit: "48ff221b94b6ab83bbbf4989608e67e59c210adf"
+lastReviewedNote: "Reviewed for tidas-spec #29: the existing asset, conformance-test, documentation and release rules cover both Process schema variants; no routing or ownership change."
 
 catalog:
   repos:

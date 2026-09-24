@@ -674,8 +674,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "f0981a9d28eb98201094b3c45fe087e2fffb9d28a2edffed59a6dbce03e57a12",
-      "contentSha256": "f0981a9d28eb98201094b3c45fe087e2fffb9d28a2edffed59a6dbce03e57a12",
+      "sha256": "b6cccf7e5720a60749f7a53bd30a0afa53f123c116325fb341e95d2c5c87c2aa",
+      "contentSha256": "b6cccf7e5720a60749f7a53bd30a0afa53f123c116325fb341e95d2c5c87c2aa",
       "origin": "tidas-spec",
       "source": null
     },
@@ -712,8 +712,8 @@
     },
     {
       "path": "assets/tidas/schema.lock.json",
-      "sha256": "e67c43fa365b71606a8e9c413ea5b25e5ca17e74e1694682b076e3100d4f90b9",
-      "contentSha256": "e67c43fa365b71606a8e9c413ea5b25e5ca17e74e1694682b076e3100d4f90b9",
+      "sha256": "a0fa80d21933ded7d9f8ecd81600155d54dd0f39d4d06b7cdd1bee5fb471fd41",
+      "contentSha256": "a0fa80d21933ded7d9f8ecd81600155d54dd0f39d4d06b7cdd1bee5fb471fd41",
       "origin": "tidas-spec",
       "source": null
     },
@@ -836,8 +836,8 @@
     },
     {
       "path": "assets/tidas/schemas/tidas_processes.json",
-      "sha256": "8297261f5ce1e3bbc9287febeebae256c11f011a3c878fdfe4d8d33fcdad69c6",
-      "contentSha256": "8297261f5ce1e3bbc9287febeebae256c11f011a3c878fdfe4d8d33fcdad69c6",
+      "sha256": "5fc2870b2b50c652d9f43c88f2297aeab55f0cf4177fe924007d2bedacd846ab",
+      "contentSha256": "5fc2870b2b50c652d9f43c88f2297aeab55f0cf4177fe924007d2bedacd846ab",
       "origin": "tidas-spec",
       "source": null
     },
@@ -1010,8 +1010,8 @@
     },
     {
       "path": "assets/tidas/schemas_zh/tidas_processes.json",
-      "sha256": "76b60720074bedab46830fd5c8a98325aceca0cc327c50501ec080d50c0f9c32",
-      "contentSha256": "76b60720074bedab46830fd5c8a98325aceca0cc327c50501ec080d50c0f9c32",
+      "sha256": "e7f6afe98d42c6594ab117c3451c1d045d4648d082e9cd7e7318a78b05a507ab",
+      "contentSha256": "e7f6afe98d42c6594ab117c3451c1d045d4648d082e9cd7e7318a78b05a507ab",
       "origin": "tidas-spec",
       "source": null
     },
@@ -1088,8 +1088,8 @@
     }
   ],
   "aggregates": {
-    "filesSha256": "4b1286fc282d13bb9aea8098b45ca7287245fa697efaec9712413f9af357e645",
-    "filesContentSha256": "4b1286fc282d13bb9aea8098b45ca7287245fa697efaec9712413f9af357e645"
+    "filesSha256": "da57c25141700e9481431d3609573d1ef3be3a69262786373b4a5036f373cd5e",
+    "filesContentSha256": "da57c25141700e9481431d3609573d1ef3be3a69262786373b4a5036f373cd5e"
   },
   "selfHash": {
     "note": "The manifest cannot contain its own digest. Its identity is the `files`/`aggregates` block above, bound externally by the archive digest record produced alongside the candidate archive; see docs/specification.md."
