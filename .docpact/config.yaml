@@ -1,8 +1,8 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-09-26"
-lastReviewedCommit: "f610cf313aef20a7e14966507da37bb5713946d8"
-lastReviewedNote: "Reviewed for tidas-spec #31: existing routes cover bilingual methodology, explicit Flow import supersession, public cases, conformance tests and deterministic candidate output; ownership unchanged."
+lastReviewedCommit: "711a1ec9843cb7df8dfd917ff8d0ded22a9152ea"
+lastReviewedNote: "Reviewed for tidas-spec #31 / PR #32: existing routes cover minimal naming clarification, retained legacy examples, bilingual/public conformance and regenerated draft artifacts; routing unchanged."
 
 catalog:
   repos:

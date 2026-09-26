@@ -51,33 +51,54 @@ test('numeric grades stay technical while material specifications have their own
   assert.match(text(processName.functionalUnitFlowProperties, 'zh'), /功能单位数量.*足迹结果.*供方权重/);
 });
 
-test('Flow and Process distinguish mix scope from technology and delivery in both languages', () => {
+test('Flow and Process retain established descriptions and examples while allowing evidenced refinements', () => {
   for (const name of [processName, flowName]) {
     const en = text(name.mixAndLocationTypes, 'en');
     const zh = text(name.mixAndLocationTypes, 'zh');
-    assert.match(en, /production mix.*market consumption mix.*enterprise procurement mix/i);
-    assert.match(en, /TIDAS extension.*original ILCD enumeration/);
-    assert.match(en, /not a mutually exclusive mix class/);
-    assert.match(zh, /生产组合.*市场消费组合.*企业采购组合/);
+    for (const example of ['Production mix, at plant', 'Consumption mix, to consumer',
+      'Technology-specific, to wholesale', 'Production mix, to waste incineration plant']) {
+      assert.ok(languageRule(name.mixAndLocationTypes, 'en').examples.includes(example), example);
+    }
+    for (const example of ['生产混合，在工厂', '消费混合，至终端消费者', '特定技术，至批发商',
+      '生产混合，至废物焚烧厂', '生产组合，在电厂', '消费组合，至用户']) {
+      assert.ok(languageRule(name.mixAndLocationTypes, 'zh').examples.includes(example), example);
+    }
+    assert.match(en, /Technology-specific remains a valid standalone descriptor/);
+    assert.match(en, /may coexist with an evidenced production or consumption mix/);
+    assert.match(en, /optional TIDAS extension, not an original ILCD enumeration/);
+    assert.match(en, /weighted average.*defined geographic and temporal scope.*documented weighting basis/);
+    assert.match(zh, /生产加权平均.*权重依据/);
+    assert.match(zh, /特定技术仍是.*有效的独立描述/);
     assert.match(zh, /不是ILCD原有枚举/);
-    assert.match(zh, /不是互斥的组合类别/);
+    assert.match(en, /do not require (renaming|a wholesale rename)/);
+    assert.match(zh, /不要求.*改名/);
+    assert.match(zh, /生产组合\/生产混合、消费组合\/消费混合/);
+    assert.match(zh, /已有数据可沿用原词.*不.*全量改名/);
     assert.match(en, /loss proxy.*mapping adapter.*does not establish.*consumption mix/);
-    assert.match(zh, /损耗代理.*映射适配过程.*不能证明消费组合/);
-    assert.ok(languageRule(name.mixAndLocationTypes, 'en').examples.includes('To user receiving terminal'));
-    assert.ok(languageRule(name.mixAndLocationTypes, 'zh').examples.includes('至用户接收端'));
+    assert.match(zh, /损耗代理.*映射适配过程.*不能证明消费混合/);
+    assert.ok(languageRule(name.mixAndLocationTypes, 'en').examples.includes('Production mix, technology-specific, at plant'));
+    assert.ok(languageRule(name.mixAndLocationTypes, 'zh').examples.includes('生产混合，特定技术，在工厂'));
   }
   assert.match(text(flowName.mixAndLocationTypes, 'en'), /do not copy an individual Process route/);
   assert.match(text(flowName.mixAndLocationTypes, 'zh'), /不为区分Process而把某个Process路线/);
 });
 
-test('arrival and departure meanings never certify inventory completeness', () => {
+test('established availability and transport usage needs evidence without certifying completeness', () => {
   for (const name of [processName, flowName]) {
-    assert.match(text(name.mixAndLocationTypes, 'en'), /arrival.*before.*subsequent processing/);
-    assert.match(text(name.mixAndLocationTypes, 'en'), /departure or availability.*after the represented processing/);
-    assert.match(text(name.mixAndLocationTypes, 'en'), /not (proof of )?complete inventory coverage/);
-    assert.match(text(name.mixAndLocationTypes, 'zh'), /到达.*后续处理/);
-    assert.match(text(name.mixAndLocationTypes, 'zh'), /处理完成后.*离开或可供交付/);
-    assert.match(text(name.mixAndLocationTypes, 'zh'), /不证明清单覆盖完整/);
+    const en = text(name.mixAndLocationTypes, 'en');
+    const zh = text(name.mixAndLocationTypes, 'zh');
+    for (const example of ['at plant', 'at wholesale', 'at point-of-sale', 'to consumer', 'to wholesale']) {
+      assert.ok(en.includes(example), example);
+    }
+    assert.match(en, /availability or handover/);
+    assert.match(en, /transport.*node/);
+    assert.match(en, /boundary.*(evidence|supported)/);
+    assert.match(en, /(not impose|does not impose) a universal before\/after-processing/);
+    assert.match(en, /(not proof of|or prove) complete inventory coverage/);
+    assert.match(zh, /可得或交接点/);
+    assert.match(zh, /边界.*运输.*证据|边界.*节点且有证据/);
+    assert.match(zh, /不将at\/to统一定义为处理前\/后|at\/to不普遍规定处理前\/后/);
+    assert.match(zh, /不证明清单覆盖完整/);
   }
 });
 
@@ -106,10 +127,11 @@ test('public conformance cases cover the new distinctions without adding executi
   ]);
   const positive = qualifierRule.cases.positive.join('\n');
   const negative = qualifierRule.cases.negative.join('\n');
-  for (const term of [/technology-specific production mix/, /delivery-only electricity adapter/, /enterprise procurement mix/, /refinery receiving terminal/, /S355/, /30 % recycled material/]) {
+  assert.match(positive, /生产组合 or 生产混合.*消费组合 or 消费混合/);
+  for (const term of [/Technology-specific remains a valid standalone/, /electricity mapping adapter/, /optional TIDAS supplement/, /Production mix, at plant/, /Consumption mix, to consumer/, /Technology-specific, to wholesale/, /S355/, /30 % recycled material/]) {
     assert.match(positive, term);
   }
-  for (const term of [/grid-loss proxy/, /original ILCD class/, /complete cradle-to-node/, /certificate/, /supplier procurement share/, /footprint result/]) {
+  for (const term of [/grid-loss proxy/, /original ILCD class/, /Consumption mix names are forced/, /before\/after node processing/, /complete cradle-to-node/, /certificate/, /supplier procurement share/, /footprint result/]) {
     assert.match(negative, term);
   }
   for (const rule of [baseRule, qualifierRule]) {

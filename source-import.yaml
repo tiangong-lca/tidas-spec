@@ -38,8 +38,9 @@ excludedSourcePaths:
   # it agrees with the already-published Version schema; the original source
   # blob remains pinned for provenance but is no longer claimed byte-identical.
   - assets/tidas/methodologies/tidas_processes.yaml
-  # tidas-spec#31 supersedes only shared mix/delivery guidance in the Flow
-  # methodology. The original toolkit blob remains provenance evidence:
+  # tidas-spec#31 supplements shared mix/delivery guidance in the Flow
+  # methodology while retaining established usage. Its changed bytes supersede
+  # the imported copy; the original toolkit blob remains provenance evidence:
   # sha256: 4a389d060f5c901b7c11625675948c0152df95ad33bedc87eca0f93341038d6d
   - assets/tidas/methodologies/tidas_flows.yaml
 files:

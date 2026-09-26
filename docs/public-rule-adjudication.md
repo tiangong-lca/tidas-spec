@@ -76,15 +76,20 @@ delivery node, and evidenced quantitative specifications. Public cases cover
 shared Flows, information retention in every language, numeric grades versus
 material percentages versus procurement shares, and whole-Model/result names.
 
-Production and market consumption mixes describe different supply populations;
-enterprise procurement is an explicit TIDAS extension. Technology is orthogonal
-to mix scope. A Flow label, delivery to users, a loss proxy or a mapping adapter
-does not establish consumption mix. Arrival (`to`) and departure/availability
-(`at`) distinguish interfaces but establish neither inventory completeness nor
-missing upstream facts. Physical composition remains separate from contractual
-attributes; a certificate is not evidence of physical technology or zero impact.
-The Flow methodology receives the same shared mix/node semantics to avoid
-contradictory guidance; it does not inherit individual Process routes or scenarios.
+The existing production mix, consumption mix and technology-specific descriptions
+and examples remain valid, including Chinese 生产组合/生产混合 and
+消费组合/消费混合 without compulsory replacement. Production mix has an evidenced weighting basis
+within a defined geographic and temporal scope. Technology-specific can stand
+alone or accompany a supported mix; a market qualifier is optional, not a
+required rename of consumption mix. Enterprise procurement is an optional TIDAS
+supplement where the existing descriptions are insufficient. A Flow label,
+delivery to users, a loss proxy or a mapping adapter does not establish consumption
+mix. Existing at/to availability/handover and transport-to-node usage is retained;
+interface detail supplements it without a universal before/after-processing rule
+or an automatic completeness claim. Physical composition remains separate from
+contractual attributes; a certificate is not evidence of physical technology or
+zero impact. The Flow methodology receives the same limited clarification while
+preserving established usage and individual Process/Flow identity boundaries.
 
 This field-scoped application is explicitly distinguished from ILCD Rule 20's
 full-name recommendation, which is not limited to released LCI results. It does

@@ -145,8 +145,9 @@ publish a package. See [coverage and limits](ef-process-methodology.md).
 
 ## Four-part naming clarification (Issue #31)
 
-Issue #31 contains the user's approved four-part product-LCA convention and its
-shared Flow mix/delivery consistency correction. The Process methodology and
+Issue #31 records the user's approved clarification of existing four-part
+product-LCA naming and the subsequent correction to preserve established mix,
+technology-specific and at/to expressions while adding only necessary detail. The Process methodology and
 public-rule index were already repository-authored. The Flow methodology now
 also becomes repository-authored; only its `mixAndLocationTypes` guidance changes.
 Its original source remains `tidas-toolkit` commit
@@ -161,9 +162,11 @@ No original source digest is overwritten with the new content's hash.
 The newly written bilingual guidance cites the
 [ILCD Process field definitions](https://eplca.jrc.ec.europa.eu/LCDN/downloads/ILCD_Format_1.1_Documentation/ILCD_ProcessDataSet.html)
 and [Nomenclature handbook Rules 14–16 and 20](https://eplca.jrc.ec.europa.eu/uploads/MANPROJ-PR-ILCD-Handbook-Nomenclature-and-other-conventions-first-edition-ISBN-fin-v1.0-E.pdf).
-TIDAS's exact-base-name convention, enterprise procurement scope and explicit
-physical/contractual distinction are stated as project decisions rather than
-attributed to an ILCD enumeration. Handbook text, figures and tables are not
+TIDAS's exact-base-name convention, optional enterprise procurement supplement
+and explicit physical/contractual distinction are stated as project decisions
+rather than attributed to an ILCD enumeration. Existing production/consumption
+mix, technology-specific and availability/transport expressions are retained;
+no wholesale renaming or universal before/after-processing definition is added. Handbook text, figures and tables are not
 reproduced. Schema bytes, schema lock, package version and publication procedures
 are unchanged. A draft build regenerates the manifest and archive without
 claiming a reviewed source revision, a published release or consumer adoption.

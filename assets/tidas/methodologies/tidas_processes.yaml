@@ -298,54 +298,70 @@ processDataSet:
           <rules>:
             - language: "en"
               naming_convention: |
-                ILCD Rule 15 distinguishes production/consumption mix and availability location. TIDAS treats supply composition and delivery node as independent, comma-separated qualifiers.
-                - State the evidenced scope: production mix, market consumption mix, or enterprise procurement mix. Enterprise procurement mix is an explicit TIDAS extension, not an original ILCD enumeration.
-                - A specific technology is not a mutually exclusive mix class: a production, market or procurement mix may contain one or several technologies. Put its supported route in treatmentStandardsRoutes.
-                - Use "to" for arrival at the named receiving node, before that node's subsequent processing; use "at" for departure or availability at the named node after the represented processing. Specify the actual interface (e.g., receiving terminal, refinery gate, retail dispenser) when needed to avoid ambiguity.
+                Follow ILCD Rule 15: describe mix and location types using comma-separated qualifiers.
+                - Continue to use production mix, consumption mix, or technology-specific as appropriate to the dataset; these established descriptions remain valid.
+                - Indicate the delivery or availability point (e.g., at plant, to consumer).
+                - Use "to" when transport to a node is included; use "at" for the point of availability or handover.
               content_requirements:
-                - "Production mix represents the combined output of the documented producers or production scope. Market consumption mix represents the supply consumed in the documented market, accounting for relevant domestic supply, imports and exports according to its evidence. Enterprise procurement mix represents the documented purchases of an enterprise; it does not establish market representativeness."
-                - "Derive mix scope and node from the actual dataset. A reference Flow name, delivery to a user, a transmission/distribution loss proxy or a mapping adapter alone does not establish a consumption mix. If only the delivery node is supported, state that node and leave the mix qualifier absent."
-                - "The words at or to and the named node describe an interface, not proof of complete inventory coverage. Document included transport, losses, processing and known exclusions in the system boundary; do not infer them from the name."
+                - "Production mix may be expressed in Chinese as 生产组合 or 生产混合, and consumption mix as 消费组合 or 消费混合. Existing datasets may retain either established wording; this guidance requires no bulk terminology replacement."
+                - "Clarify production versus consumption mix status; omit if not applicable. Production mix is a weighted average of production in a defined geographic and temporal scope, using a documented weighting basis such as producers' output. It may combine several producers using the same technology; several technologies are not required."
+                - "Consumption mix describes the supply consumed in the represented scope, accounting for relevant domestic supply, imports and exports using documented evidence. Add a market qualifier when needed to distinguish the scope; do not require renaming consumption mix to market consumption mix."
+                - "Technology-specific remains a valid standalone descriptor in this field. It may coexist with an evidenced production or consumption mix because technology and supply representativeness describe different aspects. Put the specific route name in treatmentStandardsRoutes."
+                - "Where the established descriptions do not adequately express enterprise purchasing, enterprise procurement mix may be added as an optional TIDAS extension, not an original ILCD enumeration. Document the enterprise scope and purchase-weighting basis without implying market representativeness."
+                - "Specify the commercial or logistical location type (e.g., at wholesale, at point-of-sale); other established descriptors such as to wholesale or to waste incineration plant remain valid when supported."
+                - "If a node is ambiguous, specify its evidenced receiving, dispatch or dispensing interface. Do not impose a universal before/after-processing meaning on at/to. A to boundary needs evidence for the represented transport; naming the node is not proof of complete inventory coverage. Document included transport, losses, processing and exclusions separately."
+                - "Derive qualifiers from the actual dataset. A reference Flow name, delivery to a user, a transmission/distribution loss proxy or a mapping adapter alone does not establish a consumption mix. If only an availability point is evidenced, state that point without inferring a mix or transport boundary."
                 - "Distinguish physical supply composition from contractual or attribute accounting. A certificate alone establishes neither physical generation technology nor zero impact. State any evidenced accounting basis explicitly in the modelling documentation; never silently substitute it for a physical mix."
                 - "Supplier procurement shares are composition evidence, not product quantitative specifications. Record shares, weighting basis and exclusions in the supply/model documentation, not functionalUnitFlowProperties."
                 - "For a Model-derived LCI result, name the whole Model's supply composition and delivery interface from its evidence. The resulting Process retains the reviewed Model name, not a narrower final Process name."
-                - "Keep geographic codes, years, enterprise/site identifiers, complete boundaries and data-quality caveats in dedicated metadata; the name states the type of mix or delivery node."
-                - "Use-related qualifiers belong in treatmentStandardsRoutes; omit unsupported or inapplicable mix/node qualifiers rather than inserting global average or other placeholders."
+                - "Keep geographic codes, years, enterprise/site identifiers, complete boundaries and data-quality caveats in dedicated metadata. Use-related qualifiers belong in treatmentStandardsRoutes; omit unsupported or inapplicable qualifiers rather than inserting placeholders."
               examples:
-                - "Production mix, at refinery gate"
-                - "Market consumption mix, to user receiving terminal"
-                - "Enterprise procurement mix, to user receiving terminal"
-                - "To user receiving terminal"
-                - "At retail dispenser"
+                - "Production mix, at plant"
+                - "Consumption mix, to consumer"
+                - "Technology-specific, to wholesale"
+                - "Production mix, to waste incineration plant"
+                - "Production mix, technology-specific, at plant"
+                - "Production mix, at power plant"
+                - "Consumption mix, to user"
+                - "Enterprise procurement mix, at user receiving point"
               best_practices:
-                - "Verify representativeness separately from physical delivery, including when a technology-specific subset is mixed."
-                - "Use consistent node terminology and distinguish arrival from departure/availability at that same node."
+                - "Align mix terminology with documented system boundaries and weighting evidence."
+                - "Keep qualifiers consistent across datasets representing the same market; retain established descriptions when no further distinction is needed."
+                - "Review transport assumptions to choose between at and to correctly; an interface label alone does not establish the represented burdens."
                 - "A Model graph or node label alone does not establish missing upstream route or mix evidence; retain the unresolved limitation."
 
             - language: "zh"
               naming_convention: |
-                ILCD规则15区分生产/消费混合与可用位置。TIDAS将供应组合与交付节点作为相互独立的限定词，用逗号分隔。
-                - 根据证据说明范围：生产组合、市场消费组合或企业采购组合。企业采购组合是TIDAS明确增加的约定，不是ILCD原有枚举。
-                - 特定技术不是互斥的组合类别：生产、市场或采购组合均可包含一种或多种技术。有证据的技术路线放在treatmentStandardsRoutes。
-                - “至”（to）表示到达指定接收节点、尚未进入该节点的后续处理；“在”（at）表示所代表的处理完成后，在指定节点离开或可供交付。必要时写清实际接口（如用户接收端、炼厂厂门、零售加注端），避免歧义。
+                遵循ILCD规则15：用逗号标注混合类型与交付地点类型。
+                - 按数据集实际情况继续使用生产混合、消费混合或特定技术等既有描述；这些表述仍然有效。
+                - 明确交付或可用位置（如在工厂、至终端消费者）。
+                - 包含运输到某节点时使用“至”（to），表示可得或交接点时使用“在”（at）。
               content_requirements:
-                - "生产组合代表已记录的生产者或生产范围的合并产出。市场消费组合代表已记录市场内被消费的供应，按证据考虑相关本地供应、进口和出口。企业采购组合代表某企业已记录的采购，不能据此声称市场代表性。"
-                - "根据实际数据集确定组合范围与节点。仅凭参考Flow名称、送达用户、输配损耗代理或映射适配过程，不能证明消费组合。只有交付节点有依据时，只写节点，省略组合限定词。"
-                - "at/to用词和所写节点描述接口，不证明清单覆盖完整。系统边界须说明所含运输、损耗、处理及已知遗漏，不能从名称反推这些内容。"
+                - "生产组合/生产混合、消费组合/消费混合均为相应英文mix的既有中文表述；已有数据可沿用原词，不为统一用字而全量改名。"
+                - "区分生产混合与消费混合；若不适用可省略。生产混合是已定义地域与时间范围内的生产加权平均，采用有记录的权重依据，如各生产者产出量。可以组合采用同一技术的多个生产者，不以包含多种技术为前提。"
+                - "消费混合描述所代表范围内被消费的供应，依据已记录证据考虑相关本地供应、进口和出口。需要区分范围时可增加市场限定，不要求将消费混合统一改名为市场消费混合。"
+                - "特定技术仍是本字段有效的独立描述。技术代表性与供应代表性描述不同方面，因此特定技术可与有证据的生产混合或消费混合并存。具体路线名称放在treatmentStandardsRoutes。"
+                - "当既有描述不足以表达企业采购场景时，可选用企业采购组合作为TIDAS补充约定；它不是ILCD原有枚举。须说明企业范围和采购加权依据，不据此声称市场代表性。"
+                - "标注物流或商业节点（如在批发、在零售点）；至批发商、至废物焚烧厂等既有描述在有依据时继续适用。"
+                - "节点有歧义时，说明有证据的接收、发出或加注接口。不将at/to统一定义为处理前/后。to声明的边界须有相应运输证据；所写节点不证明清单覆盖完整，所含运输、损耗、处理与排除项另行说明。"
+                - "根据实际数据集确定限定词。仅凭参考Flow名称、送达用户、输配损耗代理或映射适配过程，不能证明消费混合。只有可得节点有依据时，写明该节点，不推定组合或运输边界。"
                 - "区分物理供应组合与合同或属性核算。单凭证书既不能证明实际发电技术，也不能证明零影响。任何有依据的核算方式均应在建模说明中明确，不得暗中替代物理组合。"
                 - "供方采购份额是组合证据，不是产品定量规格。份额、加权基准与排除项放在供应或模型说明中，不放在functionalUnitFlowProperties。"
                 - "Model生成的LCI结果名称依据证据描述整个Model的供应组合与交付接口。结果Process继承经审查的Model名称，不采用范围更窄的最终Process名称。"
-                - "地理代码、年份、企业/站点标识、完整边界和数据质量限制放在专门元数据中；名称表达组合或交付节点的类型。"
-                - "用途限定放在treatmentStandardsRoutes；无依据或不适用的组合/节点限定词省略，不填全球平均等占位词。"
+                - "地理代码、年份、企业/站点标识、完整边界和数据质量限制放在专门元数据中。用途限定放在treatmentStandardsRoutes；无依据或不适用的限定词省略，不填占位词。"
               examples:
-                - "生产组合，在炼厂厂门"
-                - "市场消费组合，至用户接收端"
-                - "企业采购组合，至用户接收端"
-                - "至用户接收端"
-                - "在零售加注端"
+                - "生产混合，在工厂"
+                - "消费混合，至终端消费者"
+                - "特定技术，至批发商"
+                - "生产混合，至废物焚烧厂"
+                - "生产混合，特定技术，在工厂"
+                - "生产组合，在电厂"
+                - "消费组合，至用户"
+                - "企业采购组合，在用户接收端"
               best_practices:
-                - "代表性与实物交付分别核实，特定技术子集的组合也不例外。"
-                - "统一节点术语，区分同一节点的到达与离开/可交付状态。"
+                - "组合术语与已记录的系统边界、加权证据保持一致。"
+                - "同一市场的描述保持统一；无需进一步区分时保留既有表述。"
+                - "核对运输假设，正确选择在或至；接口标签本身不能证明所代表的负荷。"
                 - "Model图或节点名称本身不能证明缺失的上游路线或组合事实；保留尚未解决的限制。"
 
         functionalUnitFlowProperties:

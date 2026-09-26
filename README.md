@@ -27,8 +27,8 @@ checkPaths:
   - .github/workflows/**
   - docs/qualification.md
 lastReviewedAt: "2026-09-26"
-lastReviewedCommit: "f610cf313aef20a7e14966507da37bb5713946d8"
-lastReviewedNote: "Reviewed for tidas-spec #31: four-part Process naming, shared Flow mix/delivery guidance, 32 unchanged imports and candidate verification; no schema, release or consumer adoption claim."
+lastReviewedCommit: "711a1ec9843cb7df8dfd917ff8d0ded22a9152ea"
+lastReviewedNote: "Reviewed for tidas-spec #31 / PR #32: restored established naming examples and usage, optional procurement/market refinements, documented weighting and transport evidence; no release or adoption claim."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -107,20 +107,23 @@ unchanged. See [source coverage and representation limits](docs/ef-process-metho
 
 The candidate for [Issue #31](https://github.com/tiangong-lca/tidas-spec/issues/31)
 retains exact single-reference `baseName` alignment and multi-reference naming.
-The other segments distinguish grade/route, independent supply composition and
-delivery node, and evidenced quantitative specifications. Production, market
-consumption and the explicit TIDAS enterprise-procurement extension remain
-separate scopes; a delivery point or loss proxy establishes none of them by
-itself. Technology is not a mutually exclusive mix type, and physical supply
-must not be confused with contractual attributes.
+The other segments retain established grade/route, production mix, consumption
+mix, technology-specific and at/to descriptions, supplemented by evidence-backed
+quantitative specifications and modern procurement/accounting distinctions.
+Chinese 生产组合/生产混合 and 消费组合/消费混合 remain valid without bulk
+renaming. Production mix retains a documented weighting basis and geographic/time scope.
+Technology-specific remains valid alone or with an evidenced mix. Enterprise
+procurement is optional when existing descriptions are insufficient, and adding
+market to consumption mix is not a compulsory rename. Physical supply remains
+separate from contractual attributes.
 
-The Flow methodology receives the same mix/node guidance. Its original imported
-hash is retained as superseded evidence while the current text becomes
-repository-authored. Bilingual/public conformance cases preserve shared Flow
-compatibility, whole-Model/result names, arrival/departure meaning and empty
-unknown qualifiers. Schema, package version and consumer gates are unchanged;
-this change has not been published or adopted by a consumer. See the
-[naming contract](docs/specification.md#process-name-fields).
+The Flow methodology receives the same limited mix/node clarification while
+retaining its established examples. Its original imported hash remains as
+superseded evidence and the current text is repository-authored. Conformance
+cases protect the old expressions alongside shared-Flow compatibility,
+whole-Model/result names and evidence limits. Schema, package version and
+consumer gates are unchanged; this change has not been published or adopted by
+a consumer. See the [naming contract](docs/specification.md#process-name-fields).
 
 ## Build and verification
 

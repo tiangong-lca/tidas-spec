@@ -121,15 +121,15 @@ assets.
 
 ### Process name fields
 
-Issue #31 retains the four ILCD field keys and adopts the following TIDAS
-product-LCA authoring convention. This is guidance about content, not a new
+Issue #31 retains the four ILCD field keys and established naming usage, adding
+clarification only where needed for modern product-LCA authoring. This is guidance about content, not a new
 schema enumeration or a consumer runtime gate.
 
 | Field | Content | Boundary |
 | --- | --- | --- |
 | `baseName` | Product or service identity. | For one reference Flow, exactly match its base name in each corresponding language. Multiple-reference names retain the technology/plant descriptor and identify all reference flows. |
 | `treatmentStandardsRoutes` | Evidenced grade, treatment, standard, relevant feedstock origin and technology route. | Numeric grade identifiers such as C30 or S355 remain grades. A shared Flow does not substitute for Process-specific route evidence. |
-| `mixAndLocationTypes` | Supply composition scope and delivery node, as independent qualifiers. | Production, market consumption and enterprise procurement scopes are distinct. Specific technology is not a mutually exclusive mix class. |
+| `mixAndLocationTypes` | Established mix, technology-representativeness and availability/delivery descriptions. | Production mix, consumption mix and technology-specific remain valid; supported combinations and optional procurement-specific detail supplement them. |
 | `functionalUnitFlowProperties` | Evidenced quantitative specifications affecting function, quality, physical state or substitutability, with units, basis and relevant conditions. | A reference amount, conversion, footprint result or supplier weight is not a product specification. |
 
 A shared Flow can identify a product for different compatible production routes.
@@ -140,21 +140,35 @@ exact version; `Electricity` is not an automatic alias for `Alternating current`
 Do not copy a narrower Process route or supplier scenario into a reusable Flow
 merely to distinguish Process records.
 
-A production mix describes output within its documented production scope; a
-market consumption mix describes supply consumed in a documented market; an
-enterprise procurement mix describes an enterprise's purchases. Enterprise
-procurement is an explicit TIDAS extension, not an original ILCD enumeration or
-a claim of market representativeness. A mix can use one or several technologies.
-Delivery to a user, a Flow name, a loss proxy or a mapping adapter alone proves
-no consumption mix. If only the delivery node is known, state only that node.
+Keep the established `Production mix`, `Consumption mix` and `Technology-specific`
+descriptions. Chinese 生产组合/生产混合 and 消费组合/消费混合 are both
+established renderings of the respective mix terms; retain existing wording
+without bulk terminology replacement. A production mix is a weighted average for a defined geographic
+and temporal production scope with a documented basis, such as producer output.
+It may combine producers using the same technology. `Technology-specific` remains
+valid on its own in the third field and can coexist with an evidenced production
+or consumption mix; the specific route name stays in the second field.
 
-`To` names arrival at the receiving node before its subsequent processing;
-`at` names departure or availability after the represented processing. Thus
-`to refinery receiving terminal` and `at refinery gate` distinguish interfaces.
-A node or preposition does not establish complete inventory coverage. Included
-transport, losses, processing and exclusions still need boundary evidence.
-The Flow methodology uses these same mix/node meanings without imposing an
-individual Process's technology or scenario on a Flow identity.
+Consumption mix describes consumed supply in the represented scope, accounting
+for relevant domestic supply and trade on the documented basis. A `market`
+qualifier can distinguish a scope when useful; it is not a compulsory rename.
+Only where existing descriptions are insufficient, enterprise procurement mix
+may be added as an optional TIDAS extension, with documented procurement scope
+and weighting evidence. It is not an original ILCD enumeration or a claim of
+market representativeness. A Flow label, delivery to a user, a loss proxy or a
+mapping adapter alone proves no consumption mix or transport boundary.
+
+Retain the usual `at plant`, `at wholesale`, `at point-of-sale`, `to consumer`
+and `to wholesale` expressions. `At` indicates availability or handover; `to`
+indicates a represented boundary including transport to the named node, which
+needs supporting evidence. The original examples `Production mix, at plant`,
+`Consumption mix, to consumer` and `Technology-specific, to wholesale` remain
+valid. Clarify a receiving, dispatch or dispensing interface only when needed;
+there is no universal at/to rule of after/before processing. Neither the words
+nor the node establishes complete inventory coverage. Included transport, losses,
+processing and exclusions still need boundary evidence. The Flow methodology
+uses the same established meanings and supplements without imposing an individual
+Process's technology or scenario on a Flow identity.
 
 Physical supply composition and contractual/attribute accounting stay separate.
 A certificate alone establishes neither physical generation technology nor zero

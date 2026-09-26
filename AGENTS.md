@@ -23,8 +23,8 @@ checkPaths:
   - .gitignore
   - .docpact/config.yaml
 lastReviewedAt: "2026-09-26"
-lastReviewedCommit: "f610cf313aef20a7e14966507da37bb5713946d8"
-lastReviewedNote: "Reviewed for tidas-spec #31: approved four-part Process naming and shared Flow mix/node consistency remain specification content; Flow import supersession is explicit and consumer gates remain outside this repository."
+lastReviewedCommit: "711a1ec9843cb7df8dfd917ff8d0ded22a9152ea"
+lastReviewedNote: "Reviewed for tidas-spec #31 / PR #32: preserve established mix, technology-specific and at/to naming while adding scoped evidence-based clarification; ownership, schema and consumer gates unchanged."
 related:
   - README.md
   - .docpact/config.yaml
