@@ -9,11 +9,12 @@ tools `LICENSE` notice alone.
 **Source.** The original 39-file import was extracted from Git blobs at
 `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`),
 canonical repository `https://github.com/tiangong-lca/tidas-toolkit`.
-Candidate 0.2.3 retains 33 imported files byte-for-byte; five original files
+Candidate 0.2.3 retains 32 imported files byte-for-byte; five original files
 were superseded by the reviewed change in Issue #7, the Process schema receives
 repository-authored review-cardinality and conditional-reference corrections
 in Issues #24 and #29, and the
-Process methodology was superseded by the schema-alignment decision in Issue #22. The package also ships
+Process methodology was superseded by the schema-alignment decision in Issue #22.
+Issue #31 also supersedes the Flow methodology for shared mix/delivery guidance. The package also ships
 repository-authored assets. Extraction reads blobs by commit, not a working
 tree, so an uncommitted local edit cannot enter the import.
 `source-import.yaml` records imported and superseded source paths and digests;
@@ -141,3 +142,31 @@ source-mandated supporting-dataset notices are referenced rather than copied.
 This records the sources and adaptation, not JRC endorsement, scientific
 certification, completeness of every PEF/OEF sector rule or authorization to
 publish a package. See [coverage and limits](ef-process-methodology.md).
+
+## Four-part naming clarification (Issue #31)
+
+Issue #31 records the user's approved clarification of existing four-part
+product-LCA naming and the subsequent correction to preserve established mix,
+technology-specific and at/to expressions while adding only necessary detail. The Process methodology and
+public-rule index were already repository-authored. The Flow methodology now
+also becomes repository-authored; only its `mixAndLocationTypes` guidance changes.
+Its original source remains `tidas-toolkit` commit
+`9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5`, path
+`assets/tidas/methodologies/tidas_flows.yaml`, SHA256
+`4a389d060f5c901b7c11625675948c0152df95ad33bedc87eca0f93341038d6d`.
+`source-import.yaml` preserves that original digest as superseded evidence and
+excludes this path from the current byte-identical import; the independent
+`reviewed-baseline.json` aggregate now binds the 32 remaining unchanged imports.
+No original source digest is overwritten with the new content's hash.
+
+The newly written bilingual guidance cites the
+[ILCD Process field definitions](https://eplca.jrc.ec.europa.eu/LCDN/downloads/ILCD_Format_1.1_Documentation/ILCD_ProcessDataSet.html)
+and [Nomenclature handbook Rules 14–16 and 20](https://eplca.jrc.ec.europa.eu/uploads/MANPROJ-PR-ILCD-Handbook-Nomenclature-and-other-conventions-first-edition-ISBN-fin-v1.0-E.pdf).
+TIDAS's exact-base-name convention, optional enterprise procurement supplement
+and explicit physical/contractual distinction are stated as project decisions
+rather than attributed to an ILCD enumeration. Existing production/consumption
+mix, technology-specific and availability/transport expressions are retained;
+no wholesale renaming or universal before/after-processing definition is added. Handbook text, figures and tables are not
+reproduced. Schema bytes, schema lock, package version and publication procedures
+are unchanged. A draft build regenerates the manifest and archive without
+claiming a reviewed source revision, a published release or consumer adoption.

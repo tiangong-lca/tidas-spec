@@ -26,9 +26,9 @@ checkPaths:
   - scripts/**
   - .github/workflows/**
   - docs/qualification.md
-lastReviewedAt: 2026-09-24
-lastReviewedCommit: 48ff221b94b6ab83bbbf4989608e67e59c210adf
-lastReviewedNote: "Reviewed for tidas-spec #29: unpublished 0.2.3 carries Process schema corrections with separate consumer adoption; the build and publication path are unchanged."
+lastReviewedAt: "2026-09-26"
+lastReviewedCommit: "711a1ec9843cb7df8dfd917ff8d0ded22a9152ea"
+lastReviewedNote: "Reviewed for tidas-spec #31 / PR #32: restored established naming examples and usage, optional procurement/market refinements, documented weighting and transport evidence; no release or adoption claim."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -81,7 +81,7 @@ Only after the release identity is present does the workflow dispatch `tidas_spe
 
 ## Source baseline
 
-The original 39-file import was extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). Candidate 0.2.3 retains 33 of those files byte-for-byte. The Process and LCIA Method schemas in both languages, together with their derived schema lock, supersede the imported copies after the reviewed optional-review-report decision in tidas-spec #7; tidas-spec #24 further corrects Process review cardinality, and tidas-spec #29 corrects Process quantitative-reference requirements and makes `typeOfDataSet` optional. The Process methodology's version wording is separately superseded by tidas-spec #22 to match the unchanged `Version` schema. These are identified as repository-authored assets rather than falsely attributed to the toolkit commit. The two public-rule assets are also authored and reviewed here. `source-import.yaml` records both the remaining import and superseded source paths, while `reviewed-baseline.json` anchors the remaining imported bytes.
+The original 39-file import was extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). Candidate 0.2.3 retains 32 of those files byte-for-byte. The Process and LCIA Method schemas in both languages, together with their derived schema lock, supersede the imported copies after the reviewed optional-review-report decision in tidas-spec #7; tidas-spec #24 further corrects Process review cardinality, and tidas-spec #29 corrects Process quantitative-reference requirements and makes `typeOfDataSet` optional. The Process methodology's version wording is separately superseded by tidas-spec #22 to match the unchanged `Version` schema. These are identified as repository-authored assets rather than falsely attributed to the toolkit commit. Issue #31 also supersedes Flow methodology mix/delivery wording while preserving its original source hash; the remaining 32-file import is independently bound. The two public-rule assets are also authored and reviewed here. `source-import.yaml` records both the remaining import and superseded source paths, while `reviewed-baseline.json` anchors the remaining imported bytes.
 
 Three files present at that commit are deliberately **not** imported: `runtime_rulesets.json`, `runtime_rulesets.schema.json`, and `elementary_flow_taxonomy_extension.v1.json`. They remain owned by `tidas-toolkit` and their exclusion is recorded and enforced.
 
@@ -102,6 +102,28 @@ permitted documented elementary duplicates in the Data Guide and stricter eILCD
 per-side uniqueness is explicit, as are supporting-dataset review/DQR exceptions.
 The nine adjudicated public rules, both schema variants and runtime gates are
 unchanged. See [source coverage and representation limits](docs/ef-process-methodology.md).
+
+## Four-part Process naming clarification
+
+The candidate for [Issue #31](https://github.com/tiangong-lca/tidas-spec/issues/31)
+retains exact single-reference `baseName` alignment and multi-reference naming.
+The other segments retain established grade/route, production mix, consumption
+mix, technology-specific and at/to descriptions, supplemented by evidence-backed
+quantitative specifications and modern procurement/accounting distinctions.
+Chinese 生产组合/生产混合 and 消费组合/消费混合 remain valid without bulk
+renaming. Production mix retains a documented weighting basis and geographic/time scope.
+Technology-specific remains valid alone or with an evidenced mix. Enterprise
+procurement is optional when existing descriptions are insufficient, and adding
+market to consumption mix is not a compulsory rename. Physical supply remains
+separate from contractual attributes.
+
+The Flow methodology receives the same limited mix/node clarification while
+retaining its established examples. Its original imported hash remains as
+superseded evidence and the current text is repository-authored. Conformance
+cases protect the old expressions alongside shared-Flow compatibility,
+whole-Model/result names and evidence limits. Schema, package version and
+consumer gates are unchanged; this change has not been published or adopted by
+a consumer. See the [naming contract](docs/specification.md#process-name-fields).
 
 ## Build and verification
 

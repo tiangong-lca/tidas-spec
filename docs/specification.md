@@ -119,6 +119,84 @@ with pinned older schema bytes need a separate reviewed adoption of the new
 candidate; changing this source alone does not update SDK, CLI, or toolkit
 assets.
 
+### Process name fields
+
+Issue #31 retains the four ILCD field keys and established naming usage, adding
+clarification only where needed for modern product-LCA authoring. This is guidance about content, not a new
+schema enumeration or a consumer runtime gate.
+
+| Field | Content | Boundary |
+| --- | --- | --- |
+| `baseName` | Product or service identity. | For one reference Flow, exactly match its base name in each corresponding language. Multiple-reference names retain the technology/plant descriptor and identify all reference flows. |
+| `treatmentStandardsRoutes` | Evidenced grade, treatment, standard, relevant feedstock origin and technology route. | Numeric grade identifiers such as C30 or S355 remain grades. A shared Flow does not substitute for Process-specific route evidence. |
+| `mixAndLocationTypes` | Established mix, technology-representativeness and availability/delivery descriptions. | Production mix, consumption mix and technology-specific remain valid; supported combinations and optional procurement-specific detail supplement them. |
+| `functionalUnitFlowProperties` | Evidenced quantitative specifications affecting function, quality, physical state or substitutability, with units, basis and relevant conditions. | A reference amount, conversion, footprint result or supplier weight is not a product specification. |
+
+A shared Flow can identify a product for different compatible production routes.
+Two Processes may therefore keep `Alternating current` as base name while
+identifying supported coal and wind routes separately. Equality of base names
+does not establish compatibility of the Flow's full qualifiers, properties or
+exact version; `Electricity` is not an automatic alias for `Alternating current`.
+Do not copy a narrower Process route or supplier scenario into a reusable Flow
+merely to distinguish Process records.
+
+Keep the established `Production mix`, `Consumption mix` and `Technology-specific`
+descriptions. Chinese 生产组合/生产混合 and 消费组合/消费混合 are both
+established renderings of the respective mix terms; retain existing wording
+without bulk terminology replacement. A production mix is a weighted average for a defined geographic
+and temporal production scope with a documented basis, such as producer output.
+It may combine producers using the same technology. `Technology-specific` remains
+valid on its own in the third field and can coexist with an evidenced production
+or consumption mix; the specific route name stays in the second field.
+
+Consumption mix describes consumed supply in the represented scope, accounting
+for relevant domestic supply and trade on the documented basis. A `market`
+qualifier can distinguish a scope when useful; it is not a compulsory rename.
+Only where existing descriptions are insufficient, enterprise procurement mix
+may be added as an optional TIDAS extension, with documented procurement scope
+and weighting evidence. It is not an original ILCD enumeration or a claim of
+market representativeness. A Flow label, delivery to a user, a loss proxy or a
+mapping adapter alone proves no consumption mix or transport boundary.
+
+Retain the usual `at plant`, `at wholesale`, `at point-of-sale`, `to consumer`
+and `to wholesale` expressions. `At` indicates availability or handover; `to`
+indicates a represented boundary including transport to the named node, which
+needs supporting evidence. The original examples `Production mix, at plant`,
+`Consumption mix, to consumer` and `Technology-specific, to wholesale` remain
+valid. Clarify a receiving, dispatch or dispensing interface only when needed;
+there is no universal at/to rule of after/before processing. Neither the words
+nor the node establishes complete inventory coverage. Included transport, losses,
+processing and exclusions still need boundary evidence. The Flow methodology
+uses the same established meanings and supplements without imposing an individual
+Process's technology or scenario on a Flow identity.
+
+Physical supply composition and contractual/attribute accounting stay separate.
+A certificate alone establishes neither physical generation technology nor zero
+impact. Record the applicable accounting basis in modelling documentation. An
+evidenced `30 % recycled material by mass of finished product` describes a
+material specification; a 30 % share from one supplier is procurement composition
+and belongs with the documented weights, not the fourth name field. Unknown
+specifications stay absent; neither `1 kWh` nor `1 kWh = 3.6 MJ` fills the gap.
+Equipment capacity, processing duration and loss rate belong in technical or
+modelling descriptions unless they define the delivered service specification.
+
+Model names describe the whole represented supply system and delivery interface.
+A Model with mixed diesel supplies and transport cannot inherit only a final
+refinery route and plant-gate name; its resulting Process keeps the reviewed
+whole-Model name. A graph or node label cannot provide missing upstream evidence.
+Keep geographic codes, years, site identifiers, full boundaries and quality
+caveats in their dedicated metadata. Preserve meaningful name information in
+every authored language, or explicitly justify its removal.
+
+The [ILCD Process format](https://eplca.jrc.ec.europa.eu/LCDN/downloads/ILCD_Format_1.1_Documentation/ILCD_ProcessDataSet.html)
+provides the four field meanings. [ILCD Handbook Rule 20, section 3.5](https://eplca.jrc.ec.europa.eu/uploads/MANPROJ-PR-ILCD-Handbook-Nomenclature-and-other-conventions-first-edition-ISBN-fin-v1.0-E.pdf)
+recommends full-name alignment for single-reference Unit processes, LCI results
+and partly terminated systems. TIDAS's narrower field-scoped convention is a
+project decision, not a claim that ILCD applies only after publication.
+This candidate is unshipped. Exact-reference checks, evidence-binding execution,
+SDK nonempty requirements and gate policy remain consumer-owned; editing this
+methodology changes no installed SDK/CLI or publication authorization.
+
 ### Process review cardinality
 
 The Process `modellingAndValidation.validation.review` property preserves the

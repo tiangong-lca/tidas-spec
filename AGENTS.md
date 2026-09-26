@@ -22,9 +22,9 @@ checkPaths:
   - LICENSE
   - .gitignore
   - .docpact/config.yaml
-lastReviewedAt: 2026-09-24
-lastReviewedCommit: 48ff221b94b6ab83bbbf4989608e67e59c210adf
-lastReviewedNote: "Reviewed for tidas-spec #29: conditional Process reference fields and optional data-set type remain public schema semantics; SDK, CLI, toolkit and data adoption stay with their owners."
+lastReviewedAt: "2026-09-26"
+lastReviewedCommit: "711a1ec9843cb7df8dfd917ff8d0ded22a9152ea"
+lastReviewedNote: "Reviewed for tidas-spec #31 / PR #32: preserve established mix, technology-specific and at/to naming while adding scoped evidence-based clarification; ownership, schema and consumer gates unchanged."
 related:
   - README.md
   - .docpact/config.yaml

@@ -1,8 +1,8 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-09-24"
-lastReviewedCommit: "48ff221b94b6ab83bbbf4989608e67e59c210adf"
-lastReviewedNote: "Reviewed for tidas-spec #29: the existing asset, conformance-test, documentation and release rules cover both Process schema variants; no routing or ownership change."
+lastReviewedAt: "2026-09-26"
+lastReviewedCommit: "711a1ec9843cb7df8dfd917ff8d0ded22a9152ea"
+lastReviewedNote: "Reviewed for tidas-spec #31 / PR #32: existing routes cover minimal naming clarification, retained legacy examples, bilingual/public conformance and regenerated draft artifacts; routing unchanged."
 
 catalog:
   repos:

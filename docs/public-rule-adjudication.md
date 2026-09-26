@@ -66,6 +66,41 @@ reviewed source-rights record or public-specification decision for its ten
 extension nodes. It must not enter the public package or public rule index until
 source, version, rights, and checking semantics are independently reviewed.
 
+## Four-part naming clarification (Issue #31)
+
+The approved scope retains `tidas.process.name.base-name.align-reference-flow`
+as a requirement on `baseName` for a single exact reference Flow, and preserves
+the multi-reference naming rule. The complete name need not equal the Flow name.
+The existing qualifier recommendation separates grade/route, supply scope and
+delivery node, and evidenced quantitative specifications. Public cases cover
+shared Flows, information retention in every language, numeric grades versus
+material percentages versus procurement shares, and whole-Model/result names.
+
+The existing production mix, consumption mix and technology-specific descriptions
+and examples remain valid, including Chinese 生产组合/生产混合 and
+消费组合/消费混合 without compulsory replacement. Production mix has an evidenced weighting basis
+within a defined geographic and temporal scope. Technology-specific can stand
+alone or accompany a supported mix; a market qualifier is optional, not a
+required rename of consumption mix. Enterprise procurement is an optional TIDAS
+supplement where the existing descriptions are insufficient. A Flow label,
+delivery to users, a loss proxy or a mapping adapter does not establish consumption
+mix. Existing at/to availability/handover and transport-to-node usage is retained;
+interface detail supplements it without a universal before/after-processing rule
+or an automatic completeness claim. Physical composition remains separate from
+contractual attributes; a certificate is not evidence of physical technology or
+zero impact. The Flow methodology receives the same limited clarification while
+preserving established usage and individual Process/Flow identity boundaries.
+
+This field-scoped application is explicitly distinguished from ILCD Rule 20's
+full-name recommendation, which is not limited to released LCI results. It does
+not adjudicate aliases, modify Flow identities, add a schema enum or introduce
+execution policy. The Flow methodology's former imported bytes are retained as
+superseded-source provenance, while its reviewed current content is marked as
+repository-authored. See [provenance](provenance.md#four-part-naming-clarification-issue-31).
+The separate local [CLI name-plan workflow](https://github.com/tiangong-lca/cli/issues/375)
+is consumer-owned. Neither this PR nor local tests constitute a specification
+release, consumer adoption, or an online dataset correction.
+
 ## Consumer boundary
 
 - `tidas-spec` owns only the definitions in `public-rules.v1.json`.
