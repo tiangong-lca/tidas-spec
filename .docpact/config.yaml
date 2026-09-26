@@ -1,8 +1,8 @@
 version: 1
 layout: repo
 lastReviewedAt: "2026-09-26"
-lastReviewedCommit: "0f2d89b49ee4f690269097e24413464e916dd0d3"
-lastReviewedNote: "Reviewed for tidas-spec #31: existing content governance covers bilingual naming rules, public cases and candidate integrity output; ownership and routing remain unchanged."
+lastReviewedCommit: "f610cf313aef20a7e14966507da37bb5713946d8"
+lastReviewedNote: "Reviewed for tidas-spec #31: existing routes cover bilingual methodology, explicit Flow import supersession, public cases, conformance tests and deterministic candidate output; ownership unchanged."
 
 catalog:
   repos:

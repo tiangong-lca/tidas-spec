@@ -118,43 +118,49 @@ flowDataSet:
           <rules>:
             - language: "en"
               naming_convention: |
-                state mix and location type qualifiers separated by commas.
-                - Distinguish between production mix, consumption mix, or technology-specific flows.
-                - Describe the delivery point or availability location using "at" (handover) or "to" (including transport).
+                State supported supply composition and delivery node as independent, comma-separated qualifiers.
+                - Distinguish production mix, market consumption mix and, as an explicit TIDAS extension rather than an original ILCD enumeration, enterprise procurement mix.
+                - Technology-specific is not a mutually exclusive mix class. Do not require several production routes to call a documented combination a production mix.
+                - Use "to" for arrival at the receiving node before its subsequent processing; use "at" for departure or availability at the node after the represented processing. Name the actual interface when the node alone is ambiguous.
               content_requirements:
-                - "Indicate whether the dataset averages multiple production routes (production mix) or includes trade (consumption mix)."
-                - "Specify nodes such as at plant, at wholesale, at point-of-sale, to consumer."
-                - "Use 'to' when transport burdens up to that node are included (e.g., to wholesale, to waste incineration plant)."
-                - "Leave the field empty only when both mix and location qualifiers are inapplicable."
+                - "Use a mix qualifier only when it defines this Flow's represented scope. Production mix concerns documented producers' output, market consumption mix concerns supply consumed in a documented market, and enterprise procurement mix concerns a documented enterprise's purchases without implying market representativeness."
+                - "A Flow name, delivery to a user, a loss proxy or a mapping adapter alone does not establish consumption mix. If only the node is known, state only that node."
+                - "The at/to qualifier states an interface, not complete inventory coverage. Process/Model evidence must separately establish transport, losses, processing and exclusions."
+                - "Distinguish physical supply composition from contractual or attribute accounting; a certificate alone proves neither physical generation technology nor zero impact. Record an applicable accounting basis explicitly in the modelling documentation."
+                - "Keep a reusable Flow as broad as its evidenced identity allows; do not copy an individual Process route, supplier identity or scenario into its qualifiers merely to distinguish Processes. Any existing Flow qualifier still constrains compatibility."
+                - "Leave absent or unsupported qualifiers empty; intended use belongs in treatmentStandardsRoutes and geographic codes, years and site identifiers in dedicated metadata."
               examples:
-                - "Production mix, at plant"
-                - "Consumption mix, to consumer"
-                - "Technology-specific, to wholesale"
-                - "Production mix, to waste incineration plant"
+                - "Production mix, at plant gate"
+                - "Market consumption mix, to user receiving terminal"
+                - "Enterprise procurement mix, to user receiving terminal"
+                - "To user receiving terminal"
               best_practices:
-                - "Validate the qualifiers against the system boundary description."
-                - "Keep language consistent across flows representing the same market."
-                - "Avoid mixing intended use descriptions; place them in treatmentStandardsRoutes."
+                - "Check represented supply scope and delivery interface independently against evidence."
+                - "Use the same arrival/departure convention in Flow and Process names without requiring all their qualifiers to be equal."
+                - "Do not infer an upstream production technology or inventory completeness from a Flow label."
 
             - language: "zh"
               naming_convention: |
-                用逗号标注混合类型与交付位置。
-                - 区分生产混合、消费混合或特定技术。
-                - 使用“在”表示交割点，“至”表示包含运输至该节点。
+                将有依据的供应组合与交付节点作为独立限定词，用逗号分隔。
+                - 区分生产组合、市场消费组合与企业采购组合；企业采购组合是TIDAS明确增加的约定，不是ILCD原有枚举。
+                - 特定技术不是互斥的组合类别；已记录的生产组合不以含多条技术路线为前提。
+                - “至”（to）表示到达接收节点、尚未进行该节点的后续处理；“在”（at）表示所代表处理完成后，在节点离开或可供交付。仅写节点有歧义时，应写明实际接口。
               content_requirements:
-                - "说明是否为生产混合（多路线平均）或消费混合（包含进出口）。"
-                - "标出交付/可得位置（如 在工厂、在批发、在零售点、至终端消费者）。"
-                - "需要时补充至废物处理设施等描述。"
-                - "若两类信息均不适用，可留空；否则需提供。"
+                - "组合限定仅在其定义Flow所代表范围时使用。生产组合指已记录生产者的产出，市场消费组合指已记录市场中被消费的供应，企业采购组合指已记录企业的采购，不据此声称市场代表性。"
+                - "仅凭Flow名称、送达用户、损耗代理或映射适配过程，不能证明消费组合。只知道节点时只写节点。"
+                - "at/to限定表达接口，不证明清单覆盖完整。运输、损耗、处理与排除项须另外由Process/Model证据确定。"
+                - "区分物理供应组合与合同或属性核算；单凭证书既不能证明实际发电技术，也不能证明零影响。适用的核算方式在建模说明中明确。"
+                - "可复用Flow只保留其有证据的身份限定；不为区分Process而把某个Process路线、供方身份或情景直接复制成Flow限定词。Flow已有的限定仍约束兼容性。"
+                - "不存在或无依据的限定词留空；用途放在treatmentStandardsRoutes，地理代码、年份和站点标识放在专门元数据。"
               examples:
-                - "生产混合，在工厂"
-                - "消费混合，至终端消费者"
-                - "特定技术，至批发商"
-                - "生产混合，至废物焚烧厂"
+                - "生产组合，在厂门"
+                - "市场消费组合，至用户接收端"
+                - "企业采购组合，至用户接收端"
+                - "至用户接收端"
               best_practices:
-                - "确认与系统边界叙述一致。"
-                - "同一市场的描述保持统一表述。"
-                - "用途限定应写在 treatmentStandardsRoutes 字段，避免混淆。"
+                - "分别根据证据核对供应代表范围与交付接口。"
+                - "Flow和Process名称使用一致的到达/离开约定，但不要求其全部限定词相同。"
+                - "不从Flow标签推断上游生产技术或清单完整性。"
 
         flowProperties:
           <rules>:

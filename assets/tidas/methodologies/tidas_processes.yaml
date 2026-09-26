@@ -197,10 +197,10 @@ processDataSet:
           <rules>:
             - language: "en"
               naming_convention: |
-                ILCD Handbook Rule 20 recommends full-name alignment for single-reference Unit processes, LCI results and partly terminated systems, regardless of publication status. TIDAS applies a field-scoped convention: exact equality applies to baseName; the other name fields describe the actual Process.
+                ILCD Handbook Rule 20 recommends full-name alignment for single-reference Unit processes, LCI results and partly terminated systems, regardless of publication status. TIDAS applies a four-part product-LCA convention: baseName identifies the product or service, treatmentStandardsRoutes qualifies grade and technology, mixAndLocationTypes describes supply composition and delivery node independently, and functionalUnitFlowProperties states meaningful quantitative specifications. Exact equality applies to baseName; the other name fields describe the actual Process.
                 - Single reference flow: use that exact reference Flow's baseName in each corresponding language. Do not copy the Flow's complete name into baseName.
                 - Multiple reference flows: start with the technology or plant descriptor and append each reference flow name separated by commas.
-                - Exclude geographical or temporal qualifiers from the base name; capture them in the dedicated metadata fields.
+                - Keep geographic codes, years and site identifiers in dedicated metadata; record complete system boundaries and data-quality limitations in their dedicated descriptions.
               content_requirements:
                 - "Use technical terminology as applied in the supplying industry or towards customers."
                 - "Separate descriptors within the base name using commas and avoid semicolons or brackets."
@@ -209,7 +209,7 @@ processDataSet:
                 - "Keep the wording concise enough for interface display (target 200 characters or fewer)."
                 - "A shared reference Flow can serve different Processes. Preserve their supported route, treatment, representativeness and delivery differences in the other structured name fields."
                 - "Matching base names does not establish scientific compatibility: check the exact Flow version, its other name qualifiers, properties and the Process evidence. Electricity is not an unconditional synonym for alternating current."
-              example_context: "The first two examples assume the same baseName on the selected reference Flow; the last example has multiple reference flows."
+              example_context: "Each of the first two examples matches the baseName of its own selected reference Flow; the last example has multiple reference flows."
               examples:
                 - "Alternating current"
                 - "Steel sheet"
@@ -222,10 +222,10 @@ processDataSet:
 
             - language: "zh"
               naming_convention: |
-                ILCD 手册规则20建议单参考流的单元过程、LCI结果和部分终止系统采用与参考流一致的完整名称，不以发布状态区分。TIDAS采用按字段适用的约定：完全同名要求针对baseName，其余名称字段描述实际Process。
+                ILCD 手册规则20建议单参考流的单元过程、LCI结果和部分终止系统采用与参考流一致的完整名称，不以发布状态区分。TIDAS采用面向产品LCA的四段约定：baseName识别产品或服务，treatmentStandardsRoutes限定等级和技术，mixAndLocationTypes分别说明供应组合与交付节点，functionalUnitFlowProperties表达有意义的定量规格。完全同名要求针对baseName，其余名称字段描述实际Process。
                 - 单一参考流：各对应语言的baseName沿用该精确参考Flow的baseName，不把Flow完整名称复制进baseName。
                 - 多参考流：以技术或装置描述开头，用逗号串联每个参考流名称。
-                - 地理位置、时间等信息不要写入基础名称，在对应元数据字段中填写。
+                - 地理代码、年份和站点标识放在专门元数据中；完整系统边界与数据质量限制放在专门描述字段中。
               content_requirements:
                 - "使用行业通用的技术术语，必要时先写全称再补充常用缩写（例如 Polypropylene, PP）。"
                 - "同一字段内部使用逗号分隔描述，避免使用分号或括号。"
@@ -233,7 +233,7 @@ processDataSet:
                 - "名称应便于界面展示，建议控制在200个字符以内。"
                 - "不同Process可以共用参考Flow；有证据的路线、处理方式、代表性和交付差异应保留在其他结构化名称字段中。"
                 - "baseName一致不能证明科学兼容：须核对Flow精确版本、其他名称限定词、属性和Process证据。电力不能无条件视为交流电的同义词。"
-              example_context: "前两个示例的所选参考Flow具有相同baseName；最后一个示例含多个参考流。"
+              example_context: "前两个示例分别与各自所选参考Flow的baseName相同；最后一个示例含多个参考流。"
               examples:
                 - "交流电"
                 - "钢板"
@@ -257,8 +257,8 @@ processDataSet:
                 - "Reference applicable standards or grades (e.g., EN 10202 prime quality, GB/T 13296)."
                 - "Indicate product quality or performance attributes (e.g., UV-resistant, flame-retardant)."
                 - "Document intended use qualifiers when relevant (e.g., for wafer production, indoor use)."
-                - "Identify production routes or feedstock types (e.g., steam cracking route, secondary
-                  material)."
+                - "Identify production routes or relevant feedstock origin (e.g., steam cracking route, primary or secondary material)."
+                - "A numeric grade identifier such as C30 or S355 remains a grade in this field; it is not itself a measured quantitative property. A recycled-material origin belongs here, while an evidenced recycled-content percentage with a stated material basis belongs in functionalUnitFlowProperties."
                 - "Summarize the actual Process technology evidence. Shared-Flow qualifiers restrict product compatibility but do not substitute for Process-specific route evidence."
                 - "Do not insert an unreviewed scaffold such as production route or treatment route; leave semantically absent qualifiers empty in the schema-supported representation."
               examples:
@@ -281,7 +281,8 @@ processDataSet:
                 - "引用适用的标准或等级（如 EN 10202 一级、GB/T 13296 等）。"
                 - "指出关键质量或性能属性（如 抗紫外、阻燃）。"
                 - "必要时补充用途限定（如 用于晶圆生产、室内使用）。"
-                - "标识生产路线或原料属性（如 蒸汽裂解路线、再生料）。"
+                - "标识生产路线或相关原料来源（如 蒸汽裂解路线、原生或再生料）。"
+                - "C30、S355等含数字的牌号仍是本字段的等级标识，不等同于测得的定量属性。再生原料来源放在本字段；有证据和明确材料基准的再生含量百分比放在functionalUnitFlowProperties。"
                 - "概括实际Process的技术证据。共享Flow的限定词约束产品兼容性，不能代替Process自身的路线证据。"
                 - "不填入未经审查的生产路线、处理路线等脚手架占位词；语义上不存在的限定词采用Schema支持的空表示。"
               examples:
@@ -297,71 +298,79 @@ processDataSet:
           <rules>:
             - language: "en"
               naming_convention: |
-                Follow ILCD Rule 15: describe mix and location types using comma-separated qualifiers.
-                - State whether the dataset represents a production mix, consumption mix, or single technology.
-                - Indicate the delivery or availability point (e.g., at plant, to consumer).
-                - Use "to" when transport to a node is included; use "at" when it represents the point of handover.
+                ILCD Rule 15 distinguishes production/consumption mix and availability location. TIDAS treats supply composition and delivery node as independent, comma-separated qualifiers.
+                - State the evidenced scope: production mix, market consumption mix, or enterprise procurement mix. Enterprise procurement mix is an explicit TIDAS extension, not an original ILCD enumeration.
+                - A specific technology is not a mutually exclusive mix class: a production, market or procurement mix may contain one or several technologies. Put its supported route in treatmentStandardsRoutes.
+                - Use "to" for arrival at the named receiving node, before that node's subsequent processing; use "at" for departure or availability at the named node after the represented processing. Specify the actual interface (e.g., receiving terminal, refinery gate, retail dispenser) when needed to avoid ambiguity.
               content_requirements:
-                - "Clarify production versus consumption mix status; omit if not applicable."
-                - "Derive representativeness and delivery boundary from the actual dataset; do not infer global average, a mix or a delivery point from a generic reference Flow."
-                - "For a Model-derived LCI result, describe the whole Model, including its mixed supplies and transport boundary. Preserve the reviewed Model name in the resulting Process rather than automatically copying a narrower final Process name."
-                - "Specify the commercial or logistical location type (e.g., at wholesale, at point-of-sale)."
-                - "Add other relevant availability descriptors (e.g., to waste incineration plant)."
-                - "Avoid confusing location type with intended use; reserve use-related qualifiers for
-                  treatmentStandardsRoutes."
+                - "Production mix represents the combined output of the documented producers or production scope. Market consumption mix represents the supply consumed in the documented market, accounting for relevant domestic supply, imports and exports according to its evidence. Enterprise procurement mix represents the documented purchases of an enterprise; it does not establish market representativeness."
+                - "Derive mix scope and node from the actual dataset. A reference Flow name, delivery to a user, a transmission/distribution loss proxy or a mapping adapter alone does not establish a consumption mix. If only the delivery node is supported, state that node and leave the mix qualifier absent."
+                - "The words at or to and the named node describe an interface, not proof of complete inventory coverage. Document included transport, losses, processing and known exclusions in the system boundary; do not infer them from the name."
+                - "Distinguish physical supply composition from contractual or attribute accounting. A certificate alone establishes neither physical generation technology nor zero impact. State any evidenced accounting basis explicitly in the modelling documentation; never silently substitute it for a physical mix."
+                - "Supplier procurement shares are composition evidence, not product quantitative specifications. Record shares, weighting basis and exclusions in the supply/model documentation, not functionalUnitFlowProperties."
+                - "For a Model-derived LCI result, name the whole Model's supply composition and delivery interface from its evidence. The resulting Process retains the reviewed Model name, not a narrower final Process name."
+                - "Keep geographic codes, years, enterprise/site identifiers, complete boundaries and data-quality caveats in dedicated metadata; the name states the type of mix or delivery node."
+                - "Use-related qualifiers belong in treatmentStandardsRoutes; omit unsupported or inapplicable mix/node qualifiers rather than inserting global average or other placeholders."
               examples:
-                - "Production mix, at plant"
-                - "Consumption mix, to consumer"
-                - "Technology-specific, to wholesale"
-                - "Production mix, to waste incineration plant"
+                - "Production mix, at refinery gate"
+                - "Market consumption mix, to user receiving terminal"
+                - "Enterprise procurement mix, to user receiving terminal"
+                - "To user receiving terminal"
+                - "At retail dispenser"
               best_practices:
-                - "Align mix terminology with documented system boundaries."
-                - "Keep qualifiers consistent across datasets representing the same market."
-                - "Review transport assumptions to choose between \"at\" and \"to\" correctly."
+                - "Verify representativeness separately from physical delivery, including when a technology-specific subset is mixed."
+                - "Use consistent node terminology and distinguish arrival from departure/availability at that same node."
+                - "A Model graph or node label alone does not establish missing upstream route or mix evidence; retain the unresolved limitation."
 
             - language: "zh"
               naming_convention: |
-                遵循 ILCD 规则15：用逗号标注混合类型与交付地点类型。
-                - 说明是否为生产混合、消费混合或特定技术数据。
-                - 明确交付或可用位置（如 产地交付、批发交付、终端消费者）。
-                - 涉及运输到某节点时使用“至”，表示交接点时使用“在”。
+                ILCD规则15区分生产/消费混合与可用位置。TIDAS将供应组合与交付节点作为相互独立的限定词，用逗号分隔。
+                - 根据证据说明范围：生产组合、市场消费组合或企业采购组合。企业采购组合是TIDAS明确增加的约定，不是ILCD原有枚举。
+                - 特定技术不是互斥的组合类别：生产、市场或采购组合均可包含一种或多种技术。有证据的技术路线放在treatmentStandardsRoutes。
+                - “至”（to）表示到达指定接收节点、尚未进入该节点的后续处理；“在”（at）表示所代表的处理完成后，在指定节点离开或可供交付。必要时写清实际接口（如用户接收端、炼厂厂门、零售加注端），避免歧义。
               content_requirements:
-                - "区分生产混合与消费混合；若不适用可省略。"
-                - "根据实际数据集确定代表性与交付边界，不从泛化参考Flow推断全球平均、混合类型或交付点。"
-                - "Model生成的LCI结果名称描述整个Model，包括混合供给与运输边界。结果Process继承经审查的Model名称，不自动复制范围更窄的最终Process名称。"
-                - "标注物流或商业节点（如 在批发、在零售点）。"
-                - "根据需要补充其他可得性描述（如 至焚烧厂）。"
-                - "避免与用途混淆，真正的用途限定应写在 treatmentStandardsRoutes 字段。"
+                - "生产组合代表已记录的生产者或生产范围的合并产出。市场消费组合代表已记录市场内被消费的供应，按证据考虑相关本地供应、进口和出口。企业采购组合代表某企业已记录的采购，不能据此声称市场代表性。"
+                - "根据实际数据集确定组合范围与节点。仅凭参考Flow名称、送达用户、输配损耗代理或映射适配过程，不能证明消费组合。只有交付节点有依据时，只写节点，省略组合限定词。"
+                - "at/to用词和所写节点描述接口，不证明清单覆盖完整。系统边界须说明所含运输、损耗、处理及已知遗漏，不能从名称反推这些内容。"
+                - "区分物理供应组合与合同或属性核算。单凭证书既不能证明实际发电技术，也不能证明零影响。任何有依据的核算方式均应在建模说明中明确，不得暗中替代物理组合。"
+                - "供方采购份额是组合证据，不是产品定量规格。份额、加权基准与排除项放在供应或模型说明中，不放在functionalUnitFlowProperties。"
+                - "Model生成的LCI结果名称依据证据描述整个Model的供应组合与交付接口。结果Process继承经审查的Model名称，不采用范围更窄的最终Process名称。"
+                - "地理代码、年份、企业/站点标识、完整边界和数据质量限制放在专门元数据中；名称表达组合或交付节点的类型。"
+                - "用途限定放在treatmentStandardsRoutes；无依据或不适用的组合/节点限定词省略，不填全球平均等占位词。"
               examples:
-                - "生产混合，在工厂"
-                - "消费混合，至终端消费者"
-                - "特定技术，至批发商"
-                - "生产混合，至废物焚烧厂"
+                - "生产组合，在炼厂厂门"
+                - "市场消费组合，至用户接收端"
+                - "企业采购组合，至用户接收端"
+                - "至用户接收端"
+                - "在零售加注端"
               best_practices:
-                - "与系统边界描述保持一致。"
-                - "同一市场的可交付点描述应保持统一。"
-                - "核对运输假设，正确选择“在”或“至”。"
+                - "代表性与实物交付分别核实，特定技术子集的组合也不例外。"
+                - "统一节点术语，区分同一节点的到达与离开/可交付状态。"
+                - "Model图或节点名称本身不能证明缺失的上游路线或组合事实；保留尚未解决的限制。"
 
         functionalUnitFlowProperties:
           <rules>:
             - language: "en"
               naming_convention: |
-                Follow ILCD Rule 16: document quantitative qualifying properties with explicit units and comma separation.
-                - Express constituent content or energy content per functional unit.
-                - Use percentage, concentration, or energy density formats that mirror measurement data.
-                - State the reference basis when it is not the default mass/mass relation.
+                Follow ILCD Rule 16 for quantitative qualifying properties. Under the TIDAS convention, include evidenced specifications that affect function, quality, physical state or substitutability, with explicit units and basis.
+                - State a product or process specification, not the functional-unit quantity or reference exchange amount.
+                - Use content, concentration, energy density or relevant operating-state values consistent with the source evidence.
+                - State the measurement/reference basis and relevant conditions; do not infer density, calorific value or other missing values.
               content_requirements:
-                - "Quantify key constituents or energy content (e.g., 24 % Fe, 9.6 MJ/kg net calorific value)."
+                - "Quantify distinguishing constituents, energy content or physical specifications (e.g., iron mass fraction, net calorific value, moisture basis, voltage, or steam pressure/temperature when relevant and evidenced)."
+                - "Equipment capacity, processing duration and loss rate are not quantitative name specifications unless they define the delivered service function or substitutability; otherwise retain them in technology/route descriptions or modelling documentation."
+                - "A material recycled-content percentage may qualify the product when its denominator and material boundary are explicit. Do not confuse it with the share purchased from one supplier or covered by a certificate."
                 - "Indicate the measurement basis explicitly when different from mass fraction (e.g., by
                   volume, molar)."
                 - "Include multiple properties as separate comma-separated entries."
-                - "Include only meaningful supported product qualifiers. Unit conversion identities such as 1 kWh = 3.6 MJ, reference-amount scaling instructions and statements that voltage or delivery follows another record are not product qualifiers. Do not invent missing values."
+                - "Do not fill this field with a functional unit such as 1 kg or 1 kWh, unit conversion such as 1 kWh = 3.6 MJ, a footprint result, supplier weights, reference-amount scaling instructions, or statements that voltage/delivery follows another record. Keep semantically absent qualifiers empty using the supported representation."
                 - "Avoid duplicating information stored in dedicated property fields (e.g., CAS numbers)."
               examples:
                 - "24 % Fe mass/mass"
                 - "9.6 MJ/kg net calorific value"
                 - "90.5 % methane by volume"
-                - "0.05 % sulfur mass/mass, 30 MJ/m3 lower heating value"
+                - "10 mg/kg sulfur mass fraction"
+                - "30 % recycled material by mass of the finished product"
               best_practices:
                 - "Use significant figures consistent with data quality statements."
                 - "Adopt SI units or widely accepted industrial units."
@@ -369,21 +378,24 @@ processDataSet:
 
             - language: "zh"
               naming_convention: |
-                遵循 ILCD 规则16：用逗号分隔定量属性，明确单位与计量基准。
-                - 表达关键组分含量或能量含量，并指明参考单位。
-                - 常用百分比、浓度或能量密度形式，与测量数据保持一致。
-                - 当基准不是质量分数时需额外说明（如 体积分数、摩尔分数）。
+                遵循ILCD规则16的定量限定属性指导。TIDAS约定只填写有证据、影响功能、质量、物理状态或可替代性的规格，明确单位与基准。
+                - 表达产品或过程规格，不是功能单位数量或参考交换数量。
+                - 采用与来源证据一致的含量、浓度、能量密度或相关状态数值。
+                - 说明计量/参考基准及相关条件，不推定密度、热值等缺失数值。
               content_requirements:
-                - "量化主要组分或能量（如 24 % Fe、9.6 MJ/kg 净热值）。"
+                - "量化具有辨识作用的组分、能量或物理规格（如铁质量分数、净热值、含水率基准、电压，或相关且有证据的蒸汽压力/温度）。"
+                - "设备容量、工艺时长和损耗率只有在其定义交付服务的功能或可替代性时才属于本字段；否则保留在技术/路线描述或建模说明中。"
+                - "材料再生含量百分比只有在分母与材料边界明确时才可作为产品限定；不得混同于某供方采购份额或证书覆盖份额。"
                 - "若基准不同于质量分数，应明确写出（如 体积分数、摩尔）。"
                 - "多项属性分别列出并以逗号分隔。"
-                - "仅保留有依据且有辨识意义的产品定量限定词。1 kWh = 3.6 MJ等单位换算恒等式、参考量缩放说明及电压或交付点遵循其他记录的表述不是产品限定词；不编造缺失值。"
+                - "不以1 kg、1 kWh等功能单位数量、1 kWh = 3.6 MJ等单位换算、足迹结果、供方权重、参考量缩放说明或电压/交付点遵循其他记录的表述填充本字段；语义上不存在的限定词采用受支持的空表示。"
                 - "避免重复记录已在其他属性字段中的信息（如 CAS 号）。"
               examples:
                 - "24 % Fe 质量分数"
                 - "9.6 MJ/kg 净热值"
                 - "90.5 % 甲烷 体积分数"
-                - "0.05 % 硫 质量分数，30 MJ/m3 低位发热量"
+                - "10 mg/kg 硫质量分数"
+                - "再生材料占成品质量的30 %"
               best_practices:
                 - "保持与数据质量声明一致的有效数字。"
                 - "优先使用 SI 单位或行业通行单位。"

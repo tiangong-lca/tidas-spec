@@ -87,7 +87,7 @@
       "id": "tidas.process.name.qualifiers.structured",
       "dataset_type": "process",
       "normative_level": "recommendation",
-      "statement": "Process-name qualifiers summarize the actual dataset evidence in treatment/standards/routes, mix/location type, and meaningful quantitative-property segments. They need not equal shared Flow qualifiers. Preserve meaningful descriptors in every authored language when moving information between fields; do not replace absent facts with scaffold or unit-conversion boilerplate. A Model-derived resulting Process retains the reviewed whole-Model name.",
+      "statement": "Process-name qualifiers describe evidenced grade/treatment/route, independently stated supply composition and delivery node, and quantitative specifications with their basis. Production, market consumption and TIDAS enterprise procurement mix are scope descriptions; technology is not a mutually exclusive mix class. Arrival/departure nodes do not establish inventory completeness or consumption-mix representativeness. Separate physical supply from contractual attributes. Preserve meaningful descriptors in every authored language; exclude functional-unit amounts, conversion boilerplate, footprint results and supplier weights. A Model-derived resulting Process retains the reviewed whole-Model name.",
       "locations": ["processDataSet.processInformation.dataSetInformation.name.treatmentStandardsRoutes", "processDataSet.processInformation.dataSetInformation.name.mixAndLocationTypes", "processDataSet.processInformation.dataSetInformation.name.functionalUnitFlowProperties"],
       "applicability": { "scope": "Process datasets that have the corresponding qualifier information." },
       "source_refs": [{ "asset": "tidas_processes.yaml", "path": "processDataSet.processInformation.dataSetInformation.name.treatmentStandardsRoutes.<rules>" }, { "asset": "tidas_processes.yaml", "path": "processDataSet.processInformation.dataSetInformation.name.mixAndLocationTypes.<rules>" }, { "asset": "tidas_processes.yaml", "path": "processDataSet.processInformation.dataSetInformation.name.functionalUnitFlowProperties.<rules>" }],
@@ -96,13 +96,22 @@
           "A production mix qualifier is placed in mixAndLocationTypes and a grade standard in treatmentStandardsRoutes, each supported by the actual Process.",
           "A supported 12-hour nitrate-storage descriptor is moved from baseName into treatmentStandardsRoutes without losing it in either authored language.",
           "A Model combines compatible diesel supplies and transport to the consumer: its name reflects that whole supply boundary, and the resulting Process keeps that Model name instead of inheriting only a final refinery's route and plant-gate boundary.",
-          "A supported sulfur mass fraction distinguishes a diesel specification in functionalUnitFlowProperties; an absent optional quantitative qualifier stays empty."
+          "A supported sulfur mass fraction distinguishes a diesel specification in functionalUnitFlowProperties; an absent optional quantitative qualifier stays empty.",
+          "A technology-specific production mix places its route in treatmentStandardsRoutes and its production scope in mixAndLocationTypes; several technologies are not required for a mix.",
+          "A delivery-only electricity adapter supports to user receiving terminal; mixAndLocationTypes states only that node because market-consumption representativeness is unresolved.",
+          "An evidenced enterprise procurement mix is labelled as that TIDAS scope, with supplier weights and any contractual accounting recorded in model documentation rather than quantitative product properties.",
+          "To refinery receiving terminal means arrival before refinery processing, while at refinery gate means departure or availability after represented refinery processing; included inventory and exclusions are established separately.",
+          "The S355 grade remains in treatmentStandardsRoutes despite its digits; an evidenced 30 % recycled material by mass of finished product belongs in functionalUnitFlowProperties with that basis."
         ],
         "negative": [
           "A location/mix qualifier is placed in treatmentStandardsRoutes or all qualifiers are flattened into baseName.",
           "Generic shared-Flow qualifiers overwrite a supported Process route, or renaming silently loses a descriptor in one authored language.",
           "An unreviewed production route or global average placeholder, a 1 kWh = 3.6 MJ conversion identity, or reference-amount scaling instructions are used as product qualifiers.",
-          "A Model with mixed supplies and transport is named after a narrower final Process without checking the whole-Model evidence."
+          "A Model with mixed supplies and transport is named after a narrower final Process without checking the whole-Model evidence.",
+          "Delivery to a consumer, a reference Flow labelled consumption mix, a grid-loss proxy or a mapping adapter is treated as sufficient evidence for market consumption mix.",
+          "Specific technology is treated as an alternative to all mix scopes, or an enterprise procurement mix is presented as an original ILCD class or market-representative supply without evidence.",
+          "At/to or a delivery node alone is used to claim complete cradle-to-node inventory coverage; a certificate is used to claim physical generation technology or zero impact.",
+          "A grade number is moved into quantitative properties, a supplier procurement share is called recycled-material content, or 1 kg, 1 kWh, a footprint result or supplier weights fill functionalUnitFlowProperties."
         ]
       }
     },

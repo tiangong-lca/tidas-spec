@@ -66,23 +66,35 @@ reviewed source-rights record or public-specification decision for its ten
 extension nodes. It must not enter the public package or public rule index until
 source, version, rights, and checking semantics are independently reviewed.
 
-## Process naming clarification (Issue #31)
+## Four-part naming clarification (Issue #31)
 
-The confirmed scope retains `tidas.process.name.base-name.align-reference-flow`
-as a requirement on `baseName` for a single exact reference Flow. It does not
-require the complete Process name object to equal the Flow name. The structured
-qualifier recommendation summarizes the actual Process and includes whole-Model
-scope for model-derived results. Shared-Flow route differences, information
-preservation per language and non-qualifying conversion/scaling prose are
-covered by positive and negative public cases.
+The approved scope retains `tidas.process.name.base-name.align-reference-flow`
+as a requirement on `baseName` for a single exact reference Flow, and preserves
+the multi-reference naming rule. The complete name need not equal the Flow name.
+The existing qualifier recommendation separates grade/route, supply scope and
+delivery node, and evidenced quantitative specifications. Public cases cover
+shared Flows, information retention in every language, numeric grades versus
+material percentages versus procurement shares, and whole-Model/result names.
+
+Production and market consumption mixes describe different supply populations;
+enterprise procurement is an explicit TIDAS extension. Technology is orthogonal
+to mix scope. A Flow label, delivery to users, a loss proxy or a mapping adapter
+does not establish consumption mix. Arrival (`to`) and departure/availability
+(`at`) distinguish interfaces but establish neither inventory completeness nor
+missing upstream facts. Physical composition remains separate from contractual
+attributes; a certificate is not evidence of physical technology or zero impact.
+The Flow methodology receives the same shared mix/node semantics to avoid
+contradictory guidance; it does not inherit individual Process routes or scenarios.
 
 This field-scoped application is explicitly distinguished from ILCD Rule 20's
-full-name recommendation, which is not limited to released LCI results. The
-clarification does not adjudicate product aliases, change Flow identities or
-introduce execution policy. The rules remain in this repository; the local
-CLI name-plan implementation is separately tracked in
-[CLI #375](https://github.com/tiangong-lca/cli/issues/375). Neither local change
-constitutes a specification release or consumer adoption.
+full-name recommendation, which is not limited to released LCI results. It does
+not adjudicate aliases, modify Flow identities, add a schema enum or introduce
+execution policy. The Flow methodology's former imported bytes are retained as
+superseded-source provenance, while its reviewed current content is marked as
+repository-authored. See [provenance](provenance.md#four-part-naming-clarification-issue-31).
+The separate local [CLI name-plan workflow](https://github.com/tiangong-lca/cli/issues/375)
+is consumer-owned. Neither this PR nor local tests constitute a specification
+release, consumer adoption, or an online dataset correction.
 
 ## Consumer boundary
 
