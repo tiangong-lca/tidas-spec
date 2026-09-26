@@ -66,6 +66,24 @@ reviewed source-rights record or public-specification decision for its ten
 extension nodes. It must not enter the public package or public rule index until
 source, version, rights, and checking semantics are independently reviewed.
 
+## Process naming clarification (Issue #31)
+
+The confirmed scope retains `tidas.process.name.base-name.align-reference-flow`
+as a requirement on `baseName` for a single exact reference Flow. It does not
+require the complete Process name object to equal the Flow name. The structured
+qualifier recommendation summarizes the actual Process and includes whole-Model
+scope for model-derived results. Shared-Flow route differences, information
+preservation per language and non-qualifying conversion/scaling prose are
+covered by positive and negative public cases.
+
+This field-scoped application is explicitly distinguished from ILCD Rule 20's
+full-name recommendation, which is not limited to released LCI results. The
+clarification does not adjudicate product aliases, change Flow identities or
+introduce execution policy. The rules remain in this repository; the local
+CLI name-plan implementation is separately tracked in
+[CLI #375](https://github.com/tiangong-lca/cli/issues/375). Neither local change
+constitutes a specification release or consumer adoption.
+
 ## Consumer boundary
 
 - `tidas-spec` owns only the definitions in `public-rules.v1.json`.

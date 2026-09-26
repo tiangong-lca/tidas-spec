@@ -674,8 +674,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "b6cccf7e5720a60749f7a53bd30a0afa53f123c116325fb341e95d2c5c87c2aa",
-      "contentSha256": "b6cccf7e5720a60749f7a53bd30a0afa53f123c116325fb341e95d2c5c87c2aa",
+      "sha256": "6cd41f2d851525ce7ede1b63359773b4ae7413a6d34e876c3399805a78d6d16d",
+      "contentSha256": "6cd41f2d851525ce7ede1b63359773b4ae7413a6d34e876c3399805a78d6d16d",
       "origin": "tidas-spec",
       "source": null
     },
@@ -691,15 +691,15 @@
     },
     {
       "path": "assets/tidas/methodologies/tidas_processes.yaml",
-      "sha256": "1ccce419df89aa4df6cc97a9d083a6718e240484c0fa93e35d866fc2e1896626",
-      "contentSha256": "1ccce419df89aa4df6cc97a9d083a6718e240484c0fa93e35d866fc2e1896626",
+      "sha256": "b64c1570eafa2d24f233b94fc7dd2e55b649955d1a385380a9ce8526e648adbf",
+      "contentSha256": "b64c1570eafa2d24f233b94fc7dd2e55b649955d1a385380a9ce8526e648adbf",
       "origin": "tidas-spec",
       "source": null
     },
     {
       "path": "assets/tidas/rules/public-rules.v1.json",
-      "sha256": "d8f1e90777fe0c675d1e24cbd7f1141ee776d3ebda9d8b24c91f714779540dec",
-      "contentSha256": "d8f1e90777fe0c675d1e24cbd7f1141ee776d3ebda9d8b24c91f714779540dec",
+      "sha256": "cc582d17b4ec64efceb5fd056ff52510fe0500761180d83ccefd634758bba7a6",
+      "contentSha256": "cc582d17b4ec64efceb5fd056ff52510fe0500761180d83ccefd634758bba7a6",
       "origin": "tidas-spec",
       "source": null
     },
@@ -1088,8 +1088,8 @@
     }
   ],
   "aggregates": {
-    "filesSha256": "da57c25141700e9481431d3609573d1ef3be3a69262786373b4a5036f373cd5e",
-    "filesContentSha256": "da57c25141700e9481431d3609573d1ef3be3a69262786373b4a5036f373cd5e"
+    "filesSha256": "9201ed7a0d75517c229703fc90af10c4da702b4b8898b8ac0d4cb6b892ef55a1",
+    "filesContentSha256": "9201ed7a0d75517c229703fc90af10c4da702b4b8898b8ac0d4cb6b892ef55a1"
   },
   "selfHash": {
     "note": "The manifest cannot contain its own digest. Its identity is the `files`/`aggregates` block above, bound externally by the archive digest record produced alongside the candidate archive; see docs/specification.md."

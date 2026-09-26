@@ -26,9 +26,9 @@ checkPaths:
   - scripts/**
   - .github/workflows/**
   - docs/qualification.md
-lastReviewedAt: 2026-09-24
-lastReviewedCommit: 48ff221b94b6ab83bbbf4989608e67e59c210adf
-lastReviewedNote: "Reviewed for tidas-spec #29: unpublished 0.2.3 carries Process schema corrections with separate consumer adoption; the build and publication path are unchanged."
+lastReviewedAt: "2026-09-26"
+lastReviewedCommit: "0f2d89b49ee4f690269097e24413464e916dd0d3"
+lastReviewedNote: "Reviewed for tidas-spec #31: local naming clarification retains exact reference baseName and evidence-backed qualifiers; package version, schema and release procedures remain unchanged."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -102,6 +102,18 @@ permitted documented elementary duplicates in the Data Guide and stricter eILCD
 per-side uniqueness is explicit, as are supporting-dataset review/DQR exceptions.
 The nine adjudicated public rules, both schema variants and runtime gates are
 unchanged. See [source coverage and representation limits](docs/ef-process-methodology.md).
+
+## Local Process naming clarification
+
+The local candidate for [Issue #31](https://github.com/tiangong-lca/tidas-spec/issues/31)
+retains exact single-reference `baseName` alignment while deriving the other
+three name segments from actual Process evidence. Its bilingual guidance and
+public cases cover shared Flows, language-specific information preservation,
+whole-Model/result names and meaningful quantitative qualifiers. ILCD Rule 20
+recommends full-name alignment; TIDAS's field-scoped application is stated
+explicitly. This clarification changes no schema, package version or product
+gate, and has not been published or adopted by a consumer. See the
+[naming contract](docs/specification.md#process-name-fields).
 
 ## Build and verification
 

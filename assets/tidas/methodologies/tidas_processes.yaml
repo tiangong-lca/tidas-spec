@@ -12,7 +12,7 @@
 
 metadata:
   version: "1.1.0"
-  last_updated: "2026-09-22"
+  last_updated: "2026-09-26"
   applies_to: "ILCD/Tidas Process Dataset v1.1"
   ef_baseline: EF Data Guide 2.0 (2020), EF 3.1 addendum (November 2022), and EF eILCD modelling 2.1 (June 2020);
     source-bound additions, not universal TIDAS gates.
@@ -197,45 +197,52 @@ processDataSet:
           <rules>:
             - language: "en"
               naming_convention: |
-                Follow ILCD Rule 20: align the process base name with the reference flow naming structure.
-                - Single reference flow: reuse the reference flow's technical name as the process name.
+                ILCD Handbook Rule 20 recommends full-name alignment for single-reference Unit processes, LCI results and partly terminated systems, regardless of publication status. TIDAS applies a field-scoped convention: exact equality applies to baseName; the other name fields describe the actual Process.
+                - Single reference flow: use that exact reference Flow's baseName in each corresponding language. Do not copy the Flow's complete name into baseName.
                 - Multiple reference flows: start with the technology or plant descriptor and append each reference flow name separated by commas.
                 - Exclude geographical or temporal qualifiers from the base name; capture them in the dedicated metadata fields.
               content_requirements:
                 - "Use technical terminology as applied in the supplying industry or towards customers."
                 - "Separate descriptors within the base name using commas and avoid semicolons or brackets."
-                - "Spell out terms before adding widely recognised abbreviations (e.g., \"Polypropylene,
-                  PP\")."
+                - "Spell out terms before adding widely recognised abbreviations (e.g., Polypropylene, PP)."
                 - "Cover every reference flow explicitly when the dataset is multi-functional."
                 - "Keep the wording concise enough for interface display (target 200 characters or fewer)."
+                - "A shared reference Flow can serve different Processes. Preserve their supported route, treatment, representativeness and delivery differences in the other structured name fields."
+                - "Matching base names does not establish scientific compatibility: check the exact Flow version, its other name qualifiers, properties and the Process evidence. Electricity is not an unconditional synonym for alternating current."
+              example_context: "The first two examples assume the same baseName on the selected reference Flow; the last example has multiple reference flows."
               examples:
-                - "Electricity from hard coal, modern supercritical power plant"
-                - "Steel sheet, electric arc furnace, recycled scrap route"
-                - "Combined heat and power plant, natural gas, electricity and heat as reference flows"
+                - "Alternating current"
+                - "Steel sheet"
+                - "Combined heat and power plant, electricity, heat"
               best_practices:
-                - "Match the single-output reference flow name exactly."
+                - "Match only baseName exactly for a single reference Flow; do not overwrite supported Process qualifiers with generic Flow qualifiers."
+                - "When moving a meaningful descriptor out of baseName, retain its meaning in the appropriate name field in every authored language; document any deliberate removal."
                 - "For multiple reference flows, list them by decreasing quantitative relevance."
-                - "Cross-check terminology against existing datasets to support searchability."
+                - "Cross-check terminology against existing datasets to support searchability; adjudicate aliases through product-identity review instead of a global string substitution."
 
             - language: "zh"
               naming_convention: |
-                遵循 ILCD 规则20：基础名称需与参考流命名结构保持一致。
-                - 单一参考流：直接沿用参考流的技术名称作为流程名称。
-                - 多功能数据集：以技术或装置描述开头，用逗号串联每个参考流名称。
+                ILCD 手册规则20建议单参考流的单元过程、LCI结果和部分终止系统采用与参考流一致的完整名称，不以发布状态区分。TIDAS采用按字段适用的约定：完全同名要求针对baseName，其余名称字段描述实际Process。
+                - 单一参考流：各对应语言的baseName沿用该精确参考Flow的baseName，不把Flow完整名称复制进baseName。
+                - 多参考流：以技术或装置描述开头，用逗号串联每个参考流名称。
                 - 地理位置、时间等信息不要写入基础名称，在对应元数据字段中填写。
               content_requirements:
                 - "使用行业通用的技术术语，必要时先写全称再补充常用缩写（例如 Polypropylene, PP）。"
                 - "同一字段内部使用逗号分隔描述，避免使用分号或括号。"
                 - "多参考流数据集需在名称中逐一覆盖所有参考流。"
                 - "名称应便于界面展示，建议控制在200个字符以内。"
+                - "不同Process可以共用参考Flow；有证据的路线、处理方式、代表性和交付差异应保留在其他结构化名称字段中。"
+                - "baseName一致不能证明科学兼容：须核对Flow精确版本、其他名称限定词、属性和Process证据。电力不能无条件视为交流电的同义词。"
+              example_context: "前两个示例的所选参考Flow具有相同baseName；最后一个示例含多个参考流。"
               examples:
-                - "电力生产，燃煤，现代超临界机组"
-                - "钢板，电弧炉，再生废钢路线"
-                - "天然气联合热电机组，电力与热量为参考流"
+                - "交流电"
+                - "钢板"
+                - "联合热电机组，电力，热量"
               best_practices:
-                - "单产出数据集的名称需与参考流名称完全一致。"
+                - "单参考流只要求baseName完全一致，不以Flow泛化的限定词覆盖有证据的Process限定词。"
+                - "从baseName移出有意义的描述时，在每一种已编写语言的适当名称字段中保留其含义；有意删除须说明依据。"
                 - "多参考流时按重要性排序，保持跨数据集表述一致。"
-                - "发布前与现有数据集对比，避免重复或冲突命名。"
+                - "与现有数据集核对术语以便检索；别名通过产品身份审查判定，不做全局字符串替换。"
 
         treatmentStandardsRoutes:
           <rules>:
@@ -252,6 +259,8 @@ processDataSet:
                 - "Document intended use qualifiers when relevant (e.g., for wafer production, indoor use)."
                 - "Identify production routes or feedstock types (e.g., steam cracking route, secondary
                   material)."
+                - "Summarize the actual Process technology evidence. Shared-Flow qualifiers restrict product compatibility but do not substitute for Process-specific route evidence."
+                - "Do not insert an unreviewed scaffold such as production route or treatment route; leave semantically absent qualifiers empty in the schema-supported representation."
               examples:
                 - "Chromium plated, EN 10202 prime quality, indoor use"
                 - "Sterilised, ISO 13485 compliant, medical device grade"
@@ -273,6 +282,8 @@ processDataSet:
                 - "指出关键质量或性能属性（如 抗紫外、阻燃）。"
                 - "必要时补充用途限定（如 用于晶圆生产、室内使用）。"
                 - "标识生产路线或原料属性（如 蒸汽裂解路线、再生料）。"
+                - "概括实际Process的技术证据。共享Flow的限定词约束产品兼容性，不能代替Process自身的路线证据。"
+                - "不填入未经审查的生产路线、处理路线等脚手架占位词；语义上不存在的限定词采用Schema支持的空表示。"
               examples:
                 - "铬镀层，EN 10202 一级，室内使用"
                 - "灭菌，符合 ISO 13485，医疗器械级"
@@ -292,6 +303,8 @@ processDataSet:
                 - Use "to" when transport to a node is included; use "at" when it represents the point of handover.
               content_requirements:
                 - "Clarify production versus consumption mix status; omit if not applicable."
+                - "Derive representativeness and delivery boundary from the actual dataset; do not infer global average, a mix or a delivery point from a generic reference Flow."
+                - "For a Model-derived LCI result, describe the whole Model, including its mixed supplies and transport boundary. Preserve the reviewed Model name in the resulting Process rather than automatically copying a narrower final Process name."
                 - "Specify the commercial or logistical location type (e.g., at wholesale, at point-of-sale)."
                 - "Add other relevant availability descriptors (e.g., to waste incineration plant)."
                 - "Avoid confusing location type with intended use; reserve use-related qualifiers for
@@ -314,6 +327,8 @@ processDataSet:
                 - 涉及运输到某节点时使用“至”，表示交接点时使用“在”。
               content_requirements:
                 - "区分生产混合与消费混合；若不适用可省略。"
+                - "根据实际数据集确定代表性与交付边界，不从泛化参考Flow推断全球平均、混合类型或交付点。"
+                - "Model生成的LCI结果名称描述整个Model，包括混合供给与运输边界。结果Process继承经审查的Model名称，不自动复制范围更窄的最终Process名称。"
                 - "标注物流或商业节点（如 在批发、在零售点）。"
                 - "根据需要补充其他可得性描述（如 至焚烧厂）。"
                 - "避免与用途混淆，真正的用途限定应写在 treatmentStandardsRoutes 字段。"
@@ -340,6 +355,7 @@ processDataSet:
                 - "Indicate the measurement basis explicitly when different from mass fraction (e.g., by
                   volume, molar)."
                 - "Include multiple properties as separate comma-separated entries."
+                - "Include only meaningful supported product qualifiers. Unit conversion identities such as 1 kWh = 3.6 MJ, reference-amount scaling instructions and statements that voltage or delivery follows another record are not product qualifiers. Do not invent missing values."
                 - "Avoid duplicating information stored in dedicated property fields (e.g., CAS numbers)."
               examples:
                 - "24 % Fe mass/mass"
@@ -361,6 +377,7 @@ processDataSet:
                 - "量化主要组分或能量（如 24 % Fe、9.6 MJ/kg 净热值）。"
                 - "若基准不同于质量分数，应明确写出（如 体积分数、摩尔）。"
                 - "多项属性分别列出并以逗号分隔。"
+                - "仅保留有依据且有辨识意义的产品定量限定词。1 kWh = 3.6 MJ等单位换算恒等式、参考量缩放说明及电压或交付点遵循其他记录的表述不是产品限定词；不编造缺失值。"
                 - "避免重复记录已在其他属性字段中的信息（如 CAS 号）。"
               examples:
                 - "24 % Fe 质量分数"

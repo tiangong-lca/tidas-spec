@@ -119,6 +119,38 @@ with pinned older schema bytes need a separate reviewed adoption of the new
 candidate; changing this source alone does not update SDK, CLI, or toolkit
 assets.
 
+### Process name fields
+
+Issue #31 retains the single-reference `baseName` equality requirement, in
+corresponding languages, against the exact selected reference Flow. Other name
+fields summarize Process-specific technology, representativeness, delivery and
+meaningful quantitative properties. A shared Flow can therefore identify the
+same product for distinct supported production routes. Matching base names does
+not establish compatibility of the Flow's full qualifiers, properties or version.
+
+For example, two compatible Processes may both use `Alternating current` as
+`baseName`, with supported coal and wind routes in `treatmentStandardsRoutes`.
+If the selected Flow itself constrains a route or delivery property, that
+constraint still needs a compatibility review. A broad `Electricity` label is
+not automatically an alias for `Alternating current`.
+
+A Model name describes the whole supply system and delivery boundary; a Model
+with mixed diesel supplies and transport must not automatically inherit only a
+final refinery's route and plant-gate description. Its resulting Process keeps
+the reviewed Model name. Existing descriptors moved between name fields remain
+represented in every authored language, or their removal is explicitly justified.
+Quantitative qualifiers identify supported product characteristics; unit
+conversion identities and reference-amount scaling instructions are not naming
+information.
+
+[ILCD Handbook Rule 20, section 3.5](https://eplca.jrc.ec.europa.eu/uploads/MANPROJ-PR-ILCD-Handbook-Nomenclature-and-other-conventions-first-edition-ISBN-fin-v1.0-E.pdf)
+recommends full-name alignment for single-reference Unit processes, LCI results
+and partly terminated systems. The narrower field-scoped convention above is a
+TIDAS interpretation, not a claim that ILCD applies only after publication.
+This local clarification is unshipped. Exact reference checks, evidence-binding
+execution and gate policy remain consumer-owned; no installed SDK/CLI changes
+as a consequence of editing these assets.
+
 ### Process review cardinality
 
 The Process `modellingAndValidation.validation.review` property preserves the

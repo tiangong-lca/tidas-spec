@@ -141,3 +141,15 @@ source-mandated supporting-dataset notices are referenced rather than copied.
 This records the sources and adaptation, not JRC endorsement, scientific
 certification, completeness of every PEF/OEF sector rule or authorization to
 publish a package. See [coverage and limits](ef-process-methodology.md).
+
+## Process naming clarification (Issue #31)
+
+The Process methodology and public-rule index are already repository-authored
+assets. Issue #31 clarifies their field-scoped convention with newly written
+bilingual guidance and examples. It cites the factual recommendation in
+[ILCD Handbook, Nomenclature and other conventions, section 3.5 / Rule 20](https://eplca.jrc.ec.europa.eu/uploads/MANPROJ-PR-ILCD-Handbook-Nomenclature-and-other-conventions-first-edition-ISBN-fin-v1.0-E.pdf),
+and distinguishes the TIDAS base-name requirement from that full-name
+recommendation. The source handbook text, figures and tables are not reproduced.
+The remaining byte-identical import inventory, its review anchor and the schema
+lock are unchanged. A normal draft build regenerates the manifest and candidate
+archive without claiming a reviewed source revision or a published release.

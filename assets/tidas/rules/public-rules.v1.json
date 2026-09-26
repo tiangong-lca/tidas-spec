@@ -67,21 +67,44 @@
       "id": "tidas.process.name.base-name.align-reference-flow",
       "dataset_type": "process",
       "normative_level": "requirement",
-      "statement": "The process base name follows the reference-flow naming structure and excludes geography and time qualifiers owned by dedicated metadata fields.",
+      "statement": "For a single reference Flow, the Process baseName equals the exact reference Flow baseName in each corresponding language; equality does not extend to the complete name object. Multiple-reference names identify all reference flows. Geography and time remain in dedicated metadata fields. Base-name equality alone does not establish Flow compatibility.",
       "locations": ["processDataSet.processInformation.dataSetInformation.name.baseName"],
-      "applicability": { "scope": "Every process dataset; multi-functional processes name each reference flow." },
+      "applicability": { "scope": "Process datasets with reference flows, including Unit processes, LCI results and partly terminated systems regardless of publication status. A Flow may be shared by multiple Processes. This is TIDAS field-scoped application of ILCD Rule 20, which recommends full-name alignment." },
       "source_refs": [{ "asset": "tidas_processes.yaml", "path": "processDataSet.processInformation.dataSetInformation.name.baseName.<rules>" }],
-      "cases": { "positive": ["A single-output process reuses the technical reference-flow name and stores geography separately."], "negative": ["A multi-functional process omits one reference flow or embeds a year in baseName."] }
+      "cases": {
+        "positive": [
+          "Two compatible Processes share the same exact Alternating current Flow and baseName; their treatmentStandardsRoutes name supported coal and wind technologies separately.",
+          "A Process uses the exact Diesel baseName and retains its supported petroleum-refining route in treatmentStandardsRoutes; geography remains metadata."
+        ],
+        "negative": [
+          "A multi-functional process omits one reference flow or embeds a year in baseName.",
+          "A Process keeps a different baseName for a single reference Flow, or copies the complete Flow name into baseName.",
+          "A generic Electricity label is substituted for Alternating current without an identity decision, or base-name equality is used to ignore incompatible Flow route/property qualifiers."
+        ]
+      }
     },
     {
       "id": "tidas.process.name.qualifiers.structured",
       "dataset_type": "process",
       "normative_level": "recommendation",
-      "statement": "Process-name qualifiers are separated into treatment/standards/routes, mix/location type, and quantitative-property segments according to their meaning.",
+      "statement": "Process-name qualifiers summarize the actual dataset evidence in treatment/standards/routes, mix/location type, and meaningful quantitative-property segments. They need not equal shared Flow qualifiers. Preserve meaningful descriptors in every authored language when moving information between fields; do not replace absent facts with scaffold or unit-conversion boilerplate. A Model-derived resulting Process retains the reviewed whole-Model name.",
       "locations": ["processDataSet.processInformation.dataSetInformation.name.treatmentStandardsRoutes", "processDataSet.processInformation.dataSetInformation.name.mixAndLocationTypes", "processDataSet.processInformation.dataSetInformation.name.functionalUnitFlowProperties"],
       "applicability": { "scope": "Process datasets that have the corresponding qualifier information." },
       "source_refs": [{ "asset": "tidas_processes.yaml", "path": "processDataSet.processInformation.dataSetInformation.name.treatmentStandardsRoutes.<rules>" }, { "asset": "tidas_processes.yaml", "path": "processDataSet.processInformation.dataSetInformation.name.mixAndLocationTypes.<rules>" }, { "asset": "tidas_processes.yaml", "path": "processDataSet.processInformation.dataSetInformation.name.functionalUnitFlowProperties.<rules>" }],
-      "cases": { "positive": ["A production mix qualifier is placed in mixAndLocationTypes and a grade standard in treatmentStandardsRoutes."], "negative": ["A location/mix qualifier is placed in treatmentStandardsRoutes or all qualifiers are flattened into baseName."] }
+      "cases": {
+        "positive": [
+          "A production mix qualifier is placed in mixAndLocationTypes and a grade standard in treatmentStandardsRoutes, each supported by the actual Process.",
+          "A supported 12-hour nitrate-storage descriptor is moved from baseName into treatmentStandardsRoutes without losing it in either authored language.",
+          "A Model combines compatible diesel supplies and transport to the consumer: its name reflects that whole supply boundary, and the resulting Process keeps that Model name instead of inheriting only a final refinery's route and plant-gate boundary.",
+          "A supported sulfur mass fraction distinguishes a diesel specification in functionalUnitFlowProperties; an absent optional quantitative qualifier stays empty."
+        ],
+        "negative": [
+          "A location/mix qualifier is placed in treatmentStandardsRoutes or all qualifiers are flattened into baseName.",
+          "Generic shared-Flow qualifiers overwrite a supported Process route, or renaming silently loses a descriptor in one authored language.",
+          "An unreviewed production route or global average placeholder, a 1 kWh = 3.6 MJ conversion identity, or reference-amount scaling instructions are used as product qualifiers.",
+          "A Model with mixed supplies and transport is named after a narrower final Process without checking the whole-Model evidence."
+        ]
+      }
     },
     {
       "id": "tidas.process.version.format",
