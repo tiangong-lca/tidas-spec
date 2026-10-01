@@ -27,8 +27,8 @@ checkPaths:
   - .github/workflows/**
   - docs/qualification.md
 lastReviewedAt: 2026-10-01
-lastReviewedCommit: 0f2d89b49ee4f690269097e24413464e916dd0d3
-lastReviewedNote: "Reviewed for tidas-spec #29: unpublished 0.2.3 carries the complete eight-dataset ILCD compatibility revision with separate consumer adoption; the build and publication path are unchanged."
+lastReviewedCommit: 97a3725e6a24886ec1332be61e462e2228ee94fe
+lastReviewedNote: "Reviewed #38 release preparation: new 0.3.0 identity preserves published 0.2.3; intentional strictness and guarded publication remain unchanged."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -46,7 +46,7 @@ The stable repository responsibility, non-goals, and invariants are in [`AGENTS.
 
 ## Current state
 
-Version `0.2.2` is formally published on npm and GitHub Releases. The checkout now prepares an unpublished `0.2.3` candidate with source-bound EF Process methodology and corrected Process schema requirements; ordinary `main` changes do not publish it. Workspace consumers must pin an exact reviewed archive rather than infer publication from the repository version.
+Version `0.2.3` is formally published on npm and GitHub Releases. This checkout prepares the `0.3.0` release candidate with the eight-dataset ILCD compatibility revision, corrected primitive constraints, and mutually exclusive legacy aliases; ordinary `main` changes do not publish it. Workspace consumers must pin an exact reviewed archive rather than infer publication from the repository version.
 
 | Path | Content |
 | --- | --- |
@@ -81,7 +81,7 @@ Only after the release identity is present does the workflow dispatch `tidas_spe
 
 ## Source baseline
 
-The original 39-file import was extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). Candidate 0.2.3 retains 21 of those files byte-for-byte. The Process and LCIA Method schemas in both languages, together with their derived schema lock, supersede the imported copies after the reviewed optional-review-report decision in tidas-spec #7; tidas-spec #24 further corrects Process review cardinality, and tidas-spec #29 corrects Process quantitative-reference requirements and makes `typeOfDataSet` optional. The Process methodology's version wording is separately superseded by tidas-spec #22 to match the unchanged `Version` schema. The coherent ILCD compatibility revision in #38 also supersedes the remaining twelve dataset-schema files; all sixteen dataset schemas are now repository-authored. These are identified as repository-authored assets rather than falsely attributed to the toolkit commit. The two public-rule assets are also authored and reviewed here. `source-import.yaml` records both the remaining import and superseded source paths, while `reviewed-baseline.json` anchors the remaining imported bytes.
+The original 39-file import was extracted from Git blobs at `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`). Candidate 0.3.0 retains 21 of those files byte-for-byte. The Process and LCIA Method schemas in both languages, together with their derived schema lock, supersede the imported copies after the reviewed optional-review-report decision in tidas-spec #7; tidas-spec #24 further corrects Process review cardinality, and tidas-spec #29 corrects Process quantitative-reference requirements and makes `typeOfDataSet` optional. The Process methodology's version wording is separately superseded by tidas-spec #22 to match the unchanged `Version` schema. The coherent ILCD compatibility revision in #38 also supersedes the remaining twelve dataset-schema files; all sixteen dataset schemas are now repository-authored. These are identified as repository-authored assets rather than falsely attributed to the toolkit commit. The two public-rule assets are also authored and reviewed here. `source-import.yaml` records both the remaining import and superseded source paths, while `reviewed-baseline.json` anchors the remaining imported bytes.
 
 Three files present at that commit are deliberately **not** imported: `runtime_rulesets.json`, `runtime_rulesets.schema.json`, and `elementary_flow_taxonomy_extension.v1.json`. They remain owned by `tidas-toolkit` and their exclusion is recorded and enforced.
 
@@ -146,7 +146,7 @@ two language sets are treated, and why the manifest cannot hash itself.
 Verifying an unpacked copy — the check a consumer can reproduce — uses the three stages that apply to a package directory:
 
 ```bash
-tar -xzf release/tiangong-lca-tidas-spec-0.2.3.tgz -C /tmp/tidas-spec-check
+tar -xzf release/tiangong-lca-tidas-spec-0.3.0.tgz -C /tmp/tidas-spec-check
 node scripts/spec/verify.mjs --root /tmp/tidas-spec-check/package \
   --stage identity --stage manifest --stage package
 ```
