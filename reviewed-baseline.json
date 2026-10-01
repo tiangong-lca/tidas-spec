@@ -1,6 +1,6 @@
 {
   "reviewedBaselineVersion": 1,
-  "specVersion": "0.2.3",
+  "specVersion": "0.3.0",
   "note": "Independent review anchor for the remaining byte-identical imported specification assets. Superseded source files are excluded in source-import.yaml and their current package paths are reviewed, repository-authored assets; changing either record is a separate reviewed change.",
   "source": {
     "repository": "https://github.com/tiangong-lca/tidas-toolkit",
@@ -10,7 +10,7 @@
     "licensePath": "LICENSE",
     "licenseSha256": "557e792f4b9868b7f25f60fca4e47e8857bbf2b88d0c8f733c2ce3fd0cbcc484"
   },
-  "fileCount": 33,
-  "sourceFilesSha256": "b879236be69a8cbc45f24d2d66fb8bc6de82472a098d74a075831b25a9c70868",
-  "packageFilesSha256": "b879236be69a8cbc45f24d2d66fb8bc6de82472a098d74a075831b25a9c70868"
+  "fileCount": 21,
+  "sourceFilesSha256": "ba84dcc6821bf3cdf837d35395ee9bae1f32232b306505bdc96f8b404702ea58",
+  "packageFilesSha256": "ba84dcc6821bf3cdf837d35395ee9bae1f32232b306505bdc96f8b404702ea58"
 }

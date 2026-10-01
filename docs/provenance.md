@@ -9,11 +9,11 @@ tools `LICENSE` notice alone.
 **Source.** The original 39-file import was extracted from Git blobs at
 `tidas-toolkit` commit `9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5` (`main`),
 canonical repository `https://github.com/tiangong-lca/tidas-toolkit`.
-Candidate 0.2.3 retains 33 imported files byte-for-byte; five original files
+Candidate 0.3.0 retains 21 imported files byte-for-byte; five original files
 were superseded by the reviewed change in Issue #7, the Process schema receives
 repository-authored review-cardinality and conditional-reference corrections
 in Issues #24 and #29, and the
-Process methodology was superseded by the schema-alignment decision in Issue #22. The package also ships
+Process methodology was superseded by the schema-alignment decision in Issue #22. Issue #38 additionally supersedes twelve dataset-schema files for the coherent ILCD compatibility revision; all sixteen dataset schemas are repository-authored. The package also ships
 repository-authored assets. Extraction reads blobs by commit, not a working
 tree, so an uncommitted local edit cannot enter the import.
 `source-import.yaml` records imported and superseded source paths and digests;
@@ -40,7 +40,7 @@ disposition moves them.
 English and Chinese schema sets were byte-identical to the same files in
 `tidas-sdks`; `cli` and `tidas` carried differing variants of named files (11
 and 9 respectively). Those counts describe that baseline, not the current
-0.2.3 candidate. The Issue #29 Process schema change is repository-authored;
+0.3.0 candidate. The Issue #29 Process schema change is repository-authored;
 SDK, CLI, and toolkit copies need separate reviewed adoption rather than an
 assumed byte-parity claim.
 

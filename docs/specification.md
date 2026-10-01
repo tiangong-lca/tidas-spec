@@ -6,8 +6,8 @@ reference are in [`../README.md`](../README.md).
 
 ## Version
 
-Version `0.2.2` of `@tiangong-lca/tidas-spec` is formally published. This
-checkout prepares an unpublished `0.2.3` candidate; consumers continue to
+Version `0.2.3` of `@tiangong-lca/tidas-spec` is formally published. This
+checkout prepares an unpublished `0.3.0` candidate; consumers continue to
 bind exact reviewed archives and must not infer publication from a version bump.
 
 ## Files
@@ -25,7 +25,7 @@ bind exact reviewed archives and must not infer publication from a version bump.
 | `reviewed-baseline.json` | Independent review anchor: the digests of the reviewed source inventory and of the reviewed shipped bytes. |
 | `package.json` | Publication metadata, stored in the canonical form both channels ship; see [Package.json identity](#packagejson-identity). |
 | `spec-manifest.json` | Generated release manifest binding the version to every shipped file except itself. A pure function of the shipped content; it carries no source-revision claim. |
-| `release/tiangong-lca-tidas-spec-0.2.3.tgz` | Generated canonical candidate archive. Committed: it is a reviewable future release artifact, not a replacement for published 0.2.2. |
+| `release/tiangong-lca-tidas-spec-0.3.0.tgz` | Generated canonical candidate archive. Committed: it is a reviewable future release artifact, not a replacement for published 0.2.3. |
 | `build/candidate-archive-binding.json` | Generated **candidate receipt**: the reviewed source revision and the artifact digests, outside every artifact it describes. Disposable; not committed, and not required to verify an archive's content. |
 | `scripts/spec/**` | Build and verification implementation. |
 | `scripts/import-tidas-spec-source.mjs` | The only script that reads a source checkout, and only at import time. |
@@ -93,6 +93,63 @@ The verifier therefore treats the two sets identically:
 
 The reviewed sets happen to keep every reference inside its own language. That is
 recorded as what the source does, not enforced as what the source must do.
+
+### ILCD compatibility revision
+
+Issue #38 delivers the eight dataset schemas together. ILCD-permitted repeated
+values and named classification systems are representable while stricter TIDAS
+mandatory documentation remains intentional. The revision retains conditional
+Process reference semantics, optional lifecycle connection containers, multiple
+TIDAS compliance declarations, and the existing pinned-singleton/named-array
+taxonomy distinction. It does not change citation length or export policy.
+
+The occurrence inventory in [ilcd-occurrence-audit.json](./ilcd-occurrence-audit.json)
+binds the bundled XSD sources by commit and SHA256. It inventories 1,512 reachable
+named element/attribute paths across eight roots. This is a bounded occurrence
+comparison, not a claim of complete semantic equivalence: wildcard payloads,
+identity constraints, simple-content text and conditional requiredness require
+separate conformance evidence. Each mapped path records JSON branch pointers, types and direct parent requiredness; these observations do not evaluate conditional requirements. Unmapped paths are explicit and are not presumed defects. The
+external count of 167 optional-to-required fields is not a verified result here.
+
+| Dataset | Added repeated representations |
+| --- | --- |
+| Process | Reference flows, named variables, sublocations, LCI method approaches, elementary-flow completeness records. Existing LCIA results already support repeated values. |
+| Flow | Elementary-flow categorizations and supply locations. |
+| LCIA Method | Methodologies, impact categories, areas of protection, method principles, review records and intervention sublocations. |
+| Lifecycle Model | Compliance declaration containers; this is distinct from the already-supported multiple declarations inside a container. |
+| Contact, Flow Property, LCIA Method, Source, Unit Group | Named multi-system classification arrays, consistent with the existing three dataset forms. |
+
+New repeated forms are non-empty arrays whose members retain the original field
+constraints. Existing valid singleton representations remain supported. Named
+classification arrays carry system identity and generic class paths; legacy
+singletons retain their pinned taxonomy constraints. A classification system
+URI identifies a system; the offline schema validator does not fetch it.
+
+| Canonical representation | Supported legacy input |
+| --- | --- |
+| LCIA geography `interventionSubLocation` | `intervensionSubLocation` |
+| LCIA review `scope/method` | `common:scope/common:method` |
+| LCIA factor `referencesToDataSource/referenceToDataSource` | Direct or double-nested `referenceToDataSource` |
+| Lifecycle instance `scalingFactor` | `scalingFactors` |
+| Lifecycle parameter `{ "@name": "x", "#text": "1.5" }` | `{ "@name": "x", "parameter": "1.5" }` |
+
+Aliases are explicit, validated compatibility inputs, not the preferred exported
+shape. Supplying both names at the same location is rejected to avoid competing
+values. An alias marker is documentation, never the enforcement mechanism.
+Contact `common:other` is declared inside classification; the older parent
+extension remains accepted for compatibility and requires converter handling.
+
+Core repairs require unit containers, unit name/value, variable names, group
+identifiers, parameter name/value and location-object text. Unit internal IDs
+and variable meanValue stay optional as declared by the target XSD. Both instance
+branches apply the existing populated-connection-container requirement while
+keeping the entire container optional. Previously accepted incomplete objects
+may now fail: no quantity, name, ID or compliance claim is fabricated for them.
+
+Public schema acceptance does not perform migration or XML conversion. Toolkit
+#234 owns canonical export, legacy-input recovery, repeated values and exact
+candidate adoption; SDK/CLI/product consumers require their own adoption proof.
+No publication is triggered by this source revision.
 
 ### Process reference and data-set type
 

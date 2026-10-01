@@ -22,9 +22,9 @@ checkPaths:
   - LICENSE
   - .gitignore
   - .docpact/config.yaml
-lastReviewedAt: 2026-09-24
-lastReviewedCommit: 48ff221b94b6ab83bbbf4989608e67e59c210adf
-lastReviewedNote: "Reviewed for tidas-spec #29: conditional Process reference fields and optional data-set type remain public schema semantics; SDK, CLI, toolkit and data adoption stay with their owners."
+lastReviewedAt: 2026-10-01
+lastReviewedCommit: 97a3725e6a24886ec1332be61e462e2228ee94fe
+lastReviewedNote: "Reviewed for #38: eight public dataset schemas are repository-authored; compatibility, requiredness and provenance are spec-owned; native conversion and exact artifact adoption remain toolkit-owned. Existing routing covers the bounded audit and conformance cases."
 related:
   - README.md
   - .docpact/config.yaml

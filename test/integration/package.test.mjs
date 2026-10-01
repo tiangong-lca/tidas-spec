@@ -27,7 +27,7 @@ import { verifyCandidate } from '../../scripts/spec/lib/verify.mjs';
 import * as packageContent from '../../scripts/spec/lib/package-content.mjs';
 import { REPO_ROOT, cleanupTempRoots, makeBuildableFixture, makeTempRoot, makeToolchainFixture, readFixtureJson, snapshotTree } from '../helpers/fixture.mjs';
 
-const ARCHIVE_FILE = 'tiangong-lca-tidas-spec-0.2.3.tgz';
+const ARCHIVE_FILE = 'tiangong-lca-tidas-spec-0.3.0.tgz';
 const PACKAGED_ENTRIES = ['package.json', 'LICENSE', 'README.md', 'source-import.yaml', 'reviewed-baseline.json', 'spec-manifest.json', '.gitignore', 'assets'];
 
 test.after(cleanupTempRoots);
@@ -564,8 +564,8 @@ test('two clean builds of the same disposable copy produce the same digests', ()
 
 test('verification of a copy fails when a shipped schema is damaged', () => {
   const root = makeBuildableFixture();
-  const target = path.join(root, 'assets/tidas/schemas/tidas_flows.json');
-  writeFileSync(target, readFileSync(target, 'utf8').replace('"type": "object"', '"type": "array"'));
+  const target = path.join(root, 'assets/tidas/schemas/tidas_flows_elementary_category.json');
+  writeFileSync(target, readFileSync(target, 'utf8').replace('"$schema":', '"title": "damaged", "$schema":'));
   const result = verifyCandidate({ repoRoot: root, stages: ['identity'] });
   assert.equal(result.diagnostics.ok, false, 'a damaged copy must not verify');
   const codes = result.diagnostics.errors.map((item) => item.code);

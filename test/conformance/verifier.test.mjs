@@ -98,7 +98,7 @@ test('positive control: reformatting a schema is rejected even when every derive
   // regenerated consistently. The import manifest is what pins the shipped bytes
   // to the reviewed source bytes, and that is what must fail.
   const root = await mutatedFixture((target) => {
-    mutateFixtureText(target, EN_FLOWS, (text) => text.replace(/\n {2}/, '\n    '));
+    mutateFixtureText(target, EN_CATEGORY, (text) => text.replace(/\n {2}/, '\n    '));
   });
   const result = await verifyInProcess(root, IDENTITY);
   expectFailure(result.diagnostics, 'SOURCE_BYTES', assert);
@@ -624,8 +624,8 @@ test('rejects an import manifest whose source commit is not a full SHA', async (
 test('rejects an import manifest with a duplicated package path', async () => {
   const root = makeFixtureRoot();
   mutateFixtureText(root, IMPORT_MANIFEST, (text) => text.replace(
-    '  - sourcePath: assets/tidas/schemas/tidas_contacts.json',
-    '  - sourcePath: assets/tidas/schemas/tidas_flows.json\n    packagePath: assets/tidas/schemas/tidas_contacts.json\n    sha256: f16868bcdb99b4785b03a9b36dfe103d8f3ec61a463be9274d22884e6b7d8bda\n  - sourcePath: assets/tidas/schemas/tidas_contacts.json',
+    '  - sourcePath: assets/tidas/schemas/tidas_contacts_category.json',
+    '  - sourcePath: assets/tidas/schemas/tidas_flows_elementary_category.json\n    packagePath: assets/tidas/schemas/tidas_contacts_category.json\n    sha256: 2d043a6686320b5fec5d4012dfd03bdb57897375002b25fc6a64df8ea10092b5\n  - sourcePath: assets/tidas/schemas/tidas_contacts_category.json',
   ));
   const result = await verifyInProcess(root, ['identity']);
   expectFailure(result.diagnostics, 'IMPORT_MANIFEST_SHAPE', assert);
@@ -633,7 +633,7 @@ test('rejects an import manifest with a duplicated package path', async () => {
 
 test('rejects an import manifest entry with a non-hex digest', async () => {
   const root = makeFixtureRoot();
-  mutateFixtureText(root, IMPORT_MANIFEST, (text) => text.replace('    sha256: f16868bc', '    sha256: NOTAHASH'));
+  mutateFixtureText(root, IMPORT_MANIFEST, (text) => text.replace('    sha256: 2d043a66', '    sha256: NOTAHASH'));
   const result = await verifyInProcess(root, ['identity']);
   expectFailure(result.diagnostics, 'IMPORT_MANIFEST_SHAPE', assert);
 });
@@ -657,7 +657,7 @@ test('rejects an import manifest that lists a shipped file as excluded', async (
   const root = makeFixtureRoot();
   mutateFixtureText(root, IMPORT_MANIFEST, (text) => text.replace(
     'excludedSourcePaths:\n',
-    'excludedSourcePaths:\n  - assets/tidas/schemas/tidas_flows.json\n',
+    'excludedSourcePaths:\n  - assets/tidas/schemas/tidas_flows_elementary_category.json\n',
   ));
   const result = await verifyInProcess(root, ['identity']);
   expectFailure(result.diagnostics, 'IMPORT_MANIFEST_SHAPE', assert);
@@ -666,7 +666,7 @@ test('rejects an import manifest that lists a shipped file as excluded', async (
 test('rejects silently reclassifying an imported asset as repository-authored', async () => {
   const root = await mutatedFixture((target) => {
     mutateFixtureText(target, IMPORT_MANIFEST, (text) => text.replace(
-      '  - sourcePath: assets/tidas/schemas/tidas_contacts.json\n    packagePath: assets/tidas/schemas/tidas_contacts.json\n    sha256: f16868bcdb99b4785b03a9b36dfe103d8f3ec61a463be9274d22884e6b7d8bda\n',
+      '  - sourcePath: assets/tidas/schemas/tidas_contacts_category.json\n    packagePath: assets/tidas/schemas/tidas_contacts_category.json\n    sha256: 2d043a6686320b5fec5d4012dfd03bdb57897375002b25fc6a64df8ea10092b5\n',
       '',
     ));
   });
@@ -1227,7 +1227,7 @@ test('rejects an archive whose published metadata was modified', async () => {
   const root = makeFixtureRoot();
   const { buildCandidate } = await import('../../scripts/spec/lib/build.mjs');
   const built = buildCandidate(root);
-  mutateFixtureText(root, 'reviewed-baseline.json', (text) => text.replace('"fileCount": 33', '"fileCount": 32'));
+  mutateFixtureText(root, 'reviewed-baseline.json', (text) => text.replace('"fileCount": 21', '"fileCount": 20'));
   const result = await verifyInProcess(root, ['identity', 'manifest', 'package', 'archive']);
   assert.equal(result.diagnostics.ok, false);
   assertAnyCode(result.diagnostics, ['SOURCE_IDENTITY', 'MANIFEST_STALE', 'ARCHIVE_MANIFEST_MISMATCH', 'ARCHIVE_SELF_VERIFY'], 'expected the modified review anchor to be rejected');
@@ -1265,8 +1265,8 @@ test('the manifest distinguishes imported assets from package metadata', async (
   const manifest = readFixtureJson(root, MANIFEST_PATH);
   const imported = manifest.files.filter((file) => file.origin === 'tidas-toolkit');
   const owned = manifest.files.filter((file) => file.origin === 'tidas-spec');
-  assert.equal(imported.length, 33);
-  assert.equal(owned.length, manifest.files.length - 33);
+  assert.equal(imported.length, 21);
+  assert.equal(owned.length, manifest.files.length - 21);
   for (const file of imported) {
     assert.ok(file.source !== null, `${file.path}: an imported asset must record its source path and digest`);
     assert.equal(file.source.sha256, file.sha256);
@@ -1516,7 +1516,9 @@ test('the real source finding is derived, not hardcoded', async () => {
   let nonAsserting = 0;
   let withoutSiblings = 0;
   const descend = (pointer) => {
-    const [file, fragment] = pointer.split('#');
+    const separator = pointer.indexOf('#');
+    const file = pointer.slice(0, separator);
+    const fragment = pointer.slice(separator + 1);
     let current = catalog.byPath.get(file).document;
     for (const rawToken of fragment.slice(1).split('/')) {
       const token = rawToken.replace(/~1/g, '/').replace(/~0/g, '~');
@@ -1588,9 +1590,10 @@ test('a constraint-bearing sibling added to a shipped schema is reported, not ab
   // The regression this whole classification exists to prevent: a `const` sibling
   // being summarised as harmless annotation and the finding disappearing.
   const root = await mutatedFixture((target) => {
-    for (const relative of [EN_CONTACTS, ZH_CONTACTS]) {
+    for (const relative of [EN_CATEGORY, EN_CATEGORY.replace('/schemas/', '/schemas_zh/')]) {
       const document = readFixtureJson(target, relative);
-      const firstProperty = Object.keys(document.properties)[0];
+      document.properties ??= {};
+      const firstProperty = "__siblingProbe";
       document.properties[firstProperty] = { $ref: 'tidas_data_types.json#/$defs/String', const: 'must-be-this' };
       writeFixtureJson(target, relative, document);
     }
@@ -1879,9 +1882,9 @@ test('a manifest regenerated over a mutated tree does not hide the mutation', as
   // The strongest case: the attacker controls the manifest and the lock, but not
   // the reviewed import manifest. The mutation must still be caught.
   const root = await mutatedFixture((target) => {
-    const document = readFixtureJson(target, EN_FLOWS);
+    const document = readFixtureJson(target, EN_CATEGORY);
     document.title = 'mutated';
-    writeFixtureJson(target, EN_FLOWS, document);
+    writeFixtureJson(target, EN_CATEGORY, document);
   });
   const { buildCandidate } = await import('../../scripts/spec/lib/build.mjs');
   buildCandidate(root);
