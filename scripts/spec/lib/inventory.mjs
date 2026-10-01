@@ -40,14 +40,26 @@ const PUBLIC_RULE_FILE_NAMES = ['public-rules.v1.json', 'public-rules.v1.schema.
 // byte to the W1 toolkit import. Keeping this list explicit prevents removing a
 // source-import entry from silently reclassifying an arbitrary asset as owned.
 const REPOSITORY_AUTHORED_ASSET_PATHS = [
-  `${ASSET_ROOT}/methodologies/tidas_processes.yaml`,
-  `${ASSET_ROOT}/rules/public-rules.v1.json`,
-  `${ASSET_ROOT}/rules/public-rules.v1.schema.json`,
-  `${ASSET_ROOT}/schema.lock.json`,
-  `${ASSET_ROOT}/schemas/tidas_lciamethods.json`,
-  `${ASSET_ROOT}/schemas/tidas_processes.json`,
-  `${ASSET_ROOT}/schemas_zh/tidas_lciamethods.json`,
-  `${ASSET_ROOT}/schemas_zh/tidas_processes.json`,
+  'assets/tidas/methodologies/tidas_processes.yaml',
+  'assets/tidas/rules/public-rules.v1.json',
+  'assets/tidas/rules/public-rules.v1.schema.json',
+  'assets/tidas/schema.lock.json',
+  'assets/tidas/schemas/tidas_contacts.json',
+  'assets/tidas/schemas/tidas_flowproperties.json',
+  'assets/tidas/schemas/tidas_flows.json',
+  'assets/tidas/schemas/tidas_lciamethods.json',
+  'assets/tidas/schemas/tidas_lifecyclemodels.json',
+  'assets/tidas/schemas/tidas_processes.json',
+  'assets/tidas/schemas/tidas_sources.json',
+  'assets/tidas/schemas/tidas_unitgroups.json',
+  'assets/tidas/schemas_zh/tidas_contacts.json',
+  'assets/tidas/schemas_zh/tidas_flowproperties.json',
+  'assets/tidas/schemas_zh/tidas_flows.json',
+  'assets/tidas/schemas_zh/tidas_lciamethods.json',
+  'assets/tidas/schemas_zh/tidas_lifecyclemodels.json',
+  'assets/tidas/schemas_zh/tidas_processes.json',
+  'assets/tidas/schemas_zh/tidas_sources.json',
+  'assets/tidas/schemas_zh/tidas_unitgroups.json',
 ].sort();
 
 export function repositoryAuthoredAssetPaths() {

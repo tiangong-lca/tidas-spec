@@ -564,8 +564,8 @@ test('two clean builds of the same disposable copy produce the same digests', ()
 
 test('verification of a copy fails when a shipped schema is damaged', () => {
   const root = makeBuildableFixture();
-  const target = path.join(root, 'assets/tidas/schemas/tidas_flows.json');
-  writeFileSync(target, readFileSync(target, 'utf8').replace('"type": "object"', '"type": "array"'));
+  const target = path.join(root, 'assets/tidas/schemas/tidas_flows_elementary_category.json');
+  writeFileSync(target, readFileSync(target, 'utf8').replace('"$schema":', '"title": "damaged", "$schema":'));
   const result = verifyCandidate({ repoRoot: root, stages: ['identity'] });
   assert.equal(result.diagnostics.ok, false, 'a damaged copy must not verify');
   const codes = result.diagnostics.errors.map((item) => item.code);
