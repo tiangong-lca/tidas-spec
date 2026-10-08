@@ -26,9 +26,9 @@ checkPaths:
   - scripts/**
   - .github/workflows/**
   - docs/qualification.md
-lastReviewedAt: 2026-10-01
-lastReviewedCommit: 97a3725e6a24886ec1332be61e462e2228ee94fe
-lastReviewedNote: "Reviewed #38 release preparation: new 0.3.0 identity preserves published 0.2.3; intentional strictness and guarded publication remain unchanged."
+lastReviewedAt: 2026-10-08
+lastReviewedCommit: 32e1ba38da7d5f4f6245c6c1927f83b326cd5404
+lastReviewedNote: "Reviewed for #40: automatic review and optional merge preserve qualification, publication approval, exact source binding and workspace integration boundaries."
 related:
   - AGENTS.md
   - .docpact/config.yaml

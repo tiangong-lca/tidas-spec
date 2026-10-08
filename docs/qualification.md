@@ -160,8 +160,26 @@ records agree and that the artifact is internally consistent; it cannot show the
 review happened. That is what the review step is for, and it is why the receipt —
 not the manifest — is what a supervisor signs off on.
 
-## Current state of this candidate
+## PR review and qualification
 
-This worktree is a **draft**. Its changes are uncommitted, so no source revision
-can be claimed, and `--qualify` correctly refuses. The supervisor records the
-qualified revision after review, using the sequence above.
+The centrally operated [PR Review Bot](https://github.com/tiangong-lca/pr-review-bot)
+reviews admitted pull requests. Its comment identifies the reviewed commit and
+separates findings from verification evidence. A maintainer with repository write
+access can request another review by commenting
+`@tiangong-pr-review re-review <focus>` on the PR. A new commit needs a review of
+that commit; a report for an older head does not establish its readiness.
+
+Where operators enable automatic merge, the service separately checks its
+repository authorization and the workspace delivery controller's Issue/Project,
+branch, CI and review gates. A favorable model report alone does not authorize a
+merge. Contributors do not configure GitHub credentials or duplicate the central
+workflow in this repository.
+
+Merging a PR does not qualify its archive, publish a specification version, or
+complete workspace integration. After source review, use the qualification
+sequence above against the exact clean commit. Publication still requires the
+separate approvals and artifact checks in the repository contract.
+
+Read the candidate receipt and verify its current source binding to determine
+whether a local candidate is draft or qualified. This living document does not
+record the state of a particular worktree.

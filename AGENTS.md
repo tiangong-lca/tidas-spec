@@ -22,9 +22,9 @@ checkPaths:
   - LICENSE
   - .gitignore
   - .docpact/config.yaml
-lastReviewedAt: 2026-10-01
-lastReviewedCommit: 97a3725e6a24886ec1332be61e462e2228ee94fe
-lastReviewedNote: "Reviewed for #38: eight public dataset schemas are repository-authored; compatibility, requiredness and provenance are spec-owned; native conversion and exact artifact adoption remain toolkit-owned. Existing routing covers the bounded audit and conformance cases."
+lastReviewedAt: 2026-10-08
+lastReviewedCommit: 32e1ba38da7d5f4f6245c6c1927f83b326cd5404
+lastReviewedNote: "Reviewed for #40: automatic review and optional merge preserve qualification, publication approval, exact source binding and workspace integration boundaries."
 related:
   - README.md
   - .docpact/config.yaml
