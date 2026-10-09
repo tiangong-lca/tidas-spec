@@ -12,17 +12,21 @@ function collect(value, location = []) {
   if (value === null || typeof value !== 'object') return;
   for (const [key, child] of Object.entries(value)) {
     if (key === '<rules>') {
-      for (const rule of child) if (rule.id?.startsWith('ef.')) entries.push({ location, rule });
+      for (const rule of child) {
+        if (rule.id?.startsWith('ef.') || rule.id?.startsWith('writing.')) entries.push({ location, rule });
+      }
     } else collect(child, [...location, key]);
   }
 }
 collect(methodology);
+const efEntries = entries.filter(({ rule }) => rule.id.startsWith('ef.'));
+const writingEntries = entries.filter(({ rule }) => rule.id.startsWith('writing.'));
 
 test('EF methodology entries retain explicit source, applicability and normative status', () => {
-  assert.ok(entries.length > 0);
+  assert.ok(efEntries.length > 0);
   const ids = new Set();
   const sources = methodology.metadata.ef_sources;
-  for (const { rule } of entries) {
+  for (const { rule } of efEntries) {
     assert.ok(!ids.has(rule.id), `duplicate methodology ID: ${rule.id}`);
     ids.add(rule.id);
     assert.ok(rule.applicability?.trim(), `${rule.id}: applicability required`);
@@ -39,7 +43,7 @@ test('EF methodology entries retain explicit source, applicability and normative
   }
   // Permissions and model-specific requirements must remain separate entries,
   // not one universal prohibition applied to all EF and non-EF process data.
-  const byId = new Map(entries.map(({ rule }) => [rule.id, rule]));
+  const byId = new Map(efEntries.map(({ rule }) => [rule.id, rule]));
   const permission = byId.get('ef.elementary-duplicates');
   const modelRule = byId.get('ef.eilcd-flow-uniqueness');
   assert.equal(permission.normative_level, 'may');
@@ -49,6 +53,47 @@ test('EF methodology entries retain explicit source, applicability and normative
   assert.equal(modelRule.source_refs[0].source, 'ef-eilcd-modelling-2.1');
   assert.notEqual(byId.get('ef.supporting-compliance').applicability,
     byId.get('ef.compliance-declarations').applicability);
+});
+
+test('field-writing guidance is source-bound, informative and paired across languages', () => {
+  assert.ok(writingEntries.length > 0);
+  const sources = methodology.metadata.field_writing_sources;
+  const pairs = new Map();
+  const ids = new Set();
+  for (const { location, rule } of writingEntries) {
+    assert.ok(!ids.has(rule.id), `duplicate methodology ID: ${rule.id}`);
+    ids.add(rule.id);
+    assert.equal(rule.normative_level, 'informative', `${rule.id}: writing advice is not a new requirement`);
+    assert.ok(['en', 'zh'].includes(rule.language), `${rule.id}: explicit language required`);
+    assert.ok(rule.id.endsWith(`.${rule.language}`));
+    assert.ok(rule.applicability?.trim());
+    assert.ok(rule.requirement?.trim());
+    assert.ok(rule.source_refs?.length, `${rule.id}: source binding required`);
+    for (const ref of rule.source_refs) {
+      assert.ok(sources[ref.source]?.url, `${rule.id}: unresolved source ${ref.source}`);
+      assert.ok(ref.section?.trim(), `${rule.id}: source section required`);
+    }
+    assert.ok(rule.examples?.length, `${rule.id}: positive examples required`);
+    assert.ok(rule.anti_examples?.length, `${rule.id}: contrasting examples required`);
+    for (const example of rule.anti_examples) {
+      assert.ok(example.text?.trim() && example.reason?.trim(), `${rule.id}: explain the mismatch`);
+    }
+    for (const key of ['severity', 'default_blocker', 'phase', 'authorization']) {
+      assert.ok(!(key in rule), `${rule.id}: product policy ${key} is not methodology`);
+    }
+    const key = rule.id.slice(0, -3);
+    if (!pairs.has(key)) pairs.set(key, []);
+    pairs.get(key).push({ location, rule });
+  }
+  assert.equal(pairs.size, 3, 'cover the three distinct application/advice fields');
+  for (const [id, pair] of pairs) {
+    assert.deepEqual(pair.map(({ rule }) => rule.language).sort(), ['en', 'zh'], `${id}: language pair`);
+    const [first, second] = pair;
+    assert.deepEqual(first.location, second.location, `${id}: same field in both languages`);
+    assert.deepEqual(first.rule.source_refs, second.rule.source_refs, `${id}: same source scope`);
+    assert.equal(first.rule.examples.length, second.rule.examples.length, `${id}: positive example parity`);
+    assert.equal(first.rule.anti_examples.length, second.rule.anti_examples.length, `${id}: contrast parity`);
+  }
 });
 
 const cache = new Map();
@@ -78,7 +123,7 @@ function* expand(node, file, seen = new Set()) {
   }
 }
 
-test('new EF field guidance maps to real Process properties in both schema variants', () => {
+test('source-bound field guidance maps to real Process properties in both schema variants', () => {
   for (const language of ['schemas', 'schemas_zh']) {
     const file = path.join(root, 'assets/tidas', language, 'tidas_processes.json');
     for (const { location, rule } of entries) {

@@ -92,11 +92,62 @@ hierarchy rather than copied into another rule catalog.
    are recorded at the relevant reference or in `global_rules`; no invented
    Process fields or database writers are introduced.
 
+## Writing intended applications, use advice and technological applicability
+
+The shipped methodology now also carries **informative**, bilingual `writing.`
+entries, bound to a separate `field_writing_sources` registry. They explain
+existing field semantics; they do not extend the EF-only mandatory fields,
+create public-rule gates, or establish compliance. Both schema variants retain
+their existing requirements.
+
+| Field | Question the text answers | Source |
+| --- | --- | --- |
+| `common:intendedApplications` | Why collect/model these data, for which study or decision, and with what intended detail, specificity and quality ambition? | [ILCD Format 1.1 Process documentation](https://eplca.jrc.ec.europa.eu/LCDN/downloads/ILCD_Format_1.1_Documentation/ILCD_ProcessDataSet.html), eDoc 1-5-24-98. |
+| `useAdviceForDataSet` | What methodological conditions or limitations must the dataset user account for? | Same Format documentation, eDoc 1-3-16-62. |
+| `technologicalApplicability` | What real-world uses does the represented product, service or technology have? | Same Format documentation, eDoc 1-1-10-27. |
+
+The [ILCD Handbook General guide, Detailed guidance](https://eplca.jrc.ec.europa.eu/uploads/ILCD-Handbook-General-guide-for-LCA-DETAILED-GUIDANCE-12March2010-ISBN-fin-v1.0-EN.pdf)
+section 5.2.1 (printed pages 30–31; PDF pages 50–51) includes a study-goal
+example about evaluating recycling and incineration of used office paper in
+Australia. Sections 5.2.3–5.2.5 (printed pages 33–35) address the decision
+context, audience and public comparative assertions. This is goal-definition
+guidance, not a mandatory verbatim template for a Process field.
+
+The [ILCD Handbook Specific guide for LCI data sets](https://eplca.jrc.ec.europa.eu/uploads/ILCD-Handbook-Specific-guide-for-LCI-12March2010-ISBN-fin-v1.0-EN.pdf)
+section 5.2 (printed page 9; PDF page 19) distinguishes data intended for direct
+use, further modelling, primary or secondary/background use, and comparative
+or noncomparative applications. It also calls for explicit limitations from
+methods, assumptions, impact coverage, documentation and review. These sources
+support describing the dataset's intended role and limits without claiming
+that intended use alone proves fitness for a particular decision.
+
+G section 5.2 (printed page 20) lists intended applications separately from
+workflow/publication status and conditional methodological use advice. It does
+not supply a universal example sentence for intended applications. The EF 3.1
+addendum adds no such template. G section 5.4.2 items 3–4 (printed pages 28–29)
+still requires the supporting-dataset notice and the central dataset name and
+UUID in the General comment. Scientific identifiers, actual review/publication
+metadata and required notices remain legitimate in their proper fields.
+
+The YAML's electricity examples are hypothetical TIDAS text. The paper example
+is newly written dataset-level guidance inspired by the Handbook's study
+context. Neither is a quotation, measured inventory, quality assessment or
+compliance declaration. The useful writing pattern is **purpose/decision →
+target system and dataset role → intended level of analysis**. Quality ambition
+expresses a development goal; an achieved quality rating requires evidence.
+
+The contrasting examples explain why an internal task ID, handoff destination
+or pending review/save/adoption instruction does not describe scientific use.
+Those instructions stay in the task record. This is a semantic distinction,
+not a prohibition on UUIDs, the word “draft”, or statements of actual review
+limitations. Authors should adapt each example to the actual evidence and
+scope; consumers remain responsible for generation and review behavior.
+
 ## Validation and downstream work
 
-The conformance checks validate the new entries' source bindings and field
-placement against the existing schemas, including review references through
-`$ref`. They do not execute EF scientific checks on datasets. Existing general
+The conformance checks validate source bindings and field placement against the
+existing schemas, including review references through `$ref`, and the writing
+guidance's language pairing and informative status. They do not execute EF scientific checks on datasets. Existing general
 rules and schema language variants remain unchanged. Public-rule adjudication,
 toolkit execution, consumer operation policy and publication are separate work;
 this candidate is not evidence of deployed enforcement or data acceptance.
