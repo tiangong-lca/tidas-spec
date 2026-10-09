@@ -26,9 +26,9 @@ checkPaths:
   - scripts/**
   - .github/workflows/**
   - docs/qualification.md
-lastReviewedAt: 2026-10-08
-lastReviewedCommit: 32e1ba38da7d5f4f6245c6c1927f83b326cd5404
-lastReviewedNote: "Reviewed for #40: automatic review and optional merge preserve qualification, publication approval, exact source binding and workspace integration boundaries."
+lastReviewedAt: 2026-10-09
+lastReviewedCommit: aac99ac9943a56c1fc6db3a1ed3994e12efb9eb7
+lastReviewedNote: "Reviewed for source-bound field-writing guidance: existing field/schema semantics, EF applicability, asset-only packaging and publication boundaries remain unchanged."
 related:
   - AGENTS.md
   - .docpact/config.yaml
@@ -102,6 +102,17 @@ permitted documented elementary duplicates in the Data Guide and stricter eILCD
 per-side uniqueness is explicit, as are supporting-dataset review/DQR exceptions.
 The nine adjudicated public rules, both schema variants and runtime gates are
 unchanged. See [source coverage and representation limits](docs/ef-process-methodology.md).
+
+### Process field-writing examples
+
+The shipped Process methodology also includes bilingual guidance and positive
+and contrasting examples for intended applications, methodological use advice,
+and the physical applicability of the represented product or technology. These
+informative entries cite the ILCD Format and Handbooks separately from the EF
+requirements. Examples illustrate scientific purposes and limitations; internal
+task routing and pending save/adoption belong in task records. Scientific dataset
+identifiers and required EF supporting notices remain valid in their proper
+fields. See [source rationale and field roles](docs/ef-process-methodology.md#writing-intended-applications-use-advice-and-technological-applicability).
 
 ## Build and verification
 

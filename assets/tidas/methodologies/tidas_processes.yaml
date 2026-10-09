@@ -12,10 +12,32 @@
 
 metadata:
   version: "1.1.0"
-  last_updated: "2026-09-22"
+  last_updated: "2026-10-09"
   applies_to: "ILCD/Tidas Process Dataset v1.1"
   ef_baseline: EF Data Guide 2.0 (2020), EF 3.1 addendum (November 2022), and EF eILCD modelling 2.1 (June 2020);
     source-bound additions, not universal TIDAS gates.
+  field_writing_sources:
+    ilcd-format-1.1:
+      title: ILCD Format 1.1 documentation, Process data set
+      publisher: European Commission, Joint Research Centre
+      url: https://eplca.jrc.ec.europa.eu/LCDN/downloads/ILCD_Format_1.1_Documentation/ILCD_ProcessDataSet.html
+      use: Source of field semantics; source text is not reproduced.
+    ilcd-handbook-general-2010:
+      title: ILCD Handbook, General guide for Life Cycle Assessment, Detailed guidance
+      publisher: European Commission, Joint Research Centre
+      version: First edition, March 2010
+      url: https://eplca.jrc.ec.europa.eu/uploads/ILCD-Handbook-General-guide-for-LCA-DETAILED-GUIDANCE-12March2010-ISBN-fin-v1.0-EN.pdf
+      use: Source of goal-definition guidance and a study-level example; TIDAS examples below are newly authored,
+        hypothetical illustrations, not quotations, measured evidence or compliance declarations.
+    ilcd-handbook-lci-2010:
+      title: ILCD Handbook, Specific guide for Life Cycle Inventory data sets
+      publisher: European Commission, Joint Research Centre
+      version: First edition, March 2010
+      url: https://eplca.jrc.ec.europa.eu/uploads/ILCD-Handbook-Specific-guide-for-LCI-12March2010-ISBN-fin-v1.0-EN.pdf
+      use: Source of intended dataset roles and application limitations; source text is not reproduced.
+  field_writing_scope: Informative guidance for writing existing fields. The bilingual examples are hypothetical
+    TIDAS illustrations to adapt to the actual evidence and goal. They add no schema requirement, quality rating,
+    compliance claim or consumer execution policy. EF-specific obligations remain in the separate ef. entries.
   ef_sources:
     ef-data-guide-2.0:
       title: Guide for EF compliant data sets, Version 2.0
@@ -607,6 +629,42 @@ processDataSet:
                 超超临界(USC)煤粉燃烧技术，600°C/620°C蒸汽条件。包括：磨煤、
                 燃烧、蒸汽发生、汽轮机运行、冷凝。辅助：脱硝(SCR)、脱硫(FGD)、
                 静电除尘器。不包括：煤炭开采、灰渣处理基础设施。
+      technologicalApplicability:
+        <rules>:
+          - language: en
+            id: writing.technological-applicability.en
+            normative_level: informative
+            applicability: When authoring technologicalApplicability in a Process dataset.
+            source_refs:
+              - source: ilcd-format-1.1
+                section: Technological applicability; eDoc 1-1-10-27
+            requirement: Describe the real-world uses of the represented good, service or technology.
+            writing_guidelines:
+              - Identify the physical product or service and relevant operating or product-grade conditions.
+              - Put the dataset's analytical purpose in intendedApplications and methodological cautions in
+                useAdviceForDataSet; neither is a substitute for the physical application.
+            examples:
+              - The represented electricity supplies end-use equipment compatible with the stated voltage level.
+            anti_examples:
+              - text: Used for product LCA and hotspot screening.
+                reason: This describes an analytical use of the dataset; it belongs in intendedApplications,
+                  with the actual target system and intended level of detail.
+          - language: zh
+            id: writing.technological-applicability.zh
+            normative_level: informative
+            applicability: 编写 Process 数据集的 technologicalApplicability 字段时。
+            source_refs:
+              - source: ilcd-format-1.1
+                section: Technological applicability; eDoc 1-1-10-27
+            requirement: 说明所代表的产品、服务或技术在现实中的用途。
+            writing_guidelines:
+              - 指明实际产品或服务，以及相关运行条件或产品等级条件。
+              - 数据集的分析目的写在 intendedApplications，方法学使用注意事项写在 useAdviceForDataSet；二者均不能代替实际用途。
+            examples:
+              - 所代表电力用于与声明电压等级相容的终端用电设备。
+            anti_examples:
+              - text: 用于产品生命周期评价和热点识别。
+                reason: 这描述的是数据集的分析用途，应写在 intendedApplications，并结合实际目标系统与预期详细程度说明。
       referenceToTechnologyFlowDiagrammOrPicture:
         <rules>:
           - language: all
@@ -945,6 +1003,52 @@ processDataSet:
               fertilizer and pesticide data per hectare and year.
       useAdviceForDataSet:
         <rules>:
+          - language: en
+            id: writing.use-advice.en
+            normative_level: informative
+            applicability: When authoring useAdviceForDataSet in a Process dataset.
+            source_refs:
+              - source: ilcd-format-1.1
+                section: Use advice for data set; eDoc 1-3-16-62
+              - source: ilcd-handbook-lci-2010
+                section: 5.2, printed page 9
+            requirement: Explain methodological conditions and limitations that a user needs to apply the dataset correctly.
+            writing_guidelines:
+              - Tie advice to the actual boundary, representativeness, modelling approach and known limitations;
+                state what the user must check, add or avoid double counting.
+              - Preserve meaningful scientific dataset references and applicable prescribed notices. In the EF
+                supporting-dataset scope, follow ef.supporting-use-advice and the central-dataset identification
+                in the General comment; a UUID is not by itself workflow contamination.
+              - Keep internal task routing and pending save/adoption instructions in the task record. Actual
+                review and publication metadata remain in their proper dataset fields.
+            examples:
+              - Before use, check the voltage level, supply boundary and inclusion of transmission/distribution
+                losses to avoid omissions or double counting. Assess representativeness when combining other
+                years or regions. This average inventory does not directly represent marginal supply changes.
+            anti_examples:
+              - text: Wait for task A17 review, then save the draft and adopt it in model B4.
+                reason: This is internal work coordination, not methodological advice to a dataset user.
+          - language: zh
+            id: writing.use-advice.zh
+            normative_level: informative
+            applicability: 编写 Process 数据集的 useAdviceForDataSet 字段时。
+            source_refs:
+              - source: ilcd-format-1.1
+                section: Use advice for data set; eDoc 1-3-16-62
+              - source: ilcd-handbook-lci-2010
+                section: 5.2, printed page 9
+            requirement: 说明使用者正确应用数据集所需的方法学条件与限制。
+            writing_guidelines:
+              - 根据实际系统边界、代表性、建模方法及已知限制，明确使用者需要核对、补充或避免重复计算的内容。
+              - 保留有科学意义的数据集引用和适用的规定声明。EF 支持子数据集应遵循 ef.supporting-use-advice，
+                并在 General comment 中标明中心数据集；UUID 本身并不构成工作流内容污染。
+              - 内部任务分派、待保存与待采用指令保留在任务记录中；实际评审与发布元数据仍保留在其对应数据集字段中。
+            examples:
+              - 使用前应核对电压等级、供电边界及所需输配电损失是否已包含，避免遗漏或重复计算；与其他年份或地区组合时应评价代表性差异。
+                该平均清单不直接用于边际供电变化分析。
+            anti_examples:
+              - text: 等待任务 A17 审核后保存草稿，再采用到模型 B4。
+                reason: 这是内部工作协调事项，不是提供给数据集使用者的方法学建议。
           - language: all
             id: ef.use-advice
             normative_level: shall
@@ -1220,6 +1324,73 @@ processDataSet:
     common:commissionerAndGoal:
       common:intendedApplications:
         <rules>:
+          - language: en
+            id: writing.intended-applications.en
+            normative_level: informative
+            applicability: When authoring intendedApplications in a Process dataset.
+            source_refs:
+              - source: ilcd-format-1.1
+                section: Intended applications; eDoc 1-5-24-98
+              - source: ilcd-handbook-general-2010
+                section: 5.2.1, printed pages 30-31; 5.2.3-5.2.5, printed pages 33-35
+              - source: ilcd-handbook-lci-2010
+                section: 5.2, printed page 9
+            requirement: Explain why the data were collected and modelled, the study or decision they are meant to
+              support, and the intended detail, specificity and quality ambition.
+            writing_guidelines:
+              - A useful structure is purpose or decision, target system and dataset role, then intended level
+                of analysis. Identify use as primary data or as secondary/background data, further modelling
+                needs or comparative use when relevant; this is a writing aid, not a mandatory sentence template.
+              - State quality ambition as a development goal, not an achieved quality score, reviewed status
+                or EF compliance claim. Use actual evidence for any claim about achieved quality.
+              - Put methodological use conditions in useAdviceForDataSet and physical product or technology
+                uses in technologicalApplicability. Identify the audience or intended comparative use when
+                relevant, without inventing permission for a public comparative assertion.
+              - Keep internal task IDs, handoff destinations, pending review/save/adoption and queue progress
+                in the task record. Retain identifiers that genuinely identify a scientific system or dataset,
+                and real review/publication metadata in their appropriate fields.
+            examples:
+              - To provide average electricity-supply background inventory for attributional product inventories
+                and hotspot screening in the stated year and region. The development aims to represent annual
+                average supply conditions, rather than individual plants or hourly dispatch.
+              - To supply waste-treatment inventory for a study of recycling and incineration options for used
+                office paper in Australia. The intended role is background input to scenario modelling at the
+                study's declared scale; it is not a complete comparative study on its own.
+            anti_examples:
+              - text: Candidate for task A17; return to baseline B4, await independent review, native save and adoption.
+                reason: This records a work queue and handoff status without explaining the scientific purpose.
+              - text: Used by equipment at the stated voltage level.
+                reason: This is the physical application of electricity; it belongs in technologicalApplicability.
+          - language: zh
+            id: writing.intended-applications.zh
+            normative_level: informative
+            applicability: 编写 Process 数据集的 intendedApplications 字段时。
+            source_refs:
+              - source: ilcd-format-1.1
+                section: Intended applications; eDoc 1-5-24-98
+              - source: ilcd-handbook-general-2010
+                section: 5.2.1, printed pages 30-31; 5.2.3-5.2.5, printed pages 33-35
+              - source: ilcd-handbook-lci-2010
+                section: 5.2, printed page 9
+            requirement: 说明为什么采集和建立这些数据、准备支持什么研究或决策，以及预期详细程度、针对性和质量目标。
+            writing_guidelines:
+              - 可按“研究或决策目的 → 目标系统与数据集角色 → 预期分析层次”组织；适用时说明作为一手数据或二手/背景数据的用途、
+                是否需要进一步建模以及是否用于比较。这是写作辅助，不是强制句式。
+              - 质量目标是开发意图，不等同于已经达到的质量评分、评审状态或 EF 合规声明；实际质量声明须有真实证据。
+              - 方法学使用条件写在 useAdviceForDataSet，产品或技术的实际用途写在 technologicalApplicability。
+                必要时说明受众或比较用途，不据此虚构公开比较性论断的许可。
+              - 内部任务编号、交接去向、待审核/保存/采用及队列进度保留在任务记录中。有科学意义的系统或数据集标识可保留，
+                实际评审与发布元数据保留在其对应字段中。
+            examples:
+              - 为所声明年份与地区的归因型产品清单编制和热点识别提供平均供电背景清单。
+                开发目标是在该时空范围内表示年度平均供电条件，不以单个电厂或小时调度为分辨率。
+              - 为澳大利亚废办公用纸回收与焚烧方案研究提供废物处理清单。
+                预期作为研究声明尺度下的情景建模背景输入，本身不构成完整的比较研究。
+            anti_examples:
+              - text: 任务 A17 的接收候选，返回 B4 基线；待独立审核、原生保存和采用。
+                reason: 只描述任务队列和交接状态，没有说明数据的科学用途。
+              - text: 供与声明电压等级相容的设备使用。
+                reason: 这是电力的实际用途，应写在 technologicalApplicability。
           - language: all
             id: ef.intended-applications
             normative_level: shall

@@ -22,9 +22,9 @@ checkPaths:
   - LICENSE
   - .gitignore
   - .docpact/config.yaml
-lastReviewedAt: 2026-10-08
-lastReviewedCommit: 32e1ba38da7d5f4f6245c6c1927f83b326cd5404
-lastReviewedNote: "Reviewed for #40: automatic review and optional merge preserve qualification, publication approval, exact source binding and workspace integration boundaries."
+lastReviewedAt: 2026-10-09
+lastReviewedCommit: aac99ac9943a56c1fc6db3a1ed3994e12efb9eb7
+lastReviewedNote: "Reviewed for source-bound field-writing guidance: existing field/schema semantics, EF applicability, asset-only packaging and publication boundaries remain unchanged."
 related:
   - README.md
   - .docpact/config.yaml
